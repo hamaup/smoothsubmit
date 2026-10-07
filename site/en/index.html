@@ -1,0 +1,748 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SmoothSubmit — Audit iOS App Store risks before you submit</title>
+    <meta
+      name="description"
+      content="Find iOS submission risks, get evidence and actionable fixes, then verify. An open-source Skill for Claude Code, Codex and Cursor, with an optional local CLI."
+    />
+    <link rel="canonical" href="https://hamaup.github.io/smoothsubmit/en/" />
+    <link
+      rel="alternate"
+      hreflang="ja"
+      href="https://hamaup.github.io/smoothsubmit/"
+    />
+    <link
+      rel="alternate"
+      hreflang="en"
+      href="https://hamaup.github.io/smoothsubmit/en/"
+    />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href="https://hamaup.github.io/smoothsubmit/"
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="SmoothSubmit — Audit iOS App Store risks before you submit"
+    />
+    <meta
+      property="og:description"
+      content="Find iOS submission risks, get evidence and actionable fixes, then verify. An open-source Skill for Claude Code, Codex and Cursor, with an optional local CLI."
+    />
+    <meta
+      property="og:url"
+      content="https://hamaup.github.io/smoothsubmit/en/"
+    />
+    <meta name="theme-color" content="#1246d3" />
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      href="../assets/bricolage.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="../assets/style.css" />
+    <script src="../assets/app.js" defer></script>
+  </head>
+  <body data-lang="en">
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="header">
+      <a class="brand" href="../en/" aria-label="SmoothSubmit"
+        ><svg
+          viewBox="0 0 32 32"
+          aria-hidden="true"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.4"
+        >
+          <path d="M6 15l7 7L27 8M6 24h20" /></svg
+        ><span>SmoothSubmit</span></a
+      >
+      <nav aria-label="Sections">
+        <a href="#how">How it works</a><a href="#coverage">Coverage</a
+        ><a href="#proof">Validation</a>
+      </nav>
+      <div class="header-actions">
+        <div class="languages" aria-label="Language">
+          <a href="../" lang="ja">日本語</a
+          ><a href="../en/" lang="en" aria-current="page">EN</a>
+        </div>
+        <a class="header-start" href="#start"
+          >Get started
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14M13 6l6 6-6 6" /></svg
+        ></a>
+      </div>
+    </header>
+    <main id="main">
+      <section class="cover" aria-labelledby="headline">
+        <div class="cover-heading">
+          <h1 id="headline">
+            <span>You built it.</span><span>Now, get ready to submit.</span>
+          </h1>
+          <div class="cover-intro">
+            <p class="intro">
+              Catch iOS review risks before App Store submission.
+            </p>
+            <p class="lead">
+              Find issues in your code and settings, understand the evidence,
+              and get a fix plan. Recheck with the coding agent you already use.
+            </p>
+            <div class="actions">
+              <a class="button button-lime" href="#start"
+                >Start with the Skill<svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  aria-hidden="true"
+                >
+                  <path d="M5 12h14M13 6l6 6-6 6" /></svg></a
+              ><a
+                class="text-link light"
+                href="https://github.com/hamaup/smoothsubmit"
+                >View source on GitHub<svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  aria-hidden="true"
+                >
+                  <path d="M5 12h14M13 6l6 6-6 6" /></svg
+              ></a>
+            </div>
+            <p class="agent-note">For Claude Code / Codex / Cursor</p>
+          </div>
+        </div>
+        <div class="demo-row">
+          <div class="demo-caption">
+            <span class="loop"
+              >Audit<br /><span class="loop-indent">Fix</span><br /><span
+                class="loop-indent-two"
+                >Verify.</span
+              ></span
+            >
+            <p id="demo-summary">Audit first. Keep the unknowns visible.</p>
+            <p class="sample">
+              Interactive illustrative example. Run a real audit in your coding
+              agent.
+            </p>
+          </div>
+          <div class="audit-demo" aria-label="From audit to verification">
+            <div class="demo-top">
+              <span>SmoothSubmit Audit</span
+              ><span class="demo-project">SampleApp / Release</span>
+            </div>
+            <div
+              role="tablist"
+              aria-label="From audit to verification"
+              class="stage-tabs"
+            >
+              <button
+                role="tab"
+                id="stage-0"
+                aria-selected="true"
+                aria-controls="panel-0"
+                tabindex="0"
+              >
+                <span>1</span> Audit</button
+              ><button
+                role="tab"
+                id="stage-1"
+                aria-selected="false"
+                aria-controls="panel-1"
+                tabindex="-1"
+              >
+                <span>2</span> Fix</button
+              ><button
+                role="tab"
+                id="stage-2"
+                aria-selected="false"
+                aria-controls="panel-2"
+                tabindex="-1"
+              >
+                <span>3</span> Verify
+              </button>
+            </div>
+            <h2 class="sr-only">From audit to verification</h2>
+            <div class="demo-panels">
+              <section
+                role="tabpanel"
+                id="panel-0"
+                aria-labelledby="stage-0"
+                tabindex="0"
+              >
+                <div class="finding-meta">
+                  <span class="status status-0">FAIL</span
+                  ><code>ARG-PRIV-001</code>
+                </div>
+                <h3>Invalid Privacy Manifest type</h3>
+                <p>
+                  NSPrivacyTracking is a string. The declaration requires a
+                  Boolean.
+                </p>
+                <pre><code>&quot;NSPrivacyTracking&quot;: &quot;false&quot;</code></pre>
+                <p class="evidence">
+                  Evidence: the declaration in PrivacyInfo.xcprivacy.
+                </p>
+                <div class="unknown">
+                  Still unknown: storefronts / reviewer access
+                </div>
+              </section>
+              <section
+                role="tabpanel"
+                id="panel-1"
+                aria-labelledby="stage-1"
+                tabindex="0"
+                hidden
+              >
+                <div class="finding-meta">
+                  <span class="status status-1">FIX PROPOSAL</span
+                  ><code>ARG-PRIV-001</code>
+                </div>
+                <h3>A specific change and recheck plan</h3>
+                <p>
+                  Confirm whether the app tracks, then use the appropriate
+                  Boolean. This example declares no tracking.
+                </p>
+                <pre><code>&quot;NSPrivacyTracking&quot;: false</code></pre>
+                <p class="evidence">
+                  Changes need an explicit request. A normal audit does not edit
+                  code or settings.
+                </p>
+                <div class="unknown">
+                  Still unknown: storefronts / reviewer access
+                </div>
+              </section>
+              <section
+                role="tabpanel"
+                id="panel-2"
+                aria-labelledby="stage-2"
+                tabindex="0"
+                hidden
+              >
+                <div class="finding-meta">
+                  <span class="status status-2">RESOLVED</span
+                  ><code>ARG-PRIV-001</code>
+                </div>
+                <h3>Recheck the same condition</h3>
+                <p>
+                  The declaration type violation is resolved. Storefronts and
+                  reviewer login details still need confirmation.
+                </p>
+                <pre><code>FAIL → PASS · static check</code></pre>
+                <p class="evidence">
+                  A setting fix and runtime verification are separate. This does
+                  not guarantee approval.
+                </p>
+                <div class="unknown">
+                  Still unknown: storefronts / reviewer access
+                </div>
+              </section>
+            </div>
+            <div class="demo-bottom">
+              <button
+                id="next-stage"
+                data-next="See the next step"
+                data-reset="Back to the audit"
+              >
+                See the next step<svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  aria-hidden="true"
+                >
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg></button
+              ><span>ILLUSTRATIVE EXAMPLE</span>
+            </div>
+          </div>
+        </div>
+        <div class="mobile-links">
+          <a
+            class="text-link light"
+            href="https://github.com/hamaup/smoothsubmit"
+            >View source on GitHub<svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" /></svg
+          ></a>
+          <p>For Claude Code / Codex / Cursor</p>
+        </div>
+        <div class="cover-bottom">
+          <span>Public alpha · Apache-2.0</span><span>v0.1.0-alpha.2</span>
+        </div>
+      </section>
+      <section id="how" class="section how">
+        <div class="section-heading">
+          <h2>Find out before<br />Apple has to tell you.</h2>
+          <p>
+            Move beyond a checklist: connect the evidence to a fix plan, then
+            check the result.
+          </p>
+        </div>
+        <div class="steps">
+          <article>
+            <div class="step-title">
+              <span class="step-number">1</span>
+              <h3>Audit</h3>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </div>
+            <h4>Start with what the agent can read.</h4>
+            <p>
+              Inspect the Xcode project, settings and related code. Keep missing
+              facts Unknown, then ask only questions that could change the
+              findings.
+            </p>
+          </article>
+          <article>
+            <div class="step-title">
+              <span class="step-number">2</span>
+              <h3>Fix</h3>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </div>
+            <h4>Understand the risk. Know what to change.</h4>
+            <p>
+              Get evidence, Apple references and a focused fix prompt for your
+              coding agent. Actual changes happen after you explicitly ask.
+            </p>
+          </article>
+          <article>
+            <div class="step-title">
+              <span class="step-number">3</span>
+              <h3>Verify</h3>
+            </div>
+            <h4>Check the same target again.</h4>
+            <p>
+              Compare a fresh audit with the baseline. A vanished finding is not
+              automatically resolved; missing evidence stays on the recheck
+              list.
+            </p>
+          </article>
+        </div>
+      </section>
+      <section id="coverage" class="section coverage">
+        <div class="section-heading">
+          <h2>See the settings.<br />See what is still unknown.</h2>
+          <p>
+            19 rule families separate supported static checks from conditions
+            that need agent judgment or developer verification.
+          </p>
+        </div>
+        <div class="scope-list">
+          <article>
+            <h3>Privacy & permissions</h3>
+            <p>
+              Privacy Manifest, Required Reason APIs, permission purpose
+              strings, SDK declarations and verification gaps.
+            </p>
+          </article>
+          <article>
+            <h3>Accounts & payments</h3>
+            <p>
+              Account deletion, login alternatives, purchase restoration,
+              subscription display and external payment context.
+            </p>
+          </article>
+          <article>
+            <h3>Submission & review</h3>
+            <p>
+              Reviewer access, privacy policy, metadata, minimum OS, submitted
+              toolchain and agreement preparation.
+            </p>
+          </article>
+        </div>
+        <aside class="boundary">
+          <h3>Every finding has a scope.</h3>
+          <p>
+            Static analysis cannot prove device behavior, backend flows,
+            submitted binaries or actual App Store Connect state. Missing
+            evidence remains Unknown. There is no approval prediction or
+            readiness score.
+          </p>
+          <a
+            class="text-link"
+            href="https://github.com/hamaup/smoothsubmit/blob/main/docs/RELEASE_STATUS.md"
+            >Read the shipped coverage<svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" /></svg
+          ></a>
+        </aside>
+      </section>
+      <section id="proof" class="section proof">
+        <div class="section-heading">
+          <h2>Does it help?<br />We checked real code.</h2>
+          <p>
+            We tested pinned public iOS source snapshots, injecting defects into
+            temporary copies to check detection, fix prompts and verification
+            after repair.
+          </p>
+        </div>
+        <div class="proof-table-wrap">
+          <table>
+            <caption>
+              alpha.2 validation record · 2026-10-07
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Public project source</th>
+                <th scope="col">Injected defects</th>
+                <th scope="col">Detection → recheck after repair</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">
+                  <a href="https://github.com/Dimillian/IceCubesApp"
+                    >IceCubes<svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      aria-hidden="true"
+                    >
+                      <path d="M5 12h14M13 6l6 6-6 6" /></svg
+                  ></a>
+                </th>
+                <td>3</td>
+                <td>3 / 3 detected and resolved</td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <a href="https://github.com/keepassium/KeePassium"
+                    >KeePassium<svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      aria-hidden="true"
+                    >
+                      <path d="M5 12h14M13 6l6 6-6 6" /></svg
+                  ></a>
+                </th>
+                <td>3</td>
+                <td>3 / 3 detected and resolved</td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <a href="https://github.com/Ranchero-Software/NetNewsWire"
+                    >NetNewsWire<svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      aria-hidden="true"
+                    >
+                      <path d="M5 12h14M13 6l6 6-6 6" /></svg
+                  ></a>
+                </th>
+                <td>3</td>
+                <td>3 / 3 detected and resolved</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="proof-details">
+          <div>
+            <h3>Three defect types per project</h3>
+            <p>
+              Minimum OS setting / Privacy Manifest type / Required Reason API
+              reason code
+            </p>
+          </div>
+          <p>
+            All 9 deliberately injected setting defects were detected. 57
+            automated tests also passed. These apps were not built,
+            device-tested or submitted. Rejection-rate improvements and time
+            savings have not been measured.
+          </p>
+        </div>
+        <a
+          class="text-link"
+          href="https://github.com/hamaup/smoothsubmit/blob/v0.1.0-alpha.2/docs/USEFULNESS_VALIDATION.md"
+          >Read the methods, results and limits<svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14M13 6l6 6-6 6" /></svg
+        ></a>
+      </section>
+      <section id="start" class="section start">
+        <div class="section-heading">
+          <h2>Your coding agent.<br />A submission-ready perspective.</h2>
+          <p>
+            Start a basic audit with the standalone Skill. No CLI, Node.js, new
+            API key or SmoothSubmit account required.
+          </p>
+        </div>
+        <div class="actions">
+          <a
+            class="button button-blue"
+            href="https://github.com/hamaup/smoothsubmit/releases/download/v0.1.0-alpha.2/smoothsubmit-skill-0.1.0-alpha.2.tar.gz"
+            >Download the Skill<svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" /></svg></a
+          ><a
+            class="text-link"
+            href="https://github.com/hamaup/smoothsubmit/releases/tag/v0.1.0-alpha.2"
+            >View the alpha.2 release<svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" /></svg
+          ></a>
+        </div>
+        <div class="installation">
+          <div class="install-explanation">
+            <h3>Inside your iOS project</h3>
+            <p>
+              Extract the downloaded Skill archive, then copy the whole
+              smoothsubmit folder to this location, including references and
+              assets.
+            </p>
+            <p class="fine-print">
+              If a Skill already exists there, review the differences before
+              updating it.
+            </p>
+          </div>
+          <div class="install-controls">
+            <fieldset>
+              <legend class="sr-only">Coding agent</legend>
+              <label
+                ><input type="radio" name="agent" value="0" checked /><span
+                  >Codex</span
+                ></label
+              ><label
+                ><input type="radio" name="agent" value="1" /><span
+                  >Claude Code</span
+                ></label
+              ><label
+                ><input type="radio" name="agent" value="2" /><span
+                  >Cursor</span
+                ></label
+              >
+            </fieldset>
+            <div class="install-path">
+              <span>Destination</span
+              ><code id="skill-path">.agents/skills/smoothsubmit/</code
+              ><button
+                class="copy-button"
+                data-copy="skill-path"
+                aria-label="Copy destination"
+              >
+                Copy
+              </button>
+            </div>
+            <p class="invocation">
+              Invocation: <code id="skill-invoke">$smoothsubmit</code>
+            </p>
+          </div>
+        </div>
+        <div class="prompt-box">
+          <p>In your project’s coding session, ask:</p>
+          <div>
+            <code id="audit-prompt">Audit this project with SmoothSubmit</code
+            ><button
+              class="copy-button"
+              data-copy="audit-prompt"
+              aria-label="Copy audit prompt"
+            >
+              Copy
+            </button>
+          </div>
+        </div>
+        <p class="fine-print discovery">
+          Skill discovery depends on the host version. Live automatic discovery
+          across all three tools is not yet verified.
+          <a href="https://github.com/hamaup/smoothsubmit#start-with-the-skill"
+            >Read the installation guide</a
+          >
+        </p>
+        <p
+          id="copy-status"
+          role="status"
+          class="copy-status"
+          data-copied="Copied"
+          data-error="Copy failed. Select and copy the text manually."
+        ></p>
+        <aside class="cli">
+          <h3>Add the CLI for repeatable checks.</h3>
+          <p>
+            Resolve Xcode targets and settings, and save JSON / Markdown audit
+            records. Audits make no external requests, call no LLM and do not
+            run xcodebuild.
+          </p>
+          <p class="fine-print">
+            macOS 14+ / Node.js 22.18+ · Not published to the npm registry
+          </p>
+          <a
+            class="text-link"
+            href="https://github.com/hamaup/smoothsubmit#optional-cli"
+            >CLI installation guide<svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" /></svg
+          ></a>
+        </aside>
+      </section>
+      <section class="section faq">
+        <h2>Before you use it.</h2>
+        <div>
+          <details>
+            <summary>
+              Does an audit change my app?<span
+                class="plus"
+                aria-hidden="true"
+              ></span>
+            </summary>
+            <p>
+              A normal audit does not edit code or app settings, write to App
+              Store Connect or submit your app. Review the proposed fixes, then
+              explicitly request the changes you want.
+            </p>
+          </details>
+          <details>
+            <summary>
+              Where does my code go?<span
+                class="plus"
+                aria-hidden="true"
+              ></span>
+            </summary>
+            <p>
+              The CLI processes your source locally and does not send it. The
+              Skill uses your coding tool’s model and file access, so that
+              tool’s data settings apply.
+            </p>
+          </details>
+          <details>
+            <summary>
+              How current are the Apple references?<span
+                class="plus"
+                aria-hidden="true"
+              ></span>
+            </summary>
+            <p>
+              The bundled official sources were checked on 2026-10-07. Findings
+              include references and their knowledge date. Requirements depend
+              on regions, OS and product types; consult the source register
+              before relying on an older release.
+            </p>
+          </details>
+          <details>
+            <summary>
+              Will my app definitely pass review?<span
+                class="plus"
+                aria-hidden="true"
+              ></span>
+            </summary>
+            <p>
+              No guarantee. SmoothSubmit helps surface configuration gaps and
+              implementation questions before submission. Device, backend and
+              submission-information checks are still needed.
+            </p>
+          </details>
+        </div>
+      </section>
+      <section class="closing">
+        <h2>Before your next submission,<br />give it a check.</h2>
+        <div class="actions">
+          <a class="button button-lime" href="#start"
+            >Start with the Skill<svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" /></svg></a
+          ><a
+            class="text-link light"
+            href="https://github.com/hamaup/smoothsubmit/issues"
+            >Share your experience in an Issue<svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" /></svg
+          ></a>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <a class="brand" href="https://github.com/hamaup/smoothsubmit"
+        ><svg
+          viewBox="0 0 32 32"
+          aria-hidden="true"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.4"
+        >
+          <path d="M6 15l7 7L27 8M6 24h20" /></svg
+        ><span>SmoothSubmit</span></a
+      >
+      <p>An independent open-source project. Not affiliated with Apple.</p>
+      <div>
+        <a
+          href="https://github.com/hamaup/smoothsubmit/blob/main/docs/APPLE_REFERENCES.md"
+          >Apple source register</a
+        ><a href="https://github.com/hamaup/smoothsubmit/blob/main/LICENSE"
+          >License</a
+        ><a href="https://github.com/hamaup/smoothsubmit">GitHub</a>
+      </div>
+    </footer>
+  </body>
+</html>

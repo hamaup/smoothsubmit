@@ -5,3 +5,6 @@ dist/
 .DS_Store
 .env
 .env.*
+.impeccable/review/
+.impeccable/direction-options.json
+.impeccable/direction-notes.md

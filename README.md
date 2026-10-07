@@ -2,6 +2,8 @@
 
 **Catch App Store submission risks before they become rework.**
 
+[紹介ページ（日本語）](https://hamaup.github.io/smoothsubmit/) · [Introduction (English)](https://hamaup.github.io/smoothsubmit/en/)
+
 SmoothSubmit helps iOS developers using Claude Code, Codex or Cursor audit an app, understand the evidence, generate focused fix instructions, and check the result again.
 
 **Audit → Fix → Verify**

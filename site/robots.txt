@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://hamaup.github.io/smoothsubmit/sitemap.xml

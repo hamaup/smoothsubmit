@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SmoothSubmit — App Store提出前のAI監査</title>
+    <meta
+      name="description"
+      content="iOSアプリの審査リスクを提出前に確認。Claude Code・Codex・Cursorで使えるOSS Skillと、任意の静的監査CLI。Audit → Fix → Verify。"
+    />
+    <link rel="canonical" href="https://hamaup.github.io/smoothsubmit/" />
+    <link
+      rel="alternate"
+      hreflang="ja"
+      href="https://hamaup.github.io/smoothsubmit/"
+    />
+    <link
+      rel="alternate"
+      hreflang="en"
+      href="https://hamaup.github.io/smoothsubmit/en/"
+    />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href="https://hamaup.github.io/smoothsubmit/"
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="SmoothSubmit — App Store提出前のAI監査"
+    />
+    <meta
+      property="og:description"
+      content="iOSアプリの審査リスクを提出前に確認。Claude Code・Codex・Cursorで使えるOSS Skillと、任意の静的監査CLI。Audit → Fix → Verify。"
+    />
+    <meta property="og:url" content="https://hamaup.github.io/smoothsubmit/" />
+    <meta name="theme-color" content="#1246d3" />
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      href="./assets/bricolage.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="./assets/style.css" />
+    <script src="./assets/app.js" defer></script>
+  </head>
+  <body data-lang="ja">
+    <a class="skip" href="#main">本文へ</a>
+    <header class="header">
+      <a class="brand" href="./" aria-label="SmoothSubmit"
+        ><svg
+          viewBox="0 0 32 32"
+          aria-hidden="true"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.4"
+        >
+          <path d="M6 15l7 7L27 8M6 24h20" /></svg
+        ><span>SmoothSubmit</span></a
+      >
+      <nav aria-label="ページ内">
+        <a href="#how">使い方</a><a href="#coverage">チェック範囲</a
+        ><a href="#proof">検証結果</a>
+      </nav>
+      <div class="header-actions">
+        <div class="languages" aria-label="言語">
+          <a href="./" lang="ja" aria-current="page">日本語</a
+          ><a href="./en/" lang="en">EN</a>
+        </div>
+        <a class="header-start" href="#start"
+          >はじめる
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14M13 6l6 6-6 6" /></svg
+        ></a>
+      </div>
+    </header>
+    <main id="main">
+      <section class="cover" aria-labelledby="headline">
+        <div class="cover-heading">
+          <h1 id="headline">
+            <span>つくった。その次は、</span><span>安心して提出へ。</span>
+          </h1>
+          <div class="cover-intro">
+            <p class="intro">iOSアプリの審査リスクを、提出前に。</p>
+            <p class="lead">
+              コードと設定から問題を見つけ、根拠と修正案を提示。いつものAI開発ツールで、再確認まで進めます。
+            </p>
+            <div class="actions">
+              <a class="button button-lime" href="#start"
+                >Skillではじめる<svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  aria-hidden="true"
+                >
+                  <path d="M5 12h14M13 6l6 6-6 6" /></svg></a
+              ><a
+                class="text-link light"
+                href="https://github.com/hamaup/smoothsubmit"
+                >GitHubでコードを見る<svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  aria-hidden="true"
+                >
+                  <path d="M5 12h14M13 6l6 6-6 6" /></svg
+              ></a>
+            </div>
+            <p class="agent-note">Claude Code / Codex / Cursor 向け</p>
+          </div>
+        </div>
+        <div class="demo-row">
+          <div class="demo-caption">
+            <span class="loop"
+              >Audit<br /><span class="loop-indent">Fix</span><br /><span
+                class="loop-indent-two"
+                >Verify.</span
+              ></span
+            >
+            <p id="demo-summary">まず監査。足りない情報は残す。</p>
+            <p class="sample">
+              操作できる説明用サンプル。実際の監査はあなたの開発ツールで実行します。
+            </p>
+          </div>
+          <div class="audit-demo" aria-label="監査から再確認まで">
+            <div class="demo-top">
+              <span>SmoothSubmit Audit</span
+              ><span class="demo-project">SampleApp / Release</span>
+            </div>
+            <div
+              role="tablist"
+              aria-label="監査から再確認まで"
+              class="stage-tabs"
+            >
+              <button
+                role="tab"
+                id="stage-0"
+                aria-selected="true"
+                aria-controls="panel-0"
+                tabindex="0"
+              >
+                <span>1</span> Audit</button
+              ><button
+                role="tab"
+                id="stage-1"
+                aria-selected="false"
+                aria-controls="panel-1"
+                tabindex="-1"
+              >
+                <span>2</span> Fix</button
+              ><button
+                role="tab"
+                id="stage-2"
+                aria-selected="false"
+                aria-controls="panel-2"
+                tabindex="-1"
+              >
+                <span>3</span> Verify
+              </button>
+            </div>
+            <h2 class="sr-only">監査から再確認まで</h2>
+            <div class="demo-panels">
+              <section
+                role="tabpanel"
+                id="panel-0"
+                aria-labelledby="stage-0"
+                tabindex="0"
+              >
+                <div class="finding-meta">
+                  <span class="status status-0">FAIL</span
+                  ><code>ARG-PRIV-001</code>
+                </div>
+                <h3>Privacy Manifestの型が不正</h3>
+                <p>
+                  NSPrivacyTracking が文字列です。Booleanでの宣言が必要です。
+                </p>
+                <pre><code>&quot;NSPrivacyTracking&quot;: &quot;false&quot;</code></pre>
+                <p class="evidence">
+                  根拠：PrivacyInfo.xcprivacy の宣言を確認。
+                </p>
+                <div class="unknown">要確認：配信地域 / 審査用ログイン情報</div>
+              </section>
+              <section
+                role="tabpanel"
+                id="panel-1"
+                aria-labelledby="stage-1"
+                tabindex="0"
+                hidden
+              >
+                <div class="finding-meta">
+                  <span class="status status-1">FIX PROPOSAL</span
+                  ><code>ARG-PRIV-001</code>
+                </div>
+                <h3>変更箇所と確認方法を提示</h3>
+                <p>
+                  実際のtrackingの有無を確認し、適切なBoolean値に変更。ここではtrackingなしのサンプルです。
+                </p>
+                <pre><code>&quot;NSPrivacyTracking&quot;: false</code></pre>
+                <p class="evidence">
+                  修正は明示的な依頼後に。通常の監査でコードや設定を変えません。
+                </p>
+                <div class="unknown">要確認：配信地域 / 審査用ログイン情報</div>
+              </section>
+              <section
+                role="tabpanel"
+                id="panel-2"
+                aria-labelledby="stage-2"
+                tabindex="0"
+                hidden
+              >
+                <div class="finding-meta">
+                  <span class="status status-2">RESOLVED</span
+                  ><code>ARG-PRIV-001</code>
+                </div>
+                <h3>同じ条件を再確認</h3>
+                <p>
+                  この宣言の型違反は解消。配信地域や審査用ログイン情報など、未確認の条件は引き続き残ります。
+                </p>
+                <pre><code>FAIL → PASS · static check</code></pre>
+                <p class="evidence">
+                  設定の解消と実動作の確認は別。審査通過を保証する結果ではありません。
+                </p>
+                <div class="unknown">要確認：配信地域 / 審査用ログイン情報</div>
+              </section>
+            </div>
+            <div class="demo-bottom">
+              <button
+                id="next-stage"
+                data-next="次のステップを見る"
+                data-reset="監査例に戻る"
+              >
+                次のステップを見る<svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  aria-hidden="true"
+                >
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg></button
+              ><span>ILLUSTRATIVE EXAMPLE</span>
+            </div>
+          </div>
+        </div>
+        <div class="mobile-links">
+          <a
+            class="text-link light"
+            href="https://github.com/hamaup/smoothsubmit"
+            >GitHubでコードを見る<svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" /></svg
+          ></a>
+          <p>Claude Code / Codex / Cursor 向け</p>
+        </div>
+        <div class="cover-bottom">
+          <span>公開alpha · Apache-2.0</span><span>v0.1.0-alpha.2</span>
+        </div>
+      </section>
+      <section id="how" class="section how">
+        <div class="section-heading">
+          <h2>「提出してから知る」を、<br />「提出前に気づく」へ。</h2>
+          <p>
+            チェックリストを渡して終わりにせず、問題の根拠から修正後の確認までつなぎます。
+          </p>
+        </div>
+        <div class="steps">
+          <article>
+            <div class="step-title">
+              <span class="step-number">1</span>
+              <h3>Audit</h3>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </div>
+            <h4>まず、読める範囲から監査。</h4>
+            <p>
+              Xcodeプロジェクト、設定、関連コードを確認。不明点はUnknownとして残し、判定が変わる質問だけ後からまとめます。
+            </p>
+          </article>
+          <article>
+            <div class="step-title">
+              <span class="step-number">2</span>
+              <h3>Fix</h3>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </div>
+            <h4>なぜ問題か、どう直すか。</h4>
+            <p>
+              Appleの資料と証拠を添え、具体的な修正案や開発エージェント向け指示を生成。実際の変更は、あなたが依頼してから。
+            </p>
+          </article>
+          <article>
+            <div class="step-title">
+              <span class="step-number">3</span>
+              <h3>Verify</h3>
+            </div>
+            <h4>同じ対象を、もう一度。</h4>
+            <p>
+              新しい監査で前回と比較。指摘が消えただけで解消とはせず、証拠が不足した項目は再確認へ残します。
+            </p>
+          </article>
+        </div>
+      </section>
+      <section id="coverage" class="section coverage">
+        <div class="section-heading">
+          <h2>設定だけで終わらない。<br />わからないことも、わかる。</h2>
+          <p>
+            19のルール群で、静的に確認できる条件と、AI・開発者による確認が必要な条件を分けて扱います。
+          </p>
+        </div>
+        <div class="scope-list">
+          <article>
+            <h3>Privacy & permissions</h3>
+            <p>
+              Privacy Manifest、Required Reason
+              API、権限の用途説明、SDKの申告と確認範囲。
+            </p>
+          </article>
+          <article>
+            <h3>Accounts & payments</h3>
+            <p>
+              アカウント削除、ログイン方式、購入復元、サブスク表示、外部決済の文脈。
+            </p>
+          </article>
+          <article>
+            <h3>Submission & review</h3>
+            <p>
+              審査用アクセス、Privacy
+              Policy、メタデータ、対象OS、提出ツールチェーンや契約の準備。
+            </p>
+          </article>
+        </div>
+        <aside class="boundary">
+          <h3>判定に、境界を。</h3>
+          <p>
+            静的解析だけでは、実機の動作、バックエンド、提出バイナリ、App Store
+            Connectの実状態は確認できません。未確認はUnknown。通過確率や「審査OK」の総合点は付けません。
+          </p>
+          <a
+            class="text-link"
+            href="https://github.com/hamaup/smoothsubmit/blob/main/docs/RELEASE_STATUS.md"
+            >公開版の対応範囲を読む<svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" /></svg
+          ></a>
+        </aside>
+      </section>
+      <section id="proof" class="section proof">
+        <div class="section-heading">
+          <h2>役に立つか。<br />実コードで、確かめました。</h2>
+          <p>
+            公開iOSプロジェクトの固定したソーススナップショットで検証。設定不備を一時コピーに注入し、検出・修正指示・再確認まで確認しました。
+          </p>
+        </div>
+        <div class="proof-table-wrap">
+          <table>
+            <caption>
+              alpha.2 検証記録 · 2026-10-07
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">実プロジェクトのソース</th>
+                <th scope="col">注入した不備</th>
+                <th scope="col">検出 → 修正後の再確認</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">
+                  <a href="https://github.com/Dimillian/IceCubesApp"
+                    >IceCubes<svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      aria-hidden="true"
+                    >
+                      <path d="M5 12h14M13 6l6 6-6 6" /></svg
+                  ></a>
+                </th>
+                <td>3</td>
+                <td>3 / 3 検出・解消を確認</td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <a href="https://github.com/keepassium/KeePassium"
+                    >KeePassium<svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      aria-hidden="true"
+                    >
+                      <path d="M5 12h14M13 6l6 6-6 6" /></svg
+                  ></a>
+                </th>
+                <td>3</td>
+                <td>3 / 3 検出・解消を確認</td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <a href="https://github.com/Ranchero-Software/NetNewsWire"
+                    >NetNewsWire<svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      aria-hidden="true"
+                    >
+                      <path d="M5 12h14M13 6l6 6-6 6" /></svg
+                  ></a>
+                </th>
+                <td>3</td>
+                <td>3 / 3 検出・解消を確認</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="proof-details">
+          <div>
+            <h3>各プロジェクトで試した3種類</h3>
+            <p>
+              対象OSの設定 / Privacy Manifestの型 / Required Reason
+              APIの理由コード
+            </p>
+          </div>
+          <p>
+            合計9件の意図的な設定不備を検出。加えて57件の自動テストが通過。アプリのビルド・実機テスト・審査提出は行っておらず、実際のリジェクト率や時間削減は未測定です。
+          </p>
+        </div>
+        <a
+          class="text-link"
+          href="https://github.com/hamaup/smoothsubmit/blob/v0.1.0-alpha.2/docs/USEFULNESS_VALIDATION.md"
+          >検証方法・結果・限界を読む<svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14M13 6l6 6-6 6" /></svg
+        ></a>
+      </section>
+      <section id="start" class="section start">
+        <div class="section-heading">
+          <h2>いつものツールに、<br />提出前の視点を。</h2>
+          <p>
+            Skill単体で基本監査を始められます。CLI、Node.js、新しいAPIキー、SmoothSubmitのアカウントは不要です。
+          </p>
+        </div>
+        <div class="actions">
+          <a
+            class="button button-blue"
+            href="https://github.com/hamaup/smoothsubmit/releases/download/v0.1.0-alpha.2/smoothsubmit-skill-0.1.0-alpha.2.tar.gz"
+            >Skillをダウンロード<svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" /></svg></a
+          ><a
+            class="text-link"
+            href="https://github.com/hamaup/smoothsubmit/releases/tag/v0.1.0-alpha.2"
+            >alpha.2 のリリースを見る<svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" /></svg
+          ></a>
+        </div>
+        <div class="installation">
+          <div class="install-explanation">
+            <h3>あなたのiOSプロジェクト内で</h3>
+            <p>
+              ダウンロードしたSkillアーカイブを展開し、smoothsubmitフォルダ全体を次の場所にコピーします。references・assetsも一緒に配置してください。
+            </p>
+            <p class="fine-print">
+              既存のSkillがある場合は、差分を確認してから更新してください。
+            </p>
+          </div>
+          <div class="install-controls">
+            <fieldset>
+              <legend class="sr-only">開発ツール</legend>
+              <label
+                ><input type="radio" name="agent" value="0" checked /><span
+                  >Codex</span
+                ></label
+              ><label
+                ><input type="radio" name="agent" value="1" /><span
+                  >Claude Code</span
+                ></label
+              ><label
+                ><input type="radio" name="agent" value="2" /><span
+                  >Cursor</span
+                ></label
+              >
+            </fieldset>
+            <div class="install-path">
+              <span>配置先</span
+              ><code id="skill-path">.agents/skills/smoothsubmit/</code
+              ><button
+                class="copy-button"
+                data-copy="skill-path"
+                aria-label="配置先をコピー"
+              >
+                コピー
+              </button>
+            </div>
+            <p class="invocation">
+              呼び出し: <code id="skill-invoke">$smoothsubmit</code>
+            </p>
+          </div>
+        </div>
+        <div class="prompt-box">
+          <p>プロジェクトの開発セッションで、ひと言。</p>
+          <div>
+            <code id="audit-prompt">SmoothSubmitで確認して</code
+            ><button
+              class="copy-button"
+              data-copy="audit-prompt"
+              aria-label="監査指示をコピー"
+            >
+              コピー
+            </button>
+          </div>
+        </div>
+        <p class="fine-print discovery">
+          ホストの版によりSkillの認識方法は変わります。3ツールすべてでの実際の自動認識は未検証です。
+          <a href="https://github.com/hamaup/smoothsubmit#start-with-the-skill"
+            >導入の詳細を見る</a
+          >
+        </p>
+        <p
+          id="copy-status"
+          role="status"
+          class="copy-status"
+          data-copied="コピーしました"
+          data-error="コピーできませんでした。テキストを選択してください。"
+        ></p>
+        <aside class="cli">
+          <h3>より再現しやすい検査には、追加CLI。</h3>
+          <p>
+            Xcodeの対象や設定を解決し、JSON /
+            Markdownで監査を保存。監査時の外部通信・LLM呼び出し・xcodebuildの実行はありません。
+          </p>
+          <p class="fine-print">
+            macOS 14+ / Node.js 22.18+ · npmレジストリには未公開
+          </p>
+          <a
+            class="text-link"
+            href="https://github.com/hamaup/smoothsubmit#optional-cli"
+            >CLIの導入方法<svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" /></svg
+          ></a>
+        </aside>
+      </section>
+      <section class="section faq">
+        <h2>使う前に、知っておくこと。</h2>
+        <div>
+          <details>
+            <summary>
+              「確認して」で何か変更される？<span
+                class="plus"
+                aria-hidden="true"
+              ></span>
+            </summary>
+            <p>
+              通常の監査では、コード・アプリ設定・App Store
+              Connectを変更したり、提出したりしません。修正案を見た後に、明示的に変更を依頼できます。
+            </p>
+          </details>
+          <details>
+            <summary>
+              コードはどこに送られる？<span
+                class="plus"
+                aria-hidden="true"
+              ></span>
+            </summary>
+            <p>
+              CLIはローカルで処理し、ソースを送信しません。SkillはClaude
+              Code・Codex・Cursorなどのモデルとファイル読み取り機能を使うため、利用中ツールのデータ設定が適用されます。
+            </p>
+          </details>
+          <details>
+            <summary>
+              Appleのルールには追従している？<span
+                class="plus"
+                aria-hidden="true"
+              ></span>
+            </summary>
+            <p>
+              同梱した公式資料の確認日は2026-10-07です。結果には資料と確認日を添えます。地域・OS・課金方式などの条件を確認し、古い版に依存する前に資料台帳を参照してください。
+            </p>
+          </details>
+          <details>
+            <summary>
+              App Store審査に必ず通る？<span
+                class="plus"
+                aria-hidden="true"
+              ></span>
+            </summary>
+            <p>
+              保証はできません。設定漏れや実装の疑問点を事前に見つけるための補助ツールです。実機・バックエンド・提出情報の確認は別途必要です。
+            </p>
+          </details>
+        </div>
+      </section>
+      <section class="closing">
+        <h2>次の提出の前に、<br />一度、確認してみませんか。</h2>
+        <div class="actions">
+          <a class="button button-lime" href="#start"
+            >Skillではじめる<svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" /></svg></a
+          ><a
+            class="text-link light"
+            href="https://github.com/hamaup/smoothsubmit/issues"
+            >使ってみた結果をIssueで共有<svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" /></svg
+          ></a>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <a class="brand" href="https://github.com/hamaup/smoothsubmit"
+        ><svg
+          viewBox="0 0 32 32"
+          aria-hidden="true"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.4"
+        >
+          <path d="M6 15l7 7L27 8M6 24h20" /></svg
+        ><span>SmoothSubmit</span></a
+      >
+      <p>Appleとは提携していない独立したOSSプロジェクトです。</p>
+      <div>
+        <a
+          href="https://github.com/hamaup/smoothsubmit/blob/main/docs/APPLE_REFERENCES.md"
+          >資料台帳</a
+        ><a href="https://github.com/hamaup/smoothsubmit/blob/main/LICENSE"
+          >ライセンス</a
+        ><a href="https://github.com/hamaup/smoothsubmit">GitHub</a>
+      </div>
+    </footer>
+  </body>
+</html>
