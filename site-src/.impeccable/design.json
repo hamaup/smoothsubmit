@@ -1,0 +1,449 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-07T05:01:48.535244+00:00",
+  "title": "Design System: SmoothSubmit website",
+  "extensions": {
+    "colorMeta": {
+      "blue": {
+        "role": "primary",
+        "displayName": "Cobalt Blue",
+        "tonalRamp": [
+          "oklch(15% 0.2218 263.90)",
+          "oklch(26% 0.2218 263.90)",
+          "oklch(38% 0.2218 263.90)",
+          "oklch(49% 0.2218 263.90)",
+          "oklch(61% 0.2218 263.90)",
+          "oklch(72% 0.2218 263.90)",
+          "oklch(84% 0.2218 263.90)",
+          "oklch(95% 0.2218 263.90)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Deep Ink",
+        "tonalRamp": [
+          "oklch(15% 0.0524 259.01)",
+          "oklch(26% 0.0524 259.01)",
+          "oklch(38% 0.0524 259.01)",
+          "oklch(49% 0.0524 259.01)",
+          "oklch(61% 0.0524 259.01)",
+          "oklch(72% 0.0524 259.01)",
+          "oklch(84% 0.0524 259.01)",
+          "oklch(95% 0.0524 259.01)"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Cool Paper",
+        "tonalRamp": [
+          "oklch(15% 0.0045 258.32)",
+          "oklch(26% 0.0045 258.32)",
+          "oklch(38% 0.0045 258.32)",
+          "oklch(49% 0.0045 258.32)",
+          "oklch(61% 0.0045 258.32)",
+          "oklch(72% 0.0045 258.32)",
+          "oklch(84% 0.0045 258.32)",
+          "oklch(95% 0.0045 258.32)"
+        ]
+      },
+      "lime": {
+        "role": "primary",
+        "displayName": "Fresh Lime",
+        "tonalRamp": [
+          "oklch(15% 0.1586 122.54)",
+          "oklch(26% 0.1586 122.54)",
+          "oklch(38% 0.1586 122.54)",
+          "oklch(49% 0.1586 122.54)",
+          "oklch(61% 0.1586 122.54)",
+          "oklch(72% 0.1586 122.54)",
+          "oklch(84% 0.1586 122.54)",
+          "oklch(95% 0.1586 122.54)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Slate Copy",
+        "tonalRamp": [
+          "oklch(15% 0.0390 256.83)",
+          "oklch(26% 0.0390 256.83)",
+          "oklch(38% 0.0390 256.83)",
+          "oklch(49% 0.0390 256.83)",
+          "oklch(61% 0.0390 256.83)",
+          "oklch(72% 0.0390 256.83)",
+          "oklch(84% 0.0390 256.83)",
+          "oklch(95% 0.0390 256.83)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Cool Rule",
+        "tonalRamp": [
+          "oklch(15% 0.0175 256.29)",
+          "oklch(26% 0.0175 256.29)",
+          "oklch(38% 0.0175 256.29)",
+          "oklch(49% 0.0175 256.29)",
+          "oklch(61% 0.0175 256.29)",
+          "oklch(72% 0.0175 256.29)",
+          "oklch(84% 0.0175 256.29)",
+          "oklch(95% 0.0175 256.29)"
+        ]
+      },
+      "white": {
+        "role": "neutral",
+        "displayName": "White",
+        "tonalRamp": [
+          "oklch(15% 0.0000 0.00)",
+          "oklch(26% 0.0000 0.00)",
+          "oklch(38% 0.0000 0.00)",
+          "oklch(49% 0.0000 0.00)",
+          "oklch(61% 0.0000 0.00)",
+          "oklch(72% 0.0000 0.00)",
+          "oklch(84% 0.0000 0.00)",
+          "oklch(95% 0.0000 0.00)"
+        ]
+      },
+      "cover-copy": {
+        "role": "neutral",
+        "displayName": "Pale Cover Copy",
+        "tonalRamp": [
+          "oklch(15% 0.0331 266.93)",
+          "oklch(26% 0.0331 266.93)",
+          "oklch(38% 0.0331 266.93)",
+          "oklch(49% 0.0331 266.93)",
+          "oklch(61% 0.0331 266.93)",
+          "oklch(72% 0.0331 266.93)",
+          "oklch(84% 0.0331 266.93)",
+          "oklch(95% 0.0331 266.93)"
+        ]
+      },
+      "selected-surface": {
+        "role": "neutral",
+        "displayName": "Selected Wash",
+        "tonalRamp": [
+          "oklch(15% 0.0242 267.93)",
+          "oklch(26% 0.0242 267.93)",
+          "oklch(38% 0.0242 267.93)",
+          "oklch(49% 0.0242 267.93)",
+          "oklch(61% 0.0242 267.93)",
+          "oklch(72% 0.0242 267.93)",
+          "oklch(84% 0.0242 267.93)",
+          "oklch(95% 0.0242 267.93)"
+        ]
+      },
+      "technical-surface": {
+        "role": "neutral",
+        "displayName": "Technical Page",
+        "tonalRamp": [
+          "oklch(15% 0.0109 256.70)",
+          "oklch(26% 0.0109 256.70)",
+          "oklch(38% 0.0109 256.70)",
+          "oklch(49% 0.0109 256.70)",
+          "oklch(61% 0.0109 256.70)",
+          "oklch(72% 0.0109 256.70)",
+          "oklch(84% 0.0109 256.70)",
+          "oklch(95% 0.0109 256.70)"
+        ]
+      },
+      "code-surface": {
+        "role": "neutral",
+        "displayName": "Code Wash",
+        "tonalRamp": [
+          "oklch(15% 0.0120 259.82)",
+          "oklch(26% 0.0120 259.82)",
+          "oklch(38% 0.0120 259.82)",
+          "oklch(49% 0.0120 259.82)",
+          "oklch(61% 0.0120 259.82)",
+          "oklch(72% 0.0120 259.82)",
+          "oklch(84% 0.0120 259.82)",
+          "oklch(95% 0.0120 259.82)"
+        ]
+      },
+      "fail-surface": {
+        "role": "neutral",
+        "displayName": "Fail Surface",
+        "tonalRamp": [
+          "oklch(15% 0.0299 10.04)",
+          "oklch(26% 0.0299 10.04)",
+          "oklch(38% 0.0299 10.04)",
+          "oklch(49% 0.0299 10.04)",
+          "oklch(61% 0.0299 10.04)",
+          "oklch(72% 0.0299 10.04)",
+          "oklch(84% 0.0299 10.04)",
+          "oklch(95% 0.0299 10.04)"
+        ]
+      },
+      "fail-text": {
+        "role": "neutral",
+        "displayName": "Fail Text",
+        "tonalRamp": [
+          "oklch(15% 0.1527 17.49)",
+          "oklch(26% 0.1527 17.49)",
+          "oklch(38% 0.1527 17.49)",
+          "oklch(49% 0.1527 17.49)",
+          "oklch(61% 0.1527 17.49)",
+          "oklch(72% 0.1527 17.49)",
+          "oklch(84% 0.1527 17.49)",
+          "oklch(95% 0.1527 17.49)"
+        ]
+      },
+      "proposal-surface": {
+        "role": "neutral",
+        "displayName": "Proposal Surface",
+        "tonalRamp": [
+          "oklch(15% 0.0284 268.36)",
+          "oklch(26% 0.0284 268.36)",
+          "oklch(38% 0.0284 268.36)",
+          "oklch(49% 0.0284 268.36)",
+          "oklch(61% 0.0284 268.36)",
+          "oklch(72% 0.0284 268.36)",
+          "oklch(84% 0.0284 268.36)",
+          "oklch(95% 0.0284 268.36)"
+        ]
+      },
+      "proposal-text": {
+        "role": "neutral",
+        "displayName": "Proposal Text",
+        "tonalRamp": [
+          "oklch(15% 0.1666 263.43)",
+          "oklch(26% 0.1666 263.43)",
+          "oklch(38% 0.1666 263.43)",
+          "oklch(49% 0.1666 263.43)",
+          "oklch(61% 0.1666 263.43)",
+          "oklch(72% 0.1666 263.43)",
+          "oklch(84% 0.1666 263.43)",
+          "oklch(95% 0.1666 263.43)"
+        ]
+      },
+      "resolved-surface": {
+        "role": "neutral",
+        "displayName": "Resolved Surface",
+        "tonalRamp": [
+          "oklch(15% 0.0581 121.20)",
+          "oklch(26% 0.0581 121.20)",
+          "oklch(38% 0.0581 121.20)",
+          "oklch(49% 0.0581 121.20)",
+          "oklch(61% 0.0581 121.20)",
+          "oklch(72% 0.0581 121.20)",
+          "oklch(84% 0.0581 121.20)",
+          "oklch(95% 0.0581 121.20)"
+        ]
+      },
+      "resolved-text": {
+        "role": "neutral",
+        "displayName": "Resolved Text",
+        "tonalRamp": [
+          "oklch(15% 0.1082 131.62)",
+          "oklch(26% 0.1082 131.62)",
+          "oklch(38% 0.1082 131.62)",
+          "oklch(49% 0.1082 131.62)",
+          "oklch(61% 0.1082 131.62)",
+          "oklch(72% 0.1082 131.62)",
+          "oklch(84% 0.1082 131.62)",
+          "oklch(95% 0.1082 131.62)"
+        ]
+      },
+      "blue-hover": {
+        "role": "neutral",
+        "displayName": "Blue Hover",
+        "tonalRamp": [
+          "oklch(15% 0.1871 263.89)",
+          "oklch(26% 0.1871 263.89)",
+          "oklch(38% 0.1871 263.89)",
+          "oklch(49% 0.1871 263.89)",
+          "oklch(61% 0.1871 263.89)",
+          "oklch(72% 0.1871 263.89)",
+          "oklch(84% 0.1871 263.89)",
+          "oklch(95% 0.1871 263.89)"
+        ]
+      },
+      "lime-hover": {
+        "role": "neutral",
+        "displayName": "Lime Hover",
+        "tonalRamp": [
+          "oklch(15% 0.1256 123.01)",
+          "oklch(26% 0.1256 123.01)",
+          "oklch(38% 0.1256 123.01)",
+          "oklch(49% 0.1256 123.01)",
+          "oklch(61% 0.1256 123.01)",
+          "oklch(72% 0.1256 123.01)",
+          "oklch(84% 0.1256 123.01)",
+          "oklch(95% 0.1256 123.01)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display-ja": {
+        "displayName": "Japanese Display",
+        "purpose": "Japanese cover headline; mobile metrics are recorded in DESIGN.md."
+      },
+      "display-en": {
+        "displayName": "English Display",
+        "purpose": "English cover headline with independent locale geometry."
+      },
+      "headline": {
+        "displayName": "Section Headline",
+        "purpose": "Major section headings."
+      },
+      "label": {
+        "displayName": "Status Label",
+        "purpose": "Written finding states; ordinary metadata shares the 12px size without the same weight."
+      }
+    },
+    "shadows": [
+      {
+        "name": "audit-example-lift",
+        "value": "0 20px 55px rgba(18, 34, 59, 0.22)",
+        "purpose": "Only the illustrative audit window on cobalt."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Action background transitions and entering demo panels."
+      },
+      {
+        "name": "button-background",
+        "value": "background 0.2s var(--ease)",
+        "purpose": "Lime and blue filled action hover."
+      },
+      {
+        "name": "page-turn",
+        "value": "0.35s var(--ease); translateY(8px), opacity 0.6, blur(1px) → translateY(0), opacity 1, blur(0)",
+        "purpose": "Entering illustrative finding panel; disabled for reduced motion."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation: none !important; transition: none !important; scroll-behavior: auto",
+        "purpose": "Honor the user motion preference."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact-desktop",
+        "value": "1050px"
+      },
+      {
+        "name": "stacked-mobile",
+        "value": "760px"
+      },
+      {
+        "name": "wide-gutters",
+        "value": "1600px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Lime Action",
+      "kind": "button",
+      "description": "Filled Skill action on cobalt.",
+      "html": "<a class=\"ds-button-lime\" href=\"#start\">Start with the Skill<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></a>",
+      "css": ".ds-button-lime{display:inline-flex;align-items:center;justify-content:center;gap:30px;min-height:54px;padding:13px 24px;border-radius:6px;border:0;font:700 15px/1.8 -apple-system,BlinkMacSystemFont,\"Hiragino Kaku Gothic ProN\",\"Yu Gothic\",sans-serif;text-decoration:none;cursor:pointer;transition:background .2s cubic-bezier(.16,1,.3,1);background:var(--lime,#c5e869);color:var(--ink,#12223b)}.ds-button-lime:hover{background:#d6f494}.ds-button-lime:focus-visible{outline:3px solid var(--blue,#1246d3);outline-offset:5px}.ds-button-lime svg{width:24px;height:24px;flex:none}@media(prefers-reduced-motion:reduce){.ds-button-lime{transition:none}}.ds-button-lime:focus-visible{outline-color:var(--lime,#c5e869)}",
+      "refersTo": "button-lime"
+    },
+    {
+      "name": "Blue Action",
+      "kind": "button",
+      "description": "Download action on paper.",
+      "html": "<a class=\"ds-button-blue\" href=\"#download\">Download the Skill<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></a>",
+      "css": ".ds-button-blue{display:inline-flex;align-items:center;justify-content:center;gap:30px;min-height:54px;padding:13px 24px;border-radius:6px;border:0;font:700 15px/1.8 -apple-system,BlinkMacSystemFont,\"Hiragino Kaku Gothic ProN\",\"Yu Gothic\",sans-serif;text-decoration:none;cursor:pointer;transition:background .2s cubic-bezier(.16,1,.3,1);background:var(--blue,#1246d3);color:white}.ds-button-blue:hover{background:#0b35a7}.ds-button-blue:focus-visible{outline:3px solid var(--blue,#1246d3);outline-offset:5px}.ds-button-blue svg{width:24px;height:24px;flex:none}@media(prefers-reduced-motion:reduce){.ds-button-blue{transition:none}}",
+      "refersTo": "button-blue"
+    },
+    {
+      "name": "Copy Button",
+      "kind": "button",
+      "description": "Compact copy affordance; the live site announces the clipboard outcome.",
+      "html": "<button class=\"ds-copy\">Copy</button>",
+      "css": ".ds-copy{background:var(--paper,#f5f7fa);color:var(--blue,#1246d3);border:0;border-radius:4px;min-height:44px;padding:8px 12px;font:12px/1.8 -apple-system,BlinkMacSystemFont,\"Hiragino Kaku Gothic ProN\",\"Yu Gothic\",sans-serif;cursor:pointer}.ds-copy:hover{background:#dce6fd}.ds-copy:focus-visible{outline:3px solid var(--blue,#1246d3);outline-offset:5px}.ds-copy:disabled{opacity:.55;cursor:default}",
+      "refersTo": "copy-button"
+    },
+    {
+      "name": "Section and Language Navigation",
+      "kind": "nav",
+      "description": "Normal-flow navigation with underlined hover and current-language state.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Sections\"><a href=\"#how\">How it works</a><a href=\"#coverage\">Coverage</a><a href=\"#proof\">Validation</a></nav><nav class=\"ds-languages\" aria-label=\"Language\"><a href=\"#ja\" lang=\"ja\">日本語</a><a href=\"#en\" lang=\"en\" aria-current=\"page\">EN</a></nav>",
+      "css": ".ds-nav,.ds-languages{display:flex;gap:28px;align-items:center;color:var(--ink,#12223b);font:14px/1.8 -apple-system,BlinkMacSystemFont,\"Hiragino Kaku Gothic ProN\",\"Yu Gothic\",sans-serif;white-space:nowrap}.ds-nav a,.ds-languages a{color:inherit;text-decoration:none}.ds-nav a:hover{text-decoration:underline;text-underline-offset:.25em}.ds-languages{gap:13px;font-size:13px}.ds-languages a{display:flex;align-items:center;min-height:44px}.ds-languages a[aria-current]{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.25em}.ds-nav a:focus-visible{outline:3px solid var(--blue,#1246d3);outline-offset:5px}.ds-languages a:focus-visible{outline:3px solid var(--blue,#1246d3);outline-offset:5px}@media(max-width:760px){.ds-nav{justify-content:space-between;gap:12px;font-size:12px}.ds-nav a{display:flex;align-items:center;min-height:36px}.ds-languages{font-size:12px;gap:10px}}"
+    },
+    {
+      "name": "Finding Status Labels",
+      "kind": "chip",
+      "description": "Written states accompany matched fail, proposal and resolved colors.",
+      "html": "<div class=\"ds-status-row\"><span class=\"ds-status ds-fail\">FAIL</span><span class=\"ds-status ds-proposal\">FIX PROPOSAL</span><span class=\"ds-status ds-resolved\">RESOLVED</span></div>",
+      "css": ".ds-status-row{display:flex;gap:13px;flex-wrap:wrap}.ds-status{font:700 12px/1.8 -apple-system,BlinkMacSystemFont,\"Hiragino Kaku Gothic ProN\",\"Yu Gothic\",sans-serif;letter-spacing:.03em;padding:3px 8px;border-radius:4px}.ds-fail{background:#fee3e6;color:#972134}.ds-proposal{background:#e2eafe;color:#1741a4}.ds-resolved{background:#e4f1c6;color:#345608}",
+      "refersTo": "status-fail"
+    },
+    {
+      "name": "Audit Stage Tabs",
+      "kind": "custom",
+      "description": "Three equal tab segments; selected state shown here. Live site provides panel switching and arrow/Home/End keys.",
+      "html": "<div class=\"ds-tabs\" role=\"tablist\" aria-label=\"Illustrative audit\"><button role=\"tab\" aria-selected=\"true\" tabindex=\"0\"><span>1</span> Audit</button><button role=\"tab\" aria-selected=\"false\" tabindex=\"-1\"><span>2</span> Fix</button><button role=\"tab\" aria-selected=\"false\" tabindex=\"-1\"><span>3</span> Verify</button></div>",
+      "css": ".ds-tabs{display:flex;background:var(--paper,#f5f7fa);border-top:1px solid var(--line,#ccd4df);border-bottom:1px solid var(--line,#ccd4df)}.ds-tabs button{flex:1;padding:14px 10px;color:var(--muted,#4c5b70);background:transparent;font:650 17px/1.8 Bricolage,sans-serif;position:relative;border:0;cursor:pointer}.ds-tabs button span{font:12px -apple-system,BlinkMacSystemFont,\"Hiragino Kaku Gothic ProN\",\"Yu Gothic\",sans-serif;margin-right:6px}.ds-tabs button[aria-selected=\"true\"],.ds-tabs button:hover{background:#e5ecfd;color:var(--blue,#1246d3)}.ds-tabs button[aria-selected=\"true\"]:after{content:\"\";position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--blue,#1246d3)}.ds-tabs button:focus-visible{outline:3px solid var(--blue,#1246d3);outline-offset:5px}",
+      "refersTo": "stage-selected"
+    },
+    {
+      "name": "Audit Example Window",
+      "kind": "card",
+      "description": "The only raised technical container on the cobalt cover.",
+      "html": "<article class=\"ds-audit\"><header>SmoothSubmit Audit</header><section><h3>Invalid Privacy Manifest type</h3><p>NSPrivacyTracking is a string. The declaration requires a Boolean.</p><pre><code>\"NSPrivacyTracking\": \"false\"</code></pre><p class=\"ds-evidence\">Evidence: PrivacyInfo.xcprivacy.</p><p class=\"ds-unknown\">Still unknown: storefronts / reviewer access</p></section></article>",
+      "css": ".ds-audit{background:var(--paper,#f5f7fa);color:var(--ink,#12223b);border-radius:12px;overflow:hidden;box-shadow:0 20px 55px rgba(18,34,59,.22);font:13px/1.75 -apple-system,BlinkMacSystemFont,\"Hiragino Kaku Gothic ProN\",\"Yu Gothic\",sans-serif}.ds-audit header{padding:17px 26px;font:700 14px/1.8 Bricolage,sans-serif;border-bottom:1px solid var(--line,#ccd4df)}.ds-audit section{padding:25px 26px 0}.ds-audit h3{font:700 20px/1.45 Bricolage,Zen,sans-serif;letter-spacing:-.025em;margin:0 0 10px}.ds-audit p{margin:0}.ds-audit pre{margin:17px 0;background:#e8edf5;padding:13px;border-radius:5px;font:13px ui-monospace,SFMono-Regular,Consolas,monospace;overflow:auto}.ds-evidence,.ds-unknown{color:var(--muted,#4c5b70);font-size:12px}.ds-audit .ds-unknown{padding:15px 0;border-top:1px solid var(--line,#ccd4df);margin-top:16px}",
+      "refersTo": "audit-demo"
+    },
+    {
+      "name": "Coding-Agent Radio Choices",
+      "kind": "input",
+      "description": "Native radio selection with a visible bordered label and focus.",
+      "html": "<fieldset class=\"ds-agent\"><legend>Coding agent</legend><label><input type=\"radio\" name=\"ds-agent\" checked><span>Codex</span></label><label><input type=\"radio\" name=\"ds-agent\"><span>Claude Code</span></label><label><input type=\"radio\" name=\"ds-agent\"><span>Cursor</span></label></fieldset>",
+      "css": ".ds-agent{border:0;margin:0;padding:0;display:flex;gap:8px;color:var(--ink,#12223b);font:13px/1.8 -apple-system,BlinkMacSystemFont,\"Hiragino Kaku Gothic ProN\",\"Yu Gothic\",sans-serif}.ds-agent legend{position:absolute;clip-path:inset(50%);width:1px;height:1px;overflow:hidden}.ds-agent label{position:relative}.ds-agent input{position:absolute;opacity:0;width:1px}.ds-agent span{display:flex;align-items:center;padding:9px 17px;border:1px solid var(--line,#ccd4df);border-radius:5px;min-height:44px;cursor:pointer}.ds-agent input:checked+span{background:#e5ecfd;color:var(--blue,#1246d3);border-color:var(--blue,#1246d3)}.ds-agent input:focus-visible+span{outline:3px solid var(--blue,#1246d3);outline-offset:3px}",
+      "refersTo": "agent-choice"
+    },
+    {
+      "name": "FAQ Disclosure",
+      "kind": "custom",
+      "description": "Native details disclosure with a geometric plus/minus.",
+      "html": "<details class=\"ds-faq\"><summary>Does an audit change my app?<span class=\"ds-plus\" aria-hidden=\"true\"></span></summary><p>A normal audit proposes fixes. Request the changes explicitly.</p></details>",
+      "css": ".ds-faq{border-bottom:1px solid var(--line,#ccd4df);padding:20px 0;color:var(--ink,#12223b);font-family:-apple-system,BlinkMacSystemFont,\"Hiragino Kaku Gothic ProN\",\"Yu Gothic\",sans-serif}.ds-faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:20px;justify-content:space-between;min-height:44px;font-size:15px;font-weight:600;line-height:1.8}.ds-faq summary::-webkit-details-marker{display:none}.ds-faq summary:focus-visible{outline:3px solid var(--blue,#1246d3);outline-offset:5px}.ds-plus{width:16px;height:16px;position:relative;flex:none}.ds-plus:before,.ds-plus:after{content:\"\";position:absolute;background:var(--blue,#1246d3);width:16px;height:1.5px;top:7px;left:0}.ds-plus:after{transform:rotate(90deg)}.ds-faq[open] .ds-plus:after{display:none}.ds-faq p{font-size:13px;line-height:1.8;color:var(--muted,#4c5b70);padding:14px 36px 0 0;margin:0}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Practical Field Guide",
+    "overview": "This records the implemented working direction of the Japanese and English static introduction site. It is descriptive evidence from the built surface, not a claim that the user approved a wider brand system. The saturated cover, lime actions and cool technical pages make a developer-facing guide easy to scan at a desk.\n\nStrong display lettering introduces the subject; compact technical text carries findings, evidence and installation instructions. Ruled lists and a real table support comparison. The interactive audit example is explicitly illustrative: the visual system keeps status, evidence and remaining unknowns visible without presenting the page as an audit tool.",
+    "keyCharacteristics": [
+      "Committed cobalt surfaces with lime actions and cool paper content.",
+      "Locally hosted display fonts with separate Japanese and English headline metrics.",
+      "Ruled reference material and a single elevated audit example.",
+      "Visible keyboard focus, semantic controls and reduced-motion support."
+    ],
+    "rules": [
+      {
+        "name": "The Paired Status Rule",
+        "body": "A status uses both its explicit text label and its matched background/text pair; color does not carry the finding alone.",
+        "section": "colors"
+      },
+      {
+        "name": "The Locale Metrics Rule",
+        "body": "Preserve separate Japanese and English headline sizes and line heights; translating copy does not imply identical text geometry.",
+        "section": "typography"
+      },
+      {
+        "name": "The Reference Plane Rule",
+        "body": "Keep reference lists and tables flat; preserve the audit example's distinct elevation rather than spreading its shadow to each content block.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** preserve the paired status label and color treatment.",
+      "**Do** use the locale-specific display metrics and retain Japanese/English route navigation.",
+      "**Do** use semantic tabs, radios and native FAQ disclosure with visible keyboard focus.",
+      "**Do** keep reference material ruled and flat, with technical code selectable and responsive.",
+      "**Do** honor reduced motion and keep illustrative audit labeling visible."
+    ],
+    "donts": [
+      "**Don't** imply that the illustrative site example reads code or performs a real audit.",
+      "**Don't** replace explicit finding labels or unknowns with color-only status.",
+      "**Don't** force Japanese and English headlines to share identical metrics.",
+      "**Don't** inherit the audit example's shadow onto ordinary lists and table rows.",
+      "**Don't** treat this recorded working direction as a user-approved product-wide brand identity."
+    ]
+  }
+}

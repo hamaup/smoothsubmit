@@ -25,3 +25,7 @@ The downloaded alpha.2 Skill archive was inspected and contains `smoothsubmit/SK
 ## Limits
 
 This verifies the introduction page, not App Store approval or live agent-host discovery. The 57 automated tests and 9 injected-defect results shown on the page refer to the documented alpha.2 product validation, not new website tests. No real user repository is sent to the website or audited by the demo.
+
+## Public deployment
+
+[GitHub Pages deployment](https://github.com/hamaup/smoothsubmit/actions/runs/37574264823) succeeded. Both public language routes, CSS, JavaScript, two fonts, favicon and sitemap returned HTTP 200 and matched their local file hashes. The repository homepage points to the live site.

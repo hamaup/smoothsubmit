@@ -153,6 +153,7 @@ This records the implemented working direction of the Japanese and English stati
 Strong display lettering introduces the subject; compact technical text carries findings, evidence and installation instructions. Ruled lists and a real table support comparison. The interactive audit example is explicitly illustrative: the visual system keeps status, evidence and remaining unknowns visible without presenting the page as an audit tool.
 
 **Key Characteristics:**
+
 - Committed cobalt surfaces with lime actions and cool paper content.
 - Locally hosted display fonts with separate Japanese and English headline metrics.
 - Ruled reference material and a single elevated audit example.
@@ -163,11 +164,13 @@ Strong display lettering introduces the subject; compact technical text carries 
 The palette pairs saturated cobalt and lime with cool neutral technical surfaces; the frontmatter preserves the source values.
 
 ### Primary
+
 - **Cobalt Blue** (`blue`): cover and closing surfaces, links, selected controls and focus outlines on light backgrounds.
 - **Fresh Lime** (`lime`): next actions and the final hero phrase on cobalt; also selection and focus on dark cover surfaces.
 - The corresponding hover tokens lighten lime and deepen blue for filled actions.
 
 ### Neutral
+
 - **Deep Ink** (`ink`): principal text and the dark prompt container.
 - **Cool Paper** (`paper`): page and audit-example surface.
 - **Slate Copy** (`muted`): evidence, descriptions and supporting metadata.
@@ -192,11 +195,13 @@ The palette pairs saturated cobalt and lime with cool neutral technical surfaces
 The display face supplies broad, confident Latin lettering and a bold Japanese counterpart. Body copy remains familiar and comfortably spaced. The source has no single mathematical scale: roles use fluid headlines plus fixed technical sizes.
 
 ### Hierarchy
+
 - **Display:** separate locale tokens govern the cover headline. On mobile, Japanese uses `clamp(28px, 7.9vw, 47px)` with line height (1.5); English uses `clamp(36px, 9.2vw, 55px)` with line height (1.08) and maximum width (13ch).
 - **Headline:** section headings use the headline token; FAQ and closing headings have context-specific fluid sizes in the stylesheet.
 - **Title:** the audit finding title uses the title token; step headings are larger (30px), coverage titles (26px desktop, 24px mobile).
 - **Body:** normal prose uses the body token and a general maximum width (72ch). Supporting material uses the supporting and technical-body roles. Hero supporting text has a narrower maximum width (46ch desktop).
 - **Label:** status labels, evidence and small metadata are compact. The reused metadata size is (12px).
+- The desktop audit-window project caption still uses an isolated (11px) shorthand; mobile overrides it to (12px). This minor residual drift is recorded here for visibility and is not a reusable typography token.
 - **Code:** code samples and paths use monospace; mobile reduces ordinary code from (13px) to (12px). The prominent audit instruction uses a larger fluid code size.
 
 ### Named Rules
@@ -218,6 +223,7 @@ The first viewport composition belongs to `BRIEF.md`, not a mandatory compositio
 Depth is predominantly tonal and ruled. Lists, tables and FAQ entries are flat. The audit example alone is lifted above the cobalt cover; the dark prompt container adds contrast without another shadow. There are no fixed-offset or decorative shadows.
 
 ### Shadow Vocabulary
+
 - **Audit Example Lift** (`0 20px 55px rgba(18, 34, 59, 0.22)`): the illustrative audit window on the cover.
 
 ### Named Rules
@@ -261,6 +267,7 @@ Interactive elements use a visible outline (3px with 5px offset) in blue, or lim
 ## Do's and Don'ts
 
 ### Do:
+
 - **Do** preserve the paired status label and color treatment.
 - **Do** use the locale-specific display metrics and retain Japanese/English route navigation.
 - **Do** use semantic tabs, radios and native FAQ disclosure with visible keyboard focus.
@@ -268,6 +275,7 @@ Interactive elements use a visible outline (3px with 5px offset) in blue, or lim
 - **Do** honor reduced motion and keep illustrative audit labeling visible.
 
 ### Don't:
+
 - **Don't** imply that the illustrative site example reads code or performs a real audit.
 - **Don't** replace explicit finding labels or unknowns with color-only status.
 - **Don't** force Japanese and English headlines to share identical metrics.

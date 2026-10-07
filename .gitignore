@@ -8,3 +8,5 @@ dist/
 .impeccable/review/
 .impeccable/direction-options.json
 .impeccable/direction-notes.md
+
+.impeccable/questions/
