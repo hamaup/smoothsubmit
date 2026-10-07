@@ -1,0 +1,24 @@
+name: Bug or false positive
+description: Report a reproducible audit or installation problem.
+body:
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and observed behavior
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: CLI / Skill version and coding tool
+    validations:
+      required: true
+  - type: input
+    id: rule
+    attributes:
+      label: Rule ID, target and configuration
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Synthetic input or redacted finding. Do not include credentials, private app code, reviewer emails or personal data.

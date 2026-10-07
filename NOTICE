@@ -1,0 +1,12 @@
+SmoothSubmit
+Copyright 2026 SmoothSubmit contributors
+
+This project is not affiliated with or endorsed by Apple Inc.
+Apple documentation is referenced by URL. API identifiers, approved reason codes,
+and SDK names are technical reference data; Apple owns its documentation.
+No Apple documentation prose is licensed or redistributed as part of the CLI.
+
+Runtime dependencies (MIT): ajv, ajv-formats, fast-deep-equal,
+json-schema-traverse, require-from-string. Runtime dependency fast-uri uses
+BSD-3-Clause. Their license notices are retained
+in installed dependencies. Development dependencies are not bundled into dist.

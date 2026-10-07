@@ -1,0 +1,19 @@
+{
+  "schemaVersion":"1.0.0",
+  "auditId":null,
+  "createdAt":null,
+  "skillVersion":"0.1.0-alpha.1",
+  "rulepackVersion":"0.1.0-alpha.1",
+  "mode":"basic",
+  "execution":{"tool":"other","model":null,"completion":"complete","validation":"unvalidated"},
+  "scope":{"rootLabel":null,"candidates":[],"selected":null},
+  "sources":{"bundled":[],"additional":[]},
+  "inputs":[],
+  "checks":[],
+  "summary":{"riskCounts":{"HIGH":0,"MEDIUM":0,"LOW":0},"statusCounts":{"PASS":0,"NEEDS_REVIEW":0,"NOT_APPLICABLE":0,"UNKNOWN":0,"ERROR":0},"unknownCount":0,"errorCount":0,"suppressedCount":0},
+  "coverage":{"totalChecks":null,"executedCheckRatio":null,"partial":false},
+  "unknownQuestions":[],
+  "additionalCliChecks":{"count":null,"items":[]},
+  "attestations":[],
+  "diagnostics":[]
+}

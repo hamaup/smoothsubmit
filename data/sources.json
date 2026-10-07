@@ -1,0 +1,258 @@
+[
+  {
+    "sourceDocumentId": "APPLE-REVIEW-GUIDELINES",
+    "title": "App Review Guidelines",
+    "url": "https://developer.apple.com/app-store/review/guidelines/",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "最終更新2026-06-08"
+  },
+  {
+    "sourceDocumentId": "APPLE-REVIEW-UPDATE-20260608",
+    "title": "審査ガイドラインとDPLAの更新告知",
+    "url": "https://developer.apple.com/news/?id=a233fmpw",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "告知2026-06-08"
+  },
+  {
+    "sourceDocumentId": "APPLE-SUBMISSION-REQUIREMENTS",
+    "title": "Upcoming Requirements",
+    "url": "https://developer.apple.com/news/upcoming-requirements/",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "項目別に施行日あり"
+  },
+  {
+    "sourceDocumentId": "APPLE-SUBMISSION-20260909",
+    "title": "新OS向け提出案内",
+    "url": "https://developer.apple.com/news/?id=k1mtkt1k",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "告知2026-09-09"
+  },
+  {
+    "sourceDocumentId": "APPLE-XCODE-SUPPORT",
+    "title": "Xcodeのシステム要件・対応表",
+    "url": "https://developer.apple.com/xcode/system-requirements",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "更新日未表示"
+  },
+  {
+    "sourceDocumentId": "APPLE-XCCONFIG",
+    "title": "Adding a build configuration file to your project",
+    "url": "https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "更新日未表示"
+  },
+  {
+    "sourceDocumentId": "APPLE-INFOPLIST-GENERATION",
+    "title": "Managing your app’s information property list values",
+    "url": "https://developer.apple.com/documentation/bundleresources/managing-your-app-s-information-property-list",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "更新日未表示"
+  },
+  {
+    "sourceDocumentId": "APPLE-BUILD-SETTINGS",
+    "title": "Build settings reference",
+    "url": "https://developer.apple.com/documentation/xcode/build-settings-reference",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "更新日未表示"
+  },
+  {
+    "sourceDocumentId": "APPLE-ACCOUNT-DELETION",
+    "title": "5.1.1(v) — Offering account deletion in your app",
+    "url": "https://developer.apple.com/help/app-review/guideline-reference/5-1-1-account-deletion",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "更新日未表示"
+  },
+  {
+    "sourceDocumentId": "APPLE-PURPOSE-STRINGS",
+    "title": "5.1.1(ii) — Write clear purpose strings",
+    "url": "https://developer.apple.com/help/app-review/guideline-reference/5-1-1-purpose-strings",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "更新日未表示"
+  },
+  {
+    "sourceDocumentId": "APPLE-PRIVACY-MANIFEST",
+    "title": "Privacy manifest files",
+    "url": "https://developer.apple.com/documentation/bundleresources/privacy-manifest-files",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "更新日未表示"
+  },
+  {
+    "sourceDocumentId": "APPLE-REQUIRED-REASON-API",
+    "title": "Describing use of required reason API",
+    "url": "https://developer.apple.com/documentation/bundleresources/describing-use-of-required-reason-api",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "未宣言の場合の受付制限は2024-05-01から"
+  },
+  {
+    "sourceDocumentId": "APPLE-SDK-REQUIREMENTS",
+    "title": "Third-party SDK requirements",
+    "url": "https://developer.apple.com/support/third-party-SDK-requirements/",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "更新日未表示"
+  },
+  {
+    "sourceDocumentId": "APPLE-APP-PRIVACY",
+    "title": "App privacy details on the App Store",
+    "url": "https://developer.apple.com/app-store/app-privacy-details/",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "更新日未表示"
+  },
+  {
+    "sourceDocumentId": "APPLE-ATT",
+    "title": "User Privacy and Data Use",
+    "url": "https://developer.apple.com/app-store/user-privacy-and-data-use/",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "ATT基本条件はiOS／iPadOS 14.5以降。EU UI変更は27.2以降"
+  },
+  {
+    "sourceDocumentId": "APPLE-ATT-UPDATE-20260916",
+    "title": "EU向けATT更新告知",
+    "url": "https://developer.apple.com/news/?id=idsft9ai",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "告知2026-09-16"
+  },
+  {
+    "sourceDocumentId": "APPLE-STOREKIT-SYNC",
+    "title": "AppStore.sync()",
+    "url": "https://developer.apple.com/documentation/storekit/appstore/sync%28%29",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "API availabilityはiOS 15以降等。更新日未表示"
+  },
+  {
+    "sourceDocumentId": "APPLE-STOREKIT-RESTORE",
+    "title": "Restoring purchased products",
+    "url": "https://developer.apple.com/documentation/storekit/restoring-purchased-products",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "更新日未表示"
+  },
+  {
+    "sourceDocumentId": "APPLE-FOUNDATION-MODELS-DOC",
+    "title": "Generating content and performing tasks with Foundation Models",
+    "url": "https://developer.apple.com/documentation/foundationmodels/generating-content-and-performing-tasks-with-foundation-models",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "更新日未表示"
+  },
+  {
+    "sourceDocumentId": "APPLE-AGREEMENTS-INDEX",
+    "title": "Agreements and Guidelines",
+    "url": "https://developer.apple.com/support/terms/",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "契約別の表示日あり"
+  },
+  {
+    "sourceDocumentId": "APPLE-DPLA",
+    "title": "Apple Developer Program License Agreement",
+    "url": "https://developer.apple.com/support/terms/apple-developer-program-license-agreement/",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "本文の改訂表示2026-08-18"
+  },
+  {
+    "sourceDocumentId": "APPLE-DPLA-UPDATE-20260818",
+    "title": "DPLA更新告知",
+    "url": "https://developer.apple.com/news/?id=0cgo95n6",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "告知2026-08-18、EU変更は2026-10-01施行"
+  },
+  {
+    "sourceDocumentId": "APPLE-PAID-AGREEMENT",
+    "title": "Paid Applications Agreement — Schedules 2 and 3",
+    "url": "https://developer.apple.com/support/downloads/terms/schedules/Schedule-2-and-3-English.pdf",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "PDF表示v126、2025-12-17"
+  },
+  {
+    "sourceDocumentId": "APPLE-DEVELOPER-AGREEMENT",
+    "title": "Apple Developer Agreement",
+    "url": "https://developer.apple.com/support/downloads/terms/apple-developer-agreement/Apple-Developer-Agreement-20250318-English.pdf",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "PDF表示LYL207、2025-03-18"
+  },
+  {
+    "sourceDocumentId": "APPLE-XCODE-SDK-AGREEMENT",
+    "title": "Xcode and Apple SDKs Agreement",
+    "url": "https://www.apple.com/legal/sla/docs/xcode.pdf",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "PDF末尾表示EA2002、06/08/2026"
+  },
+  {
+    "sourceDocumentId": "APPLE-ASC-TERMS",
+    "title": "App Store Connect Terms of Service",
+    "url": "https://appstoreconnect.apple.com/WebObjects/iTunesConnect.woa/wa/termsOfService/",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "未確認"
+  },
+  {
+    "sourceDocumentId": "APPLE-ASC-AGREEMENT-HELP",
+    "title": "Sign and update agreements",
+    "url": "https://developer.apple.com/help/app-store-connect/manage-agreements/sign-and-update-agreements/",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "更新日未表示"
+  },
+  {
+    "sourceDocumentId": "APPLE-JAPAN-PAYMENTS",
+    "title": "Payment options on the App Store in Japan",
+    "url": "https://developer.apple.com/support/payment-options-on-the-app-store-in-japan/",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "iPhone・日本ストア・iOS 26.2以降など"
+  },
+  {
+    "sourceDocumentId": "APPLE-EU-APPS",
+    "title": "Changes for apps in the European Union",
+    "url": "https://developer.apple.com/support/apps-in-the-eu",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "契約改訂2026-08-18、変更施行2026-10-01"
+  },
+  {
+    "sourceDocumentId": "APPLE-ASC-AGE-RATING",
+    "title": "Set an app age rating",
+    "url": "https://developer.apple.com/help/app-store-connect/manage-app-information/set-an-app-age-rating/",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "更新日未表示"
+  },
+  {
+    "sourceDocumentId": "APPLE-DSA-TRADER",
+    "title": "Manage European Union Digital Services Act trader requirements",
+    "url": "https://developer.apple.com/help/app-store-connect/manage-compliance-information/manage-european-union-digital-services-act-trader-requirements/",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "更新日未表示。受付・配信上の期限は提出要件一覧に記載"
+  },
+  {
+    "sourceDocumentId": "APPLE-FOUNDATION-MODELS-AUR",
+    "title": "Acceptable use requirements for the Foundation Models framework",
+    "url": "https://developer.apple.com/support/terms/acceptable-use-requirements-for-the-foundation-models-framework",
+    "sourceRevision": null,
+    "verifiedAt": "2026-10-07",
+    "section": "更新日未表示"
+  }
+]

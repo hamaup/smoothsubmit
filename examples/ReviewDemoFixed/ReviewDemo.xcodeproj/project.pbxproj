@@ -1,0 +1,25 @@
+// !$*UTF8*$!
+{ archiveVersion = 1; objectVersion = 60; objects = {
+ ROOT = { isa = PBXProject; mainGroup = GROUP; buildConfigurationList = PCONFIGLIST; targets = (TARGET,); };
+ GROUP = { isa = PBXGroup; children = (APPGROUP, PRODUCTS,); sourceTree = "<group>"; };
+ APPGROUP = { isa = PBXGroup; path = App; children = (SWIFTFILE, INFOFILE, PRIVFILE,); sourceTree = "<group>"; };
+ PRODUCTS = { isa = PBXGroup; children = (PRODUCT,); name = Products; sourceTree = "<group>"; };
+ PRODUCT = { isa = PBXFileReference; explicitFileType = wrapper.application; path = ReviewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+ SWIFTFILE = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+ INFOFILE = { isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+ PRIVFILE = { isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+ SWIFTBUILD = { isa = PBXBuildFile; fileRef = SWIFTFILE; };
+ PRIVBUILD = { isa = PBXBuildFile; fileRef = PRIVFILE; };
+ SOURCES = { isa = PBXSourcesBuildPhase; files = (SWIFTBUILD,); };
+ RESOURCES = { isa = PBXResourcesBuildPhase; files = (PRIVBUILD,); };
+ FRAMEWORKS = { isa = PBXFrameworksBuildPhase; files = (); };
+ TARGET = { isa = PBXNativeTarget; name = ReviewDemo; productName = ReviewDemo; productReference = PRODUCT; productType = "com.apple.product-type.application"; buildConfigurationList = TCONFIGLIST; buildPhases = (SOURCES, FRAMEWORKS, RESOURCES,); };
+ PCONFIGLIST = { isa = XCConfigurationList; buildConfigurations = (PCONFIG,); defaultConfigurationName = Release; };
+ PCONFIG = { isa = XCBuildConfiguration; name = Release; buildSettings = { SDKROOT = iphoneos; }; };
+ TCONFIGLIST = { isa = XCConfigurationList; buildConfigurations = (TCONFIG,); defaultConfigurationName = Release; };
+ TCONFIG = { isa = XCBuildConfiguration; name = Release; buildSettings = {
+     INFOPLIST_FILE = App/Info.plist; GENERATE_INFOPLIST_FILE = NO; IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+     PRODUCT_BUNDLE_IDENTIFIER = dev.smoothsubmit.ReviewDemo; PRODUCT_NAME = "$(TARGET_NAME)";
+     SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; CODE_SIGN_STYLE = Automatic;
+ }; };
+}; rootObject = ROOT; }

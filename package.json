@@ -1,0 +1,64 @@
+{
+  "name": "@smoothsubmit/cli",
+  "version": "0.1.0-alpha.1",
+  "description": "Audit, fix and verify iOS App Store submission risks with your coding agent.",
+  "type": "module",
+  "bin": {
+    "smoothsubmit": "dist/cli/index.js"
+  },
+  "exports": {
+    ".": "./dist/core/index.js"
+  },
+  "files": [
+    "dist",
+    "data",
+    "schemas",
+    "skills",
+    "README.md",
+    "docs/RELEASE_STATUS.md",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "os": [
+    "darwin"
+  ],
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hamaup/smoothsubmit.git"
+  },
+  "homepage": "https://github.com/hamaup/smoothsubmit#readme",
+  "bugs": {
+    "url": "https://github.com/hamaup/smoothsubmit/issues"
+  },
+  "keywords": [
+    "ios",
+    "app-store",
+    "app-review",
+    "agent-skills",
+    "claude-code",
+    "codex",
+    "cursor"
+  ],
+  "scripts": {
+    "build": "tsc && node scripts/build.mjs",
+    "test": "npm run build && node --test tests/*.test.mjs",
+    "check": "tsc --noEmit",
+    "prepack": "npm run build",
+    "demo": "node dist/cli/index.js audit --path examples/ReviewDemo",
+    "check:docs": "node scripts/check-docs.mjs",
+    "check:skill": "node scripts/check-skill.mjs"
+  },
+  "dependencies": {
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "prettier": "3.9.9",
+    "typescript": "^7.0.2"
+  }
+}

@@ -1,0 +1,524 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/hamaup/smoothsubmit/main/schemas/assessment.schema.json",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "enum": [
+        "1.0.0"
+      ]
+    },
+    "assessmentId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "auditId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "auditHash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "inputManifestHash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "execution": {
+      "type": "object",
+      "properties": {
+        "tool": {
+          "enum": [
+            "claude_code",
+            "codex",
+            "cursor",
+            "other"
+          ]
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "tool",
+        "model"
+      ],
+      "additionalProperties": false
+    },
+    "reviews": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "checkId": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "result": {
+            "type": "object",
+            "properties": {
+              "checkId": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "ruleId": {
+                "type": "string"
+              },
+              "ruleVersion": {
+                "type": "string"
+              },
+              "subject": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string"
+                  },
+                  "subjectKey": {
+                    "type": "object",
+                    "properties": {
+                      "component": {
+                        "type": "string"
+                      },
+                      "path": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 2000,
+                        "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\x00-\\x1f\\\\]+$"
+                      },
+                      "bundleKey": {
+                        "type": "string"
+                      },
+                      "dependencyId": {
+                        "type": "object",
+                        "properties": {
+                          "manager": {
+                            "enum": [
+                              "spm",
+                              "pods",
+                              "local"
+                            ]
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "version": {
+                            "type": "string"
+                          },
+                          "bundleKey": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "manager",
+                          "name",
+                          "version",
+                          "bundleKey"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "permissionKey": {
+                        "type": "string"
+                      },
+                      "locale": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "component"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "targetId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "subjectKey",
+                  "targetId"
+                ],
+                "additionalProperties": false
+              },
+              "status": {
+                "enum": [
+                  "PASS",
+                  "FAIL",
+                  "NEEDS_REVIEW",
+                  "NOT_APPLICABLE",
+                  "UNKNOWN",
+                  "ERROR"
+                ]
+              },
+              "severity": {
+                "anyOf": [
+                  {
+                    "enum": [
+                      "HIGH",
+                      "MEDIUM",
+                      "LOW"
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "confidence": {
+                "enum": [
+                  "HIGH",
+                  "MEDIUM",
+                  "LOW"
+                ]
+              },
+              "confidenceReason": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string"
+              },
+              "evidence": {
+                "type": "array",
+                "items": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "evidenceId": {
+                          "type": "string",
+                          "pattern": "^[a-f0-9]{64}$"
+                        },
+                        "kind": {
+                          "enum": [
+                            "file"
+                          ]
+                        },
+                        "path": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 2000,
+                          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\x00-\\x1f\\\\]+$"
+                        },
+                        "fileHash": {
+                          "type": "string",
+                          "pattern": "^[a-f0-9]{64}$"
+                        },
+                        "lineStart": {
+                          "anyOf": [
+                            {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "lineEnd": {
+                          "anyOf": [
+                            {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "keyPath": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "observation": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "evidenceId",
+                        "kind",
+                        "path",
+                        "fileHash",
+                        "lineStart",
+                        "lineEnd",
+                        "keyPath",
+                        "observation"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "evidenceId": {
+                          "type": "string",
+                          "pattern": "^[a-f0-9]{64}$"
+                        },
+                        "kind": {
+                          "enum": [
+                            "config"
+                          ]
+                        },
+                        "pointer": {
+                          "type": "string"
+                        },
+                        "valueType": {
+                          "type": "string"
+                        },
+                        "normalizedValue": {
+                          "anyOf": [
+                            {
+                              "type": "object"
+                            },
+                            {
+                              "type": "array"
+                            },
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "boolean"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "observation": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "evidenceId",
+                        "kind",
+                        "pointer",
+                        "valueType",
+                        "normalizedValue",
+                        "observation"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "evidenceId": {
+                          "type": "string",
+                          "pattern": "^[a-f0-9]{64}$"
+                        },
+                        "kind": {
+                          "enum": [
+                            "search"
+                          ]
+                        },
+                        "methodId": {
+                          "type": "string"
+                        },
+                        "inputSetHash": {
+                          "type": "string",
+                          "pattern": "^[a-f0-9]{64}$"
+                        },
+                        "searchedPaths": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 2000,
+                            "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\x00-\\x1f\\\\]+$"
+                          },
+                          "maxItems": 10000
+                        },
+                        "candidateCount": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "limitations": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "maxItems": 100
+                        },
+                        "observation": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "evidenceId",
+                        "kind",
+                        "methodId",
+                        "inputSetHash",
+                        "searchedPaths",
+                        "candidateCount",
+                        "limitations",
+                        "observation"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "maxItems": 100
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "sourceDocumentId": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "sourceRevision": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "verifiedAt": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "section": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "sourceDocumentId",
+                    "title",
+                    "url",
+                    "sourceRevision",
+                    "verifiedAt",
+                    "section"
+                  ],
+                  "additionalProperties": false
+                },
+                "maxItems": 100
+              },
+              "provenance": {
+                "enum": [
+                  "scanner",
+                  "ai",
+                  "user"
+                ]
+              },
+              "verificationLevel": {
+                "enum": [
+                  "static",
+                  "ai_review",
+                  "user_attestation"
+                ]
+              },
+              "limitations": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 100
+              },
+              "remediation": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 100
+              },
+              "verificationSteps": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 100
+              }
+            },
+            "required": [
+              "checkId",
+              "ruleId",
+              "ruleVersion",
+              "subject",
+              "status",
+              "severity",
+              "confidence",
+              "confidenceReason",
+              "title",
+              "reason",
+              "evidence",
+              "sources",
+              "provenance",
+              "verificationLevel",
+              "limitations",
+              "remediation",
+              "verificationSteps"
+            ],
+            "additionalProperties": false
+          },
+          "reviewedEvidenceIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "maxItems": 100
+          },
+          "outstandingVerificationSteps": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 100
+          }
+        },
+        "required": [
+          "checkId",
+          "result",
+          "reviewedEvidenceIds",
+          "outstandingVerificationSteps"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 100000
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "assessmentId",
+    "auditId",
+    "auditHash",
+    "inputManifestHash",
+    "createdAt",
+    "execution",
+    "reviews"
+  ],
+  "additionalProperties": false
+}

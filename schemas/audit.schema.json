@@ -1,0 +1,1035 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/hamaup/smoothsubmit/main/schemas/audit.schema.json",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "enum": [
+        "1.0.0"
+      ]
+    },
+    "auditId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "toolVersion": {
+      "type": "string"
+    },
+    "rulepackVersion": {
+      "type": "string"
+    },
+    "policyContext": {
+      "type": "object",
+      "properties": {
+        "assessmentDate": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "assessmentCalendarDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "timeZone": {
+          "type": "string"
+        },
+        "plannedSubmissionDate": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "knowledgeAsOf": {
+          "type": "string",
+          "format": "date"
+        },
+        "storefronts": {
+          "anyOf": [
+            {
+              "enum": [
+                "unknown"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[A-Z]{2}$"
+              },
+              "maxItems": 100,
+              "minItems": 1,
+              "uniqueItems": true
+            }
+          ]
+        },
+        "deviceFamilies": {
+          "anyOf": [
+            {
+              "enum": [
+                "unknown"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "iphone",
+                  "ipad"
+                ]
+              },
+              "maxItems": 100,
+              "minItems": 1,
+              "uniqueItems": true
+            }
+          ]
+        },
+        "distributionChannel": {
+          "enum": [
+            "app_store",
+            "testflight",
+            "enterprise",
+            "ad_hoc",
+            "development",
+            "alternative",
+            "unknown"
+          ]
+        },
+        "appliedRequirements": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 100
+        },
+        "futureRequirements": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 100
+        },
+        "unresolvedRequirements": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 100
+        }
+      },
+      "required": [
+        "assessmentDate",
+        "assessmentCalendarDate",
+        "timeZone",
+        "plannedSubmissionDate",
+        "knowledgeAsOf",
+        "storefronts",
+        "deviceFamilies",
+        "distributionChannel",
+        "appliedRequirements",
+        "futureRequirements",
+        "unresolvedRequirements"
+      ],
+      "additionalProperties": false
+    },
+    "scope": {
+      "type": "object",
+      "properties": {
+        "project": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\x00-\\x1f\\\\]+$"
+        },
+        "targetId": {
+          "type": "string"
+        },
+        "configuration": {
+          "type": "string"
+        },
+        "sdk": {
+          "enum": [
+            "iphoneos",
+            "iphonesimulator"
+          ]
+        },
+        "arch": {
+          "enum": [
+            "arm64",
+            "x86_64",
+            "unknown"
+          ]
+        },
+        "targetName": {
+          "type": "string"
+        },
+        "workspace": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000,
+              "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\x00-\\x1f\\\\]+$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "platforms": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 100
+        },
+        "exclusions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "pathPattern": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000,
+                "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\x00-\\x1f\\\\]+$"
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "pathPattern",
+              "reason"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 100
+        }
+      },
+      "required": [
+        "project",
+        "targetId",
+        "configuration",
+        "sdk",
+        "arch",
+        "targetName",
+        "workspace",
+        "platforms",
+        "exclusions"
+      ],
+      "additionalProperties": false
+    },
+    "snapshot": {
+      "type": "object",
+      "properties": {
+        "gitHead": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "gitDirty": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000,
+                "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\x00-\\x1f\\\\]+$"
+              },
+              "sizeBytes": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "sha256": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "role": {
+                "enum": [
+                  "project",
+                  "settings",
+                  "plist",
+                  "entitlements",
+                  "manifest",
+                  "swift",
+                  "dependency_lock",
+                  "storekit",
+                  "localization",
+                  "config"
+                ]
+              },
+              "membership": {
+                "enum": [
+                  "included",
+                  "excluded",
+                  "unknown",
+                  "supporting"
+                ]
+              },
+              "reason": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "path",
+              "sizeBytes",
+              "sha256",
+              "role",
+              "membership"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 10000
+        },
+        "configHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "inputManifestHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "semanticSnapshotHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "gitHead",
+        "gitDirty",
+        "files",
+        "configHash",
+        "inputManifestHash",
+        "semanticSnapshotHash"
+      ],
+      "additionalProperties": false
+    },
+    "execution": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "enum": [
+            "static"
+          ]
+        },
+        "completion": {
+          "enum": [
+            "complete",
+            "partial"
+          ]
+        },
+        "startedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "finishedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        }
+      },
+      "required": [
+        "mode",
+        "completion",
+        "startedAt",
+        "finishedAt"
+      ],
+      "additionalProperties": false
+    },
+    "coverage": {
+      "type": "object",
+      "properties": {
+        "totalChecks": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "statusCounts": {
+          "type": "object",
+          "properties": {
+            "PASS": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "FAIL": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "NEEDS_REVIEW": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "NOT_APPLICABLE": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "UNKNOWN": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "ERROR": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "PASS",
+            "FAIL",
+            "NEEDS_REVIEW",
+            "NOT_APPLICABLE",
+            "UNKNOWN",
+            "ERROR"
+          ],
+          "additionalProperties": false
+        },
+        "executedCheckCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "executedCheckRatio": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "partial": {
+          "type": "boolean"
+        },
+        "excludedInputCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unreadInputCount": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "totalChecks",
+        "statusCounts",
+        "executedCheckCount",
+        "executedCheckRatio",
+        "partial",
+        "excludedInputCount",
+        "unreadInputCount"
+      ],
+      "additionalProperties": false
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "riskCounts": {
+          "type": "object",
+          "properties": {
+            "HIGH": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "MEDIUM": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "LOW": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "HIGH",
+            "MEDIUM",
+            "LOW"
+          ],
+          "additionalProperties": false
+        },
+        "failCounts": {
+          "type": "object",
+          "properties": {
+            "HIGH": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "MEDIUM": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "LOW": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "HIGH",
+            "MEDIUM",
+            "LOW"
+          ],
+          "additionalProperties": false
+        },
+        "needsReviewCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unknownCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "errorCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "suppressedCount": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "riskCounts",
+        "failCounts",
+        "needsReviewCount",
+        "unknownCount",
+        "errorCount",
+        "suppressedCount"
+      ],
+      "additionalProperties": false
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "checkId": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "ruleId": {
+            "type": "string"
+          },
+          "ruleVersion": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "type": "string"
+              },
+              "subjectKey": {
+                "type": "object",
+                "properties": {
+                  "component": {
+                    "type": "string"
+                  },
+                  "path": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000,
+                    "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\x00-\\x1f\\\\]+$"
+                  },
+                  "bundleKey": {
+                    "type": "string"
+                  },
+                  "dependencyId": {
+                    "type": "object",
+                    "properties": {
+                      "manager": {
+                        "enum": [
+                          "spm",
+                          "pods",
+                          "local"
+                        ]
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "version": {
+                        "type": "string"
+                      },
+                      "bundleKey": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "manager",
+                      "name",
+                      "version",
+                      "bundleKey"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "permissionKey": {
+                    "type": "string"
+                  },
+                  "locale": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "component"
+                ],
+                "additionalProperties": false
+              },
+              "targetId": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "kind",
+              "subjectKey",
+              "targetId"
+            ],
+            "additionalProperties": false
+          },
+          "status": {
+            "enum": [
+              "PASS",
+              "FAIL",
+              "NEEDS_REVIEW",
+              "NOT_APPLICABLE",
+              "UNKNOWN",
+              "ERROR"
+            ]
+          },
+          "severity": {
+            "anyOf": [
+              {
+                "enum": [
+                  "HIGH",
+                  "MEDIUM",
+                  "LOW"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "confidence": {
+            "enum": [
+              "HIGH",
+              "MEDIUM",
+              "LOW"
+            ]
+          },
+          "confidenceReason": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "evidenceId": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    },
+                    "kind": {
+                      "enum": [
+                        "file"
+                      ]
+                    },
+                    "path": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000,
+                      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\x00-\\x1f\\\\]+$"
+                    },
+                    "fileHash": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    },
+                    "lineStart": {
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "lineEnd": {
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "keyPath": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "observation": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "evidenceId",
+                    "kind",
+                    "path",
+                    "fileHash",
+                    "lineStart",
+                    "lineEnd",
+                    "keyPath",
+                    "observation"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "evidenceId": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    },
+                    "kind": {
+                      "enum": [
+                        "config"
+                      ]
+                    },
+                    "pointer": {
+                      "type": "string"
+                    },
+                    "valueType": {
+                      "type": "string"
+                    },
+                    "normalizedValue": {
+                      "anyOf": [
+                        {
+                          "type": "object"
+                        },
+                        {
+                          "type": "array"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "boolean"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "observation": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "evidenceId",
+                    "kind",
+                    "pointer",
+                    "valueType",
+                    "normalizedValue",
+                    "observation"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "evidenceId": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    },
+                    "kind": {
+                      "enum": [
+                        "search"
+                      ]
+                    },
+                    "methodId": {
+                      "type": "string"
+                    },
+                    "inputSetHash": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    },
+                    "searchedPaths": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 2000,
+                        "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\x00-\\x1f\\\\]+$"
+                      },
+                      "maxItems": 10000
+                    },
+                    "candidateCount": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "limitations": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "maxItems": 100
+                    },
+                    "observation": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "evidenceId",
+                    "kind",
+                    "methodId",
+                    "inputSetHash",
+                    "searchedPaths",
+                    "candidateCount",
+                    "limitations",
+                    "observation"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "maxItems": 100
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "sourceDocumentId": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "sourceRevision": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "verifiedAt": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "section": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "sourceDocumentId",
+                "title",
+                "url",
+                "sourceRevision",
+                "verifiedAt",
+                "section"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 100
+          },
+          "provenance": {
+            "enum": [
+              "scanner",
+              "ai",
+              "user"
+            ]
+          },
+          "verificationLevel": {
+            "enum": [
+              "static",
+              "ai_review",
+              "user_attestation"
+            ]
+          },
+          "limitations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 100
+          },
+          "remediation": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 100
+          },
+          "verificationSteps": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 100
+          }
+        },
+        "required": [
+          "checkId",
+          "ruleId",
+          "ruleVersion",
+          "subject",
+          "status",
+          "severity",
+          "confidence",
+          "confidenceReason",
+          "title",
+          "reason",
+          "evidence",
+          "sources",
+          "provenance",
+          "verificationLevel",
+          "limitations",
+          "remediation",
+          "verificationSteps"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 100000
+    },
+    "diagnostics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "level": {
+            "enum": [
+              "warning",
+              "error"
+            ]
+          },
+          "stage": {
+            "type": "string"
+          },
+          "path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "affectedRuleIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 100
+          },
+          "affectedCheckIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "maxItems": 100000
+          },
+          "remedy": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "level",
+          "stage",
+          "path",
+          "message",
+          "affectedRuleIds",
+          "affectedCheckIds",
+          "remedy"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 10000
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "auditId",
+    "createdAt",
+    "toolVersion",
+    "rulepackVersion",
+    "policyContext",
+    "scope",
+    "snapshot",
+    "execution",
+    "coverage",
+    "summary",
+    "checks",
+    "diagnostics"
+  ],
+  "additionalProperties": false
+}

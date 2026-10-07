@@ -1,0 +1,85 @@
+[
+  {
+    "category": "NSPrivacyAccessedAPICategoryFileTimestamp",
+    "allowedReasons": [
+      "0A2A.1",
+      "3B52.1",
+      "C617.1",
+      "DDA9.1"
+    ],
+    "symbols": [
+      "contentModificationDateKey",
+      "creationDate",
+      "creationDateKey",
+      "fileModificationDate",
+      "modificationDate",
+      "stat"
+    ],
+    "sourceDocumentId": "APPLE-REQUIRED-REASON-API",
+    "url": "https://developer.apple.com/documentation/bundleresources/app-privacy-configuration/nsprivacyaccessedapitypes/nsprivacyaccessedapitype",
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "category": "NSPrivacyAccessedAPICategorySystemBootTime",
+    "allowedReasons": [
+      "35F9.1",
+      "3D61.1",
+      "8FFB.1"
+    ],
+    "symbols": [
+      "systemUptime",
+      "mach_absolute_time"
+    ],
+    "sourceDocumentId": "APPLE-REQUIRED-REASON-API",
+    "url": "https://developer.apple.com/documentation/bundleresources/app-privacy-configuration/nsprivacyaccessedapitypes/nsprivacyaccessedapitype",
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "category": "NSPrivacyAccessedAPICategoryDiskSpace",
+    "allowedReasons": [
+      "7D9E.1",
+      "85F4.1",
+      "B728.1",
+      "E174.1"
+    ],
+    "symbols": [
+      "systemFreeSize",
+      "systemSize",
+      "volumeAvailableCapacityForImportantUsageKey",
+      "volumeAvailableCapacityForOpportunisticUsageKey",
+      "volumeAvailableCapacityKey",
+      "volumeTotalCapacityKey"
+    ],
+    "sourceDocumentId": "APPLE-REQUIRED-REASON-API",
+    "url": "https://developer.apple.com/documentation/bundleresources/app-privacy-configuration/nsprivacyaccessedapitypes/nsprivacyaccessedapitype",
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "category": "NSPrivacyAccessedAPICategoryActiveKeyboards",
+    "allowedReasons": [
+      "3EC4.1",
+      "54BD.1"
+    ],
+    "symbols": [
+      "activeInputModes"
+    ],
+    "sourceDocumentId": "APPLE-REQUIRED-REASON-API",
+    "url": "https://developer.apple.com/documentation/bundleresources/app-privacy-configuration/nsprivacyaccessedapitypes/nsprivacyaccessedapitype",
+    "verifiedAt": "2026-10-07"
+  },
+  {
+    "category": "NSPrivacyAccessedAPICategoryUserDefaults",
+    "allowedReasons": [
+      "1C8F.1",
+      "AC6B.1",
+      "C56D.1",
+      "CA92.1"
+    ],
+    "symbols": [
+      "UserDefaults"
+    ],
+    "sourceDocumentId": "APPLE-REQUIRED-REASON-API",
+    "url": "https://developer.apple.com/documentation/bundleresources/app-privacy-configuration/nsprivacyaccessedapitypes/nsprivacyaccessedapitype",
+    "verifiedAt": "2026-10-07"
+  }
+]

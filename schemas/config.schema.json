@@ -1,0 +1,839 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/hamaup/smoothsubmit/main/schemas/config.schema.json",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "enum": [
+        "1.0.0"
+      ]
+    },
+    "project": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\x00-\\x1f\\\\]+$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "workspace": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\x00-\\x1f\\\\]+$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "target": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "targetId": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "configuration": {
+      "type": "string"
+    },
+    "sdk": {
+      "enum": [
+        "iphoneos",
+        "iphonesimulator"
+      ]
+    },
+    "arch": {
+      "enum": [
+        "arm64",
+        "x86_64",
+        "unknown"
+      ]
+    },
+    "language": {
+      "enum": [
+        "ja",
+        "en"
+      ]
+    },
+    "features": {
+      "type": "object",
+      "properties": {
+        "accountCreation": {
+          "enum": [
+            true,
+            false,
+            "unknown"
+          ]
+        },
+        "loginRequired": {
+          "enum": [
+            true,
+            false,
+            "unknown"
+          ]
+        },
+        "thirdPartyDataSharing": {
+          "enum": [
+            true,
+            false,
+            "unknown"
+          ]
+        },
+        "thirdPartyAI": {
+          "enum": [
+            true,
+            false,
+            "unknown"
+          ]
+        },
+        "tracking": {
+          "enum": [
+            true,
+            false,
+            "unknown"
+          ]
+        },
+        "paidApp": {
+          "enum": [
+            true,
+            false,
+            "unknown"
+          ]
+        },
+        "socialNetworking": {
+          "enum": [
+            true,
+            false,
+            "unknown"
+          ]
+        },
+        "kidsCategory": {
+          "enum": [
+            true,
+            false,
+            "unknown"
+          ]
+        },
+        "authProviders": {
+          "anyOf": [
+            {
+              "enum": [
+                "unknown"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "apple",
+                  "google",
+                  "facebook",
+                  "email",
+                  "custom"
+                ]
+              },
+              "maxItems": 100
+            }
+          ]
+        },
+        "productTypes": {
+          "anyOf": [
+            {
+              "enum": [
+                "unknown"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "consumable",
+                  "non_consumable",
+                  "auto_renewable",
+                  "non_renewing"
+                ]
+              },
+              "maxItems": 100
+            }
+          ]
+        },
+        "permissions": {
+          "anyOf": [
+            {
+              "enum": [
+                "unknown"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "camera",
+                  "microphone",
+                  "location",
+                  "photos",
+                  "contacts"
+                ]
+              },
+              "maxItems": 100
+            }
+          ]
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "policy": {
+      "type": "object",
+      "properties": {
+        "storefronts": {
+          "anyOf": [
+            {
+              "enum": [
+                "unknown"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[A-Z]{2}$"
+              },
+              "maxItems": 100,
+              "minItems": 1,
+              "uniqueItems": true
+            }
+          ]
+        },
+        "deviceFamilies": {
+          "anyOf": [
+            {
+              "enum": [
+                "unknown"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "iphone",
+                  "ipad"
+                ]
+              },
+              "maxItems": 100,
+              "minItems": 1,
+              "uniqueItems": true
+            }
+          ]
+        },
+        "distributionChannel": {
+          "enum": [
+            "app_store",
+            "testflight",
+            "enterprise",
+            "ad_hoc",
+            "development",
+            "alternative",
+            "unknown"
+          ]
+        },
+        "plannedSubmissionDate": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "timeZone": {
+          "type": "string"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "authProviderDetails": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "reviewAccess": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "enum": [
+            "demo_account",
+            "demo_mode",
+            "none",
+            "unknown"
+          ]
+        },
+        "prepared": {
+          "enum": [
+            true,
+            false,
+            "unknown"
+          ]
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "reviewNotesPrepared": {
+      "enum": [
+        true,
+        false,
+        "unknown"
+      ]
+    },
+    "privacyPolicyURL": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https?://"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "reportedBuild": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "xcodeVersion": {
+              "type": "string"
+            },
+            "sdkVersion": {
+              "type": "string"
+            },
+            "buildId": {
+              "type": "string"
+            },
+            "verifiedAt": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$"
+            },
+            "platform": {
+              "enum": [
+                "ios",
+                "ipados"
+              ]
+            },
+            "reporter": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "xcodeVersion",
+            "sdkVersion",
+            "buildId",
+            "verifiedAt"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "submissionPreparation": {
+      "type": "object",
+      "properties": {
+        "ageRating": {
+          "enum": [
+            true,
+            false,
+            "unknown"
+          ]
+        },
+        "socialNetworking": {
+          "enum": [
+            true,
+            false,
+            "unknown"
+          ]
+        },
+        "appPrivacy": {
+          "enum": [
+            true,
+            false,
+            "unknown"
+          ]
+        },
+        "dpla": {
+          "enum": [
+            true,
+            false,
+            "unknown"
+          ]
+        },
+        "paidAppsAgreement": {
+          "enum": [
+            true,
+            false,
+            "unknown"
+          ]
+        },
+        "traderStatus": {
+          "enum": [
+            true,
+            false,
+            "unknown"
+          ]
+        },
+        "traderInformation": {
+          "enum": [
+            true,
+            false,
+            "unknown"
+          ]
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "preparationDetails": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "enum": [
+              "ageRating",
+              "socialNetworking",
+              "appPrivacy",
+              "dpla",
+              "paidAppsAgreement",
+              "traderStatus",
+              "traderInformation"
+            ]
+          },
+          "sourceRevision": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "verifiedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "Z$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reporter": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "item",
+          "sourceRevision",
+          "verifiedAt",
+          "reporter"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 100
+    },
+    "metadataDeclarations": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "socialNetworking": {
+              "enum": [
+                true,
+                false,
+                "unknown"
+              ]
+            },
+            "ageRatingReviewedAt": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "Z$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "privacy": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "category": {
+                    "type": "string"
+                  },
+                  "collected": {
+                    "enum": [
+                      true,
+                      false,
+                      "unknown"
+                    ]
+                  },
+                  "linkedToUser": {
+                    "enum": [
+                      true,
+                      false,
+                      "unknown"
+                    ]
+                  },
+                  "usedForTracking": {
+                    "enum": [
+                      true,
+                      false,
+                      "unknown"
+                    ]
+                  },
+                  "purposes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "maxItems": 100
+                  },
+                  "thirdParty": {
+                    "enum": [
+                      true,
+                      false,
+                      "unknown"
+                    ]
+                  }
+                },
+                "required": [
+                  "category",
+                  "collected",
+                  "linkedToUser",
+                  "usedForTracking",
+                  "purposes",
+                  "thirdParty"
+                ],
+                "additionalProperties": false
+              },
+              "maxItems": 100
+            }
+          },
+          "required": [
+            "socialNetworking",
+            "ageRatingReviewedAt",
+            "privacy"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "storekitFiles": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2000,
+        "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\x00-\\x1f\\\\]+$"
+      },
+      "maxItems": 100
+    },
+    "manualVerifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "checkId": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "scopeKey": {
+            "type": "object",
+            "properties": {
+              "project": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000,
+                "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\x00-\\x1f\\\\]+$"
+              },
+              "targetId": {
+                "type": "string"
+              },
+              "configuration": {
+                "type": "string"
+              },
+              "sdk": {
+                "enum": [
+                  "iphoneos",
+                  "iphonesimulator"
+                ]
+              },
+              "arch": {
+                "enum": [
+                  "arm64",
+                  "x86_64",
+                  "unknown"
+                ]
+              }
+            },
+            "required": [
+              "project",
+              "targetId",
+              "configuration",
+              "sdk",
+              "arch"
+            ],
+            "additionalProperties": false
+          },
+          "method": {
+            "enum": [
+              "device_test",
+              "sandbox_test",
+              "app_store_connect",
+              "public_url",
+              "backend_test",
+              "archive_inspection",
+              "policy_review",
+              "review_walkthrough"
+            ]
+          },
+          "conclusion": {
+            "enum": [
+              "pass",
+              "fail",
+              "unknown"
+            ]
+          },
+          "observedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$"
+          },
+          "semanticSnapshotHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "limitations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 100
+          },
+          "reporter": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "checkId",
+          "scopeKey",
+          "method",
+          "conclusion",
+          "observedAt",
+          "semanticSnapshotHash",
+          "limitations"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 100
+    },
+    "exclude": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pathPattern": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\x00-\\x1f\\\\]+$"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "pathPattern",
+          "reason"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 100
+    },
+    "suppressions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ruleId": {
+            "type": "string"
+          },
+          "subjectKey": {
+            "type": "object",
+            "properties": {
+              "component": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000,
+                "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\x00-\\x1f\\\\]+$"
+              },
+              "bundleKey": {
+                "type": "string"
+              },
+              "dependencyId": {
+                "type": "object",
+                "properties": {
+                  "manager": {
+                    "enum": [
+                      "spm",
+                      "pods",
+                      "local"
+                    ]
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "version": {
+                    "type": "string"
+                  },
+                  "bundleKey": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "manager",
+                  "name",
+                  "version",
+                  "bundleKey"
+                ],
+                "additionalProperties": false
+              },
+              "permissionKey": {
+                "type": "string"
+              },
+              "locale": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "component"
+            ],
+            "additionalProperties": false
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$"
+          },
+          "expiresAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "Z$"
+              },
+              {
+                "type": "string",
+                "format": "date"
+              }
+            ]
+          }
+        },
+        "required": [
+          "ruleId",
+          "subjectKey",
+          "reason",
+          "createdAt",
+          "expiresAt"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 100
+    }
+  },
+  "required": [
+    "schemaVersion"
+  ],
+  "additionalProperties": false
+}

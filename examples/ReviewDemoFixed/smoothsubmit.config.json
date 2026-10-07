@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "1.0.0",
+  "project": "ReviewDemo.xcodeproj",
+  "target": "ReviewDemo",
+  "features": {
+    "accountCreation": true,
+    "loginRequired": false,
+    "authProviders": [
+      "email"
+    ],
+    "productTypes": [],
+    "permissions": [
+      "camera"
+    ],
+    "thirdPartyDataSharing": false,
+    "thirdPartyAI": false,
+    "tracking": false,
+    "paidApp": false,
+    "socialNetworking": false,
+    "kidsCategory": false
+  },
+  "policy": {
+    "storefronts": [
+      "JP"
+    ],
+    "deviceFamilies": [
+      "iphone",
+      "ipad"
+    ],
+    "distributionChannel": "app_store"
+  },
+  "reviewAccess": {
+    "method": "none",
+    "prepared": "unknown"
+  },
+  "reviewNotesPrepared": false
+}
