@@ -174,3 +174,7 @@ CLIのrootは--pathまたはcwd、設定は--configまたはroot/smoothsubmit.co
 fixは--auditと一つの--checkを必須とし、--assessmentを任意に受け付ける。assessment指定時はreportと同じ整合性検証を行う。対象checkがなければ終了1。指示書だけを新規保存し、ソースを変更しない。既定言語はauditの値、--languageで指定可能。--outputは新規成果物の出力先を指定し、既存成果物を上書きしない。
 
 initは明示的に呼ばれたときだけroot/smoothsubmit.config.jsonを新規作成する。対象が不明なら候補を返して終了1。既存設定があれば保存を拒否して終了1。追加の.gitignore編集はしない。doctorとrules listはファイルを書かず、textまたはJSONの診断／一覧を返す。doctorの不足環境は終了4、引数不正は1。rules listは一覧の生成に成功すれば0。
+
+## alpha.2の個別設定の再確認
+
+permission_key・manifest_structure・reason_declaration・deployment_settingの完全なstatic条件は、同じ対象・版・前提で再確認され、以前の引用入力が読め、除外入力がなく、制限がローカルPackage・Info.plist前処理・設定参照だけの場合に限り、FAIL／NEEDS_REVIEW → PASSをRESOLVEDにできる。全体のpartial・実動作のUnknownは保持する。ファイル欠落・除外・入力上限・読取エラー・対象や方法の違いを解消扱いにしない。公開版の検証例は[実用性検証](USEFULNESS_VALIDATION.md)を参照。

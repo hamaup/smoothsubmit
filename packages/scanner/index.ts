@@ -303,10 +303,32 @@ export async function scan(rootPath: string, config: Json): Promise<Scan> {
       const projectDir = posix.dirname(posix.dirname(p));
       const rootRelative = (q: string) =>
         posix.normalize(posix.join(projectDir, q));
-      const xc = (c: Json) =>
-        c?.baseConfigurationReference && filePaths[c.baseConfigurationReference]
-          ? rootRelative(filePaths[c.baseConfigurationReference])
-          : null;
+      const xc = (c: Json) => {
+        if (c?.baseConfigurationReference)
+          return filePaths[c.baseConfigurationReference]
+            ? rootRelative(filePaths[c.baseConfigurationReference])
+            : null;
+        if (c?.baseConfigurationReferenceAnchor) {
+          const anchor = filePaths[c.baseConfigurationReferenceAnchor];
+          if (
+            anchor === undefined ||
+            anchor === null ||
+            !c.baseConfigurationReferenceRelativePath
+          ) {
+            diag(
+              "UNRESOLVED_BUILD_SETTING",
+              p,
+              "xcconfig anchor/path could not be resolved",
+            );
+            partial = true;
+            return null;
+          }
+          return rootRelative(
+            posix.join(anchor, c.baseConfigurationReferenceRelativePath),
+          );
+        }
+        return null;
+      };
       const st = await resolveSettings(
         [xc(pc), pc?.buildSettings, xc(tc), tc?.buildSettings],
         {
@@ -406,7 +428,7 @@ export async function scan(rootPath: string, config: Json): Promise<Scan> {
   );
   if (choices.length !== 1)
     throw Error(
-      `AMBIGUOUS_TARGET ${JSON.stringify(choices.map(({ project, targetName, targetId }) => ({ project, targetName, targetId })))}`,
+      `AMBIGUOUS_TARGET ${choices.length ? JSON.stringify(choices.map(({ project, targetName, targetId }) => ({ project, targetName, targetId }))) + " Select --project and --target (or --target-id)." : "No matching iOS application target. Check --configuration and xcconfig references."}`,
     );
   const model = choices[0];
   model.settingsDiagnostics.forEach((m: string) => {
@@ -414,6 +436,16 @@ export async function scan(rootPath: string, config: Json): Promise<Scan> {
     partial = true;
   });
   const { settings, members, hasScript, settingsDiagnostics, ...scope } = model;
+  for (const p of initial.paths.filter((p) => p.endsWith("/Package.swift"))) {
+    if (await load(p, "dependency_lock")) {
+      partial = true;
+      diag(
+        "LOCAL_PACKAGE_SCOPE",
+        p,
+        "Local Swift package implementation is outside resolved Xcode source membership. The Skill should trace used products; the CLI does not execute Package.swift or resolve dependencies.",
+      );
+    }
+  }
   const tokens = new Map<string, Token[]>(),
     manifests: Json[] = [],
     localizations: Json[] = [],
@@ -477,7 +509,15 @@ export async function scan(rootPath: string, config: Json): Promise<Scan> {
     entitlements: Json | null = null;
   if (settings.INFOPLIST_FILE) {
     const p = posix.normalize(settings.INFOPLIST_FILE);
-    info = await plist(p, "plist", "supporting");
+    if (settings.INFOPLIST_PREPROCESS === "YES") {
+      await load(p, "plist", "supporting");
+      partial = true;
+      diag(
+        "PREPROCESSED_PLIST",
+        p,
+        "INFOPLIST_PREPROCESS=YES: final values require preprocessing/build verification; no project script was executed.",
+      );
+    } else info = await plist(p, "plist", "supporting");
     if (!info) infoUnknown.add("*");
     else
       for (const k of Object.keys(info))

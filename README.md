@@ -17,7 +17,9 @@ UNKNOWN  4  Storefront / product type / review access / Kids Category
 → Ask only the missing facts that change the judgment
 ```
 
-**v0.1.0-alpha.1 is an initial OSS release.** It includes a standalone Skill and an optional macOS CLI. See [release status](docs/RELEASE_STATUS.md) for tested behavior and remaining limits. There is no approval prediction or readiness score.
+**v0.1.0-alpha.2 is an initial OSS alpha.** It includes a standalone Skill and an optional macOS CLI. See [release status](docs/RELEASE_STATUS.md) for tested behavior and remaining limits. There is no approval prediction or readiness score.
+
+Three pinned public iOS projects were audited, and nine injected setting defects were detected and rechecked after repair. See [usefulness validation](docs/USEFULNESS_VALIDATION.md) for observed gaps, fixes, reproducible experiments and unmeasured user outcomes.
 
 ## Start with the Skill
 
@@ -65,7 +67,7 @@ node "$PWD/dist/cli/index.js" --help
 The npm registry package is **not published yet**. A prebuilt npm-format archive is available in [GitHub Releases](https://github.com/hamaup/smoothsubmit/releases). Install a downloaded archive with:
 
 ```sh
-npm install -g /path/to/smoothsubmit-cli-0.1.0-alpha.1.tgz
+npm install -g /path/to/smoothsubmit-cli-0.1.0-alpha.2.tgz
 ```
 
 Then from your app root:

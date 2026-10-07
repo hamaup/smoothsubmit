@@ -42,6 +42,11 @@ export function condition(
   if (/^os\(iOS\)$/.test(expr)) return true;
   if (/^os\((macOS|tvOS|watchOS|visionOS|Linux)\)$/.test(expr)) return false;
   if (expr === "targetEnvironment(simulator)") return sdk === "iphonesimulator";
+  if (
+    expr === "targetEnvironment(macCatalyst)" &&
+    ["iphoneos", "iphonesimulator"].includes(sdk)
+  )
+    return false;
   const a = expr.match(/^arch\((\w+)\)$/);
   if (a) return arch === "unknown" ? null : arch === a[1];
   if (/^[A-Z][A-Z0-9_]*$/.test(expr)) return flags.includes(expr) ? true : null;

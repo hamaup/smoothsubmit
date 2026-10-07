@@ -11,6 +11,7 @@ import {
   type Severity,
 } from "../contracts/index.js";
 import { fileEvidence, type Scan } from "../scanner/index.js";
+import { guidance } from "./guidance.js";
 const load = (n: string) =>
   JSON.parse(
     readFileSync(new URL(`../../data/${n}.json`, import.meta.url), "utf8"),
@@ -177,9 +178,29 @@ export const RULES: Json[] = [
   severity,
   sourceDocumentId: source,
   components,
-  ruleVersion: "1.0.0",
-  logicVersion: "1.0.0",
-  contentVersion: "1.0.0",
+  ruleVersion: [
+    "ARG-PERM-001",
+    "ARG-PERM-002",
+    "ARG-PRIV-001",
+    "ARG-PRIV-002",
+    "ARG-IAP-001",
+    "ARG-PAY-001",
+    "ARG-PRIV-004",
+  ].includes(String(id))
+    ? "1.1.0"
+    : "1.0.0",
+  logicVersion: [
+    "ARG-PERM-001",
+    "ARG-PERM-002",
+    "ARG-PRIV-001",
+    "ARG-PRIV-002",
+    "ARG-IAP-001",
+    "ARG-PAY-001",
+    "ARG-PRIV-004",
+  ].includes(String(id))
+    ? "1.1.0"
+    : "1.0.0",
+  contentVersion: "1.1.0",
   knowledgeAsOf: KNOWLEDGE,
 }));
 const perms = [
@@ -286,6 +307,28 @@ export function evaluate(
           (x, i) =>
             x.condition !== "inactive" &&
             symbols.includes(x.text) &&
+            (!["AVAudioSession", "AVAudioApplication"].includes(x.text) ||
+              t.some(
+                (y) =>
+                  y.condition !== "inactive" &&
+                  [
+                    "requestRecordPermission",
+                    "recordPermission",
+                    "record",
+                    "playAndRecord",
+                  ].includes(y.text),
+              )) &&
+            (!["creationDate", "modificationDate"].includes(x.text) ||
+              t.some(
+                (y) =>
+                  y.condition !== "inactive" &&
+                  [
+                    "URLResourceValues",
+                    "resourceValues",
+                    "attributesOfItem",
+                    "attributesOfFileSystem",
+                  ].includes(y.text),
+              )) &&
             !["import", "class", "struct", "enum", "typealias"].includes(
               t[i - 1]?.text,
             ),
@@ -369,9 +412,10 @@ export function evaluate(
     };
     if (["FAIL", "NEEDS_REVIEW", "UNKNOWN"].includes(status)) {
       c.remediation = [
-        english
-          ? "Inspect the cited scope; implement the required behavior or confirm applicability."
-          : "引用した範囲を確認し、必要な設定・動作を実装するか適用条件を確認してください。",
+        guidance(rule.ruleId, english) ||
+          (english
+            ? "Inspect the cited scope; implement the required behavior or confirm applicability."
+            : "引用した範囲を確認し、必要な設定・動作を実装するか適用条件を確認してください。"),
       ];
       c.verificationSteps = [
         english
@@ -483,7 +527,7 @@ export function evaluate(
               ie.keyPath,
             ),
           );
-        add(
+        const c = add(
           rule,
           id === "ARG-PERM-001" ? "permission_key" : "purpose_content",
           status,
@@ -495,6 +539,21 @@ export function evaluate(
           "scanner",
           struct ? ["Generated/final plist value not resolved."] : [],
         );
+        if (
+          id === "ARG-PERM-001" &&
+          ["FAIL", "NEEDS_REVIEW", "UNKNOWN"].includes(status)
+        ) {
+          c.remediation = [
+            english
+              ? `Resolve ${p.key} for target ${s.scope.targetName}: set INFOPLIST_KEY_${p.key} when generating Info.plist, or add the key to the target's INFOPLIST_FILE. Use a truthful purpose describing the observed feature; do not add unused permissions.`
+              : `${s.scope.targetName}の${p.key}を確認してください。Info.plist自動生成ならINFOPLIST_KEY_${p.key}、手動なら対象のINFOPLIST_FILEに、実際の機能に合う具体的な用途説明を設定します。未使用の権限は追加しません。`,
+          ];
+          c.verificationSteps = [
+            english
+              ? `Re-audit the same target; inspect ${p.key} in the final archive and test first access, denial and later permission changes on a device.`
+              : `同じターゲットを再監査し、最終アーカイブの${p.key}を確認します。実機で初回利用・拒否・設定変更後の動作をテストしてください。`,
+          ];
+        }
         if (id === "ARG-PERM-002")
           for (const l of s.localizations.filter((x) => x.key === p.key))
             add(
@@ -596,7 +655,7 @@ export function evaluate(
           s.diagnostics.some((x) => x.path === m.path && x.level === "error")
         )
           status = "ERROR";
-        add(
+        const structure = add(
           rule,
           "manifest_structure",
           status,
@@ -606,6 +665,31 @@ export function evaluate(
             : [],
           { path: m.path, bundleKey: s.scope.targetId },
         );
+        if (["FAIL", "NEEDS_REVIEW", "ERROR"].includes(status)) {
+          const fields: string[] = [];
+          if (
+            d?.NSPrivacyTracking !== undefined &&
+            typeof d.NSPrivacyTracking !== "boolean"
+          )
+            fields.push("NSPrivacyTracking: Boolean");
+          for (const key of [
+            "NSPrivacyTrackingDomains",
+            "NSPrivacyCollectedDataTypes",
+            "NSPrivacyAccessedAPITypes",
+          ])
+            if (d?.[key] !== undefined && !Array.isArray(d[key]))
+              fields.push(key + ": Array");
+          structure.remediation = [
+            english
+              ? `Correct the plist structure in ${m.path}${fields.length ? " (" + fields.join("; ") + ")" : "; inspect the declared API/reason and data-type entries"}. Preserve truthful privacy declarations; do not turn off tracking merely to pass a type check. Keep the manifest in the selected target's resources.`
+              : `${m.path}のplist構造を修正します${fields.length ? "（" + fields.join(" / ") + "）" : "。API・理由コード・収集データの各項目も確認してください"}。型の検査を通すためだけに追跡の宣言を無効にせず、実際の挙動に合う宣言を維持します。対象ターゲットのResourcesに含めてください。`,
+          ];
+          structure.verificationSteps = [
+            english
+              ? "Re-audit syntax/types, then inspect the final archive and validate privacy declarations against actual behavior separately."
+              : "構文・型を再監査した後、最終アーカイブへの含有と、実際の動作に対する宣言の正確さを別途確認します。",
+          ];
+        }
       }
       continue;
     }
@@ -634,6 +718,14 @@ export function evaluate(
               r.allowedReasons.includes(v),
             ),
         );
+        const invalidDeclaration = ds.some(
+          ({ x }) =>
+            !Array.isArray(x.NSPrivacyAccessedAPITypeReasons) ||
+            !x.NSPrivacyAccessedAPITypeReasons.length ||
+            x.NSPrivacyAccessedAPITypeReasons.some(
+              (v: string) => !r.allowedReasons.includes(v),
+            ),
+        );
         const certain =
           hs.some(
             (h) =>
@@ -643,7 +735,14 @@ export function evaluate(
                 h.text,
               ),
           ) &&
-          !s.partial &&
+          !s.diagnostics.some((d) =>
+            [
+              "UNRESOLVED_MEMBERSHIP",
+              "EXTERNAL_REFERENCE",
+              "INPUT_LIMIT_EXCEEDED",
+              "READ_FAILED",
+            ].includes(d.code),
+          ) &&
           (!hs.some((h) => h.text === "UserDefaults") ||
             [...s.tokens.values()].some((t) =>
               t.some(
@@ -652,21 +751,52 @@ export function evaluate(
                   ["standard", "suiteName"].includes(t[i + 1]?.text),
               ),
             ));
-        const status: Status = allowed
-          ? "PASS"
-          : hs.length && certain
-            ? "FAIL"
-            : hs.length || ds.length
-              ? "NEEDS_REVIEW"
-              : "UNKNOWN";
-        add(
+        const status: Status = invalidDeclaration
+          ? "FAIL"
+          : allowed
+            ? "PASS"
+            : hs.length && certain
+              ? "FAIL"
+              : hs.length || ds.length
+                ? "NEEDS_REVIEW"
+                : "UNKNOWN";
+        const declaration = add(
           rule,
           "reason_declaration",
           status,
-          `Check ${r.category} declarations in this app's bundle. SDKs require their own declarations.`,
-          ev(hs),
+          invalidDeclaration
+            ? english
+              ? `${r.category} contains an empty, invalid or unapproved reason declaration.`
+              : `${r.category}に空・無効・未承認の理由コード宣言があります。`
+            : english
+              ? `Check ${r.category} declarations in this app's bundle. SDKs require their own declarations.`
+              : `${r.category}のアプリ内の理由宣言を確認します。SDK自身の宣言は別途確認が必要です。`,
+          [
+            ...ev(hs),
+            ...ds.map(({ m }) =>
+              fileEvidence(
+                s,
+                m.path,
+                null,
+                "Required-reason declaration observed",
+                "/NSPrivacyAccessedAPITypes",
+              ),
+            ),
+          ],
           { bundleKey: s.scope.targetId, permissionKey: r.category },
         );
+        if (status !== "PASS") {
+          declaration.remediation = [
+            english
+              ? `In a PrivacyInfo.xcprivacy included in ${s.scope.targetName}'s resources, declare ${r.category} under NSPrivacyAccessedAPITypes. Choose a reason matching actual use from ${r.allowedReasons.join(", ")}; never choose a code only to satisfy the scanner. SDK bundles need separate declarations.`
+              : `${s.scope.targetName}のResourcesに含まれるPrivacyInfo.xcprivacyで、NSPrivacyAccessedAPITypesに${r.category}を宣言します。実際の用途に合う理由を${r.allowedReasons.join(" / ")}から選びます。検査を通すだけの理由は選ばず、SDKの宣言も別途確認してください。`,
+          ];
+          declaration.verificationSteps = [
+            english
+              ? "Re-audit the same target, inspect archive bundle membership and compare the chosen reason against each cited API's actual data use."
+              : "同じターゲットを再監査し、アーカイブのバンドル内にManifestが含まれることと、各APIの実際の用途が選んだ理由に一致することを確認します。",
+          ];
+        }
         add(
           rule,
           "reason_usage",
@@ -737,7 +867,7 @@ export function evaluate(
       const supported = date.toISOString().slice(0, 10) >= "2026-09-09";
       const status: Status =
         !known || !supported ? "UNKNOWN" : parseFloat(v) < 13 ? "FAIL" : "PASS";
-      add(
+      const deployment = add(
         rule,
         "deployment_setting",
         status,
@@ -745,6 +875,18 @@ export function evaluate(
         [],
         {},
       );
+      if (status !== "PASS") {
+        deployment.remediation = [
+          english
+            ? `Set IPHONEOS_DEPLOYMENT_TARGET to at least 13.0 in the effective ${s.scope.configuration} settings for ${s.scope.targetName}; preserve any higher existing support requirement. Check target overrides and xcconfig includes.`
+            : `${s.scope.targetName}の${s.scope.configuration}に適用されるIPHONEOS_DEPLOYMENT_TARGETを13.0以上に設定してください。既存の高い最低OSは維持し、ターゲットの上書き設定とxcconfigを確認します。`,
+        ];
+        deployment.verificationSteps = [
+          english
+            ? "Re-audit the same target and inspect MinimumOSVersion in the actual archive before submission."
+            : "同じターゲットを再監査し、提出前に実際のアーカイブのMinimumOSVersionを確認してください。",
+        ];
+      }
       add(
         rule,
         "deployment_archive",
@@ -894,6 +1036,7 @@ export function evaluate(
           "AppStore",
           "restoreCompletedTransactions",
           "currentEntitlements",
+          "restorePurchases",
         ],
         message:
           "Trace restore UI, restoration and entitlement updates; AppStore.sync is not the only acceptable design.",
@@ -922,7 +1065,13 @@ export function evaluate(
       },
       "ARG-PAY-001": {
         flag: "unknown",
-        symbols: ["openURL", "Link", "purchaseURL", "checkout"],
+        symbols: [
+          "purchaseURL",
+          "checkout",
+          "checkoutURL",
+          "paymentURL",
+          "buyURL",
+        ],
         message:
           "Confirm digital/physical product, storefront, device, OS, distribution, agreement and entitlement. No automatic violation.",
       },
@@ -933,7 +1082,7 @@ export function evaluate(
             : f.thirdPartyDataSharing === false && f.thirdPartyAI === false
               ? false
               : "unknown",
-        symbols: ["URLSession", "OpenAI", "Anthropic", "upload"],
+        symbols: ["OpenAI", "Anthropic", "upload"],
         message:
           "Trace personal data, recipients, disclosure, explicit consent and sending order.",
       },

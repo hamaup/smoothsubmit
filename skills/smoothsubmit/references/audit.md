@@ -6,6 +6,10 @@ Recognize .xcodeproj/.xcworkspace and app targets. If selection is ambiguous, in
 
 Inspect files with host read/search tools. Existence is weaker evidence than target inclusion. For generated Info.plist inspect GENERATE_INFOPLIST_FILE and known INFOPLIST_KEY_* build settings; unknown inheritance, conditional settings, preprocessors or scripts mean the final value is unverified. Use source-relative paths with observed line numbers/key paths; never invent locations for missing code.
 
+Follow used local Swift package products and relevant imported modules when important features live outside the app target's direct source list. Read Package.swift as text; never execute it or resolve dependencies during the default audit. Record uncertain product/target membership. A CLI LOCAL_PACKAGE_SCOPE diagnostic is a reason for this targeted source review, not proof that the package has been audited.
+
+Separate an observed defect from a search candidate. Ordinary Link/openURL usage is not payment steering, AVAudioSession ambient/playback is not microphone recording, and a model's creationDate is not file timestamp API use. Trace receiver, operation and purpose before assigning risk. Start the report with the few actionable findings and scoped next steps; each proposal must name the affected setting or flow and a meaningful verification step, rather than repeat a generic checklist.
+
 Review these independent conditions:
 
 - Permission keys and meaningful purpose text for camera, microphone, location, photos and contacts; system pickers and add-only photos may differ.

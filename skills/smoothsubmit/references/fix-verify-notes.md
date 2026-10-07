@@ -24,7 +24,7 @@ For AI concerns, read the new audit, create a fresh assessment, then compare bot
 smoothsubmit verify --baseline <old-audit.json> --audit <new-audit.json> --baseline-assessment <old-assessment.json> --assessment <new-assessment.json> --format json
 ```
 
-A changed file list or omitted check is NEEDS_RECHECK; changed target/configuration/noncompatible rulepack/mode is NOT_COMPARABLE. NOT_APPLICABLE is CHANGED, not RESOLVED. Previous UNKNOWN/ERROR becoming PASS is CHANGED. Only same required condition rechecked from FAIL/NEEDS_REVIEW to PASS can be RESOLVED. Runtime subjects are separate and need user tests, not code presence.
+A lost/unread/excluded cited input or omitted check is NEEDS_RECHECK; changed target/configuration/noncompatible rulepack/mode is NOT_COMPARABLE. NOT_APPLICABLE is CHANGED, not RESOLVED. Previous UNKNOWN/ERROR becoming PASS is CHANGED. Only the same required condition rechecked from FAIL/NEEDS_REVIEW to PASS can be RESOLVED. A complete static permission key, manifest structure, reason declaration or deployment setting may resolve despite unrelated local-package/preprocessing/setting-reference limits when its prior cited inputs remain readable and no input is excluded; the global partial flag and runtime Unknowns stay visible. Other partial/uncertain conditions require recheck. Runtime subjects are separate and need user tests, not code presence.
 
 ## Notes
 

@@ -28,7 +28,7 @@ Usage: smoothsubmit <command> [options]
   rules list            Show all 19 bundled rules
 
 Options:
-  --path DIR --project FILE.xcodeproj | --workspace FILE.xcworkspace
+  --path DIR (alias: --root DIR) --project FILE.xcodeproj | --workspace FILE.xcworkspace
   --target NAME --target-id ID --configuration Release
   --sdk iphoneos|iphonesimulator --arch arm64|x86_64|unknown
   --config FILE|- --output DIR --language ja|en --format text|json
@@ -39,6 +39,7 @@ Skill-only audits work without this CLI. This CLI never modifies app code.
 `;
 const stringOpts = [
   "path",
+  "root",
   "project",
   "workspace",
   "target",
@@ -101,6 +102,8 @@ async function main(): Promise<number> {
     throw Error("CONFIG_INVALID command");
   if (opts.project && opts.workspace)
     throw Error("CONFIG_INVALID choose project or workspace");
+  if (opts.path && opts.root)
+    throw Error("CONFIG_INVALID choose --path or --root");
   if (opts.format && !["text", "json"].includes(opts.format))
     throw Error("CONFIG_INVALID format");
   if (opts.language && !["ja", "en"].includes(opts.language))
@@ -110,7 +113,7 @@ async function main(): Promise<number> {
   const node = process.versions.node.split(".").map(Number);
   if (node[0] < 22 || (node[0] === 22 && node[1] < 18))
     throw Error("ENVIRONMENT_ERROR Node 22.18+ required");
-  const root = await realpath(resolve(opts.path || process.cwd())),
+  const root = await realpath(resolve(opts.path || opts.root || process.cwd())),
     language = opts.language || "ja";
   function print(obj: any, text: string) {
     console.log(

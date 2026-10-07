@@ -1,4 +1,4 @@
-# Release status — v0.1.0-alpha.1
+# Release status — v0.1.0-alpha.2
 
 Published artifact target: GitHub source + GitHub Release npm-format archive. The npm registry package is not published; npm authentication is not available on the release machine. Brand/bin remain SmoothSubmit/smoothsubmit.
 
@@ -16,11 +16,17 @@ This is a usable initial alpha, not a claim that every OSS MVP acceptance gate i
 
 ## Verified locally
 
-46 meaningful automated tests passed. The final test count is recorded in the GitHub release notes and CI. Covered scenarios include parser/target isolation, unknown conditions, binary plist, generated value conflict, synchronized exceptions, localization, dependency inventory, immutable writes, secret-free source evidence, static/AI boundaries, manual snapshot separation, exit codes and comparison semantics.
+57 meaningful automated tests passed. The final test count is recorded in the GitHub release notes and CI. Covered scenarios include parser/target isolation, unknown conditions, binary plist, generated value conflict, synchronized exceptions, localization, dependency inventory, immutable writes, secret-free source evidence, static/AI boundaries, manual snapshot separation, exit codes and comparison semantics.
 
 The packaged archive was installed in a clean temporary prefix. Offline-guarded audit and fix-prompt generation passed; source bytes remained unchanged. Skill frontmatter/resources passed the skill-creator validator and repository checks. This is structural Skill validation, not live host behavior proof.
 
 Benchmark on 2026-10-07: Darwin 27.0.0, Node v23.11.0, Apple Silicon; 1,000 Swift files, 20,945,984 input bytes, 3,384ms elapsed, 145MiB process max RSS. Fixture creation/installation were excluded; scan/parsing/hashing/result validation/save were included. Targets are 30 seconds and 512MiB. This single fixture is not a guarantee for arbitrary projects.
+
+## Real-project validation
+
+Three pinned public text snapshots (IceCubesApp, KeePassium, NetNewsWire) completed audits. Nine injected setting defects were detected, produced fix prompts identifying the affected setting, and became RESOLVED after restoring correct values. Original source/configuration hashes stayed unchanged. These experiments do not certify upstream app compliance or measure rejection rates/time saved. See [usefulness validation](USEFULNESS_VALIDATION.md) and its execution record.
+
+Version alpha.2 adds anchored xcconfig support, explicit local-package/preprocessed-plist limits, narrower network/audio/model-date candidates, SDK restore candidates, invalid-reason detection, actionable guidance and prioritized reports. Individual complete structural checks can resolve despite unrelated limits while global partial coverage and runtime Unknowns remain visible.
 
 ## Still unverified or deliberately limited
 

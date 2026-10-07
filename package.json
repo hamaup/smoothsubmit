@@ -1,6 +1,6 @@
 {
   "name": "@smoothsubmit/cli",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.2",
   "description": "Audit, fix and verify iOS App Store submission risks with your coding agent.",
   "type": "module",
   "bin": {
@@ -15,9 +15,12 @@
     "schemas",
     "skills",
     "README.md",
-    "docs/RELEASE_STATUS.md",
+    "docs",
     "LICENSE",
-    "NOTICE"
+    "NOTICE",
+    "SPEC.md",
+    "DESIGN.md",
+    "CONTRIBUTING.md"
   ],
   "engines": {
     "node": ">=22.18.0"

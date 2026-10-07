@@ -41,7 +41,7 @@ export interface Diagnostic {
   affectedCheckIds: string[];
   remedy: string;
 }
-export const VERSION = "0.1.0-alpha.1";
+export const VERSION = "0.1.0-alpha.2";
 export const KNOWLEDGE = "2026-10-07";
 export function sha(value: string | Buffer): string {
   return createHash("sha256").update(value).digest("hex");

@@ -139,7 +139,49 @@ export function render(report: Json, language = "ja"): string {
   text += en
     ? "Completed audit does not imply App Store approval. PASS applies only to the stated scope.\n\n"
     : "監査完了は審査通過を意味しません。PASSは記載した確認範囲に限ります。\n\n";
-  for (const row of report.checks) {
+  text += en
+    ? `Definite failures: ${s.failCounts.HIGH + s.failCounts.MEDIUM + s.failCounts.LOW}; contextual review candidates: ${s.needsReviewCount}. Risk counts include both.\n\n`
+    : `確定した設定不備: ${s.failCounts.HIGH + s.failCounts.MEDIUM + s.failCounts.LOW}件 / 文脈の確認が必要な候補: ${s.needsReviewCount}件。リスク件数は両方を含みます。\n\n`;
+  if (report.coverage.partial)
+    text += en
+      ? "Partial coverage: inspect diagnostics before relying on this audit.\n\n"
+      : "確認範囲に制限があります。診断一覧と未確認の入力を確認してください。\n\n";
+  const rank: Record<string, number> = {
+    FAIL: 0,
+    ERROR: 1,
+    NEEDS_REVIEW: 2,
+    UNKNOWN: 3,
+    PASS: 4,
+    NOT_APPLICABLE: 5,
+  };
+  const severityRank: Record<string, number> = { HIGH: 0, MEDIUM: 1, LOW: 2 };
+  const rows = [...report.checks].sort((a: Json, b: Json) => {
+    const ac = a.effectiveResult,
+      bc = b.effectiveResult;
+    return (
+      rank[ac.status] - rank[bc.status] ||
+      (severityRank[ac.severity] ?? 3) - (severityRank[bc.severity] ?? 3) ||
+      ac.checkId.localeCompare(bc.checkId)
+    );
+  });
+  const actions = rows
+    .filter(
+      (row: Json) =>
+        !row.suppression &&
+        ["FAIL", "NEEDS_REVIEW"].includes(row.effectiveResult.status) &&
+        row.effectiveResult.subject.subjectKey.component !== "scope",
+    )
+    .slice(0, 5);
+  if (actions.length) {
+    text += en ? "## Start here\n\n" : "## 先に確認・対応する項目\n\n";
+    for (const row of actions) {
+      const c = row.effectiveResult;
+      const location = c.evidence.find((e: Json) => e.kind === "file");
+      text += `- ${c.status} · ${c.severity} — ${esc(c.title)} (${esc(c.subject.subjectKey.permissionKey || c.subject.subjectKey.component)})${location ? " · " + esc(location.path) + (location.lineStart ? ":" + location.lineStart : "") : ""}: ${esc(c.remediation[0] || c.reason)}\n`;
+    }
+    text += "\n";
+  }
+  for (const row of rows) {
     const c: Check = row.effectiveResult;
     if (c.subject.subjectKey.component === "scope") continue;
     text += `## ${c.status}${c.severity ? " · " + c.severity : ""} — ${esc(c.title)}\n\n${esc(c.ruleId)} / ${esc(c.subject.subjectKey.component)}  \n${esc(c.verificationLevel)} · ${c.checkId}\n\n${esc(c.reason)}\n\n`;
@@ -215,6 +257,37 @@ export function compare(
       let classification = "UNCHANGED",
         direction = "neutral",
         reason = "Same condition.";
+      // A limited unrelated input does not invalidate a re-read structural
+      // setting. Keep global partial coverage and all runtime checks visible.
+      const scopedStaticProof =
+        !!after &&
+        after.verificationLevel === "static" &&
+        after.provenance === "scanner" &&
+        [
+          "permission_key",
+          "manifest_structure",
+          "reason_declaration",
+          "deployment_setting",
+        ].includes(after.subject.subjectKey.component) &&
+        newAudit.diagnostics.every((d: Json) =>
+          [
+            "LOCAL_PACKAGE_SCOPE",
+            "PREPROCESSED_PLIST",
+            "UNRESOLVED_BUILD_SETTING",
+            "EXTERNAL_REFERENCE",
+          ].includes(d.code),
+        ) &&
+        !newAudit.snapshot.files.some(
+          (f: Json) => f.membership === "excluded" || !f.sha256,
+        ) &&
+        (before?.evidence || [])
+          .filter((e: Json) => e.kind === "file")
+          .every((e: Json) =>
+            newAudit.snapshot.files.some(
+              (f: Json) =>
+                f.path === e.path && f.sha256 && f.membership !== "excluded",
+            ),
+          );
       if (
         !scopeSame ||
         !versionSame ||
@@ -237,7 +310,8 @@ export function compare(
           ["FAIL", "NEEDS_REVIEW"].includes(before.status)) ||
         (newAudit.coverage.partial &&
           ["FAIL", "NEEDS_REVIEW"].includes(before.status) &&
-          after.status === "PASS") ||
+          after.status === "PASS" &&
+          !scopedStaticProof) ||
         (before.verificationLevel === "ai_review" &&
           after.verificationLevel !== "ai_review")
       ) {
@@ -250,7 +324,9 @@ export function compare(
       ) {
         classification = "RESOLVED";
         direction = "improved";
-        reason = "Same required condition rechecked and now PASS.";
+        reason = newAudit.coverage.partial
+          ? "Same structural setting rechecked and now PASS; unrelated input/runtime limitations remain."
+          : "Same required condition rechecked and now PASS.";
       } else if (
         before.status !== after.status ||
         before.severity !== after.severity ||

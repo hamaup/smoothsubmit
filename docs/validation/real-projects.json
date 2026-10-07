@@ -1,0 +1,200 @@
+{
+  "date": "2026-10-07T04:35:17.882Z",
+  "toolVersion": "0.1.0-alpha.2",
+  "projects": [
+    {
+      "repo": "Dimillian/IceCubesApp",
+      "commit": "9efcb16e720f337a401cf61c8e300dd043368282",
+      "inputFiles": 571,
+      "inputBytes": 3712091,
+      "selectedTarget": "IceCubesApp",
+      "elapsedMs": 1913,
+      "summary": {
+        "riskCounts": {
+          "HIGH": 1,
+          "MEDIUM": 7,
+          "LOW": 0
+        },
+        "failCounts": {
+          "HIGH": 0,
+          "MEDIUM": 0,
+          "LOW": 0
+        },
+        "needsReviewCount": 8,
+        "unknownCount": 54,
+        "errorCount": 0,
+        "suppressedCount": 0
+      },
+      "partial": true,
+      "diagnostics": [
+        "LOCAL_PACKAGE_SCOPE"
+      ],
+      "originalSourceUnchanged": true
+    },
+    {
+      "repo": "keepassium/KeePassium",
+      "commit": "e651df4f89b0b8550371566ca9aa55a964d2904e",
+      "inputFiles": 1498,
+      "inputBytes": 7674473,
+      "selectedTarget": "KeePassium",
+      "elapsedMs": 2783,
+      "summary": {
+        "riskCounts": {
+          "HIGH": 3,
+          "MEDIUM": 24,
+          "LOW": 0
+        },
+        "failCounts": {
+          "HIGH": 0,
+          "MEDIUM": 0,
+          "LOW": 0
+        },
+        "needsReviewCount": 27,
+        "unknownCount": 54,
+        "errorCount": 0,
+        "suppressedCount": 0
+      },
+      "partial": true,
+      "diagnostics": [
+        "PREPROCESSED_PLIST"
+      ],
+      "originalSourceUnchanged": true
+    },
+    {
+      "repo": "Ranchero-Software/NetNewsWire",
+      "commit": "7a2f27f324f2e8a59eefedb4eface4732e1febcc",
+      "inputFiles": 943,
+      "inputBytes": 5462096,
+      "selectedTarget": "NetNewsWire-iOS",
+      "elapsedMs": 2886,
+      "summary": {
+        "riskCounts": {
+          "HIGH": 3,
+          "MEDIUM": 2,
+          "LOW": 0
+        },
+        "failCounts": {
+          "HIGH": 0,
+          "MEDIUM": 0,
+          "LOW": 0
+        },
+        "needsReviewCount": 5,
+        "unknownCount": 55,
+        "errorCount": 0,
+        "suppressedCount": 0
+      },
+      "partial": true,
+      "diagnostics": [
+        "EXTERNAL_REFERENCE",
+        "LOCAL_PACKAGE_SCOPE"
+      ],
+      "originalSourceUnchanged": true
+    }
+  ],
+  "mutations": [
+    {
+      "repo": "Dimillian/IceCubesApp",
+      "case": "deployment",
+      "ruleId": "ARG-BUILD-001",
+      "before": "FAIL",
+      "after": "PASS",
+      "verification": "RESOLVED",
+      "fixIdentifiesSetting": true,
+      "readOnlyPreserved": true
+    },
+    {
+      "repo": "Dimillian/IceCubesApp",
+      "case": "manifest_structure",
+      "ruleId": "ARG-PRIV-001",
+      "before": "FAIL",
+      "after": "PASS",
+      "verification": "RESOLVED",
+      "fixIdentifiesSetting": true,
+      "readOnlyPreserved": true
+    },
+    {
+      "repo": "Dimillian/IceCubesApp",
+      "case": "reason_code",
+      "ruleId": "ARG-PRIV-002",
+      "before": "FAIL",
+      "after": "PASS",
+      "verification": "RESOLVED",
+      "fixIdentifiesSetting": true,
+      "readOnlyPreserved": true
+    },
+    {
+      "repo": "keepassium/KeePassium",
+      "case": "deployment",
+      "ruleId": "ARG-BUILD-001",
+      "before": "FAIL",
+      "after": "PASS",
+      "verification": "RESOLVED",
+      "fixIdentifiesSetting": true,
+      "readOnlyPreserved": true
+    },
+    {
+      "repo": "keepassium/KeePassium",
+      "case": "manifest_structure",
+      "ruleId": "ARG-PRIV-001",
+      "before": "FAIL",
+      "after": "PASS",
+      "verification": "RESOLVED",
+      "fixIdentifiesSetting": true,
+      "readOnlyPreserved": true
+    },
+    {
+      "repo": "keepassium/KeePassium",
+      "case": "reason_code",
+      "ruleId": "ARG-PRIV-002",
+      "before": "FAIL",
+      "after": "PASS",
+      "verification": "RESOLVED",
+      "fixIdentifiesSetting": true,
+      "readOnlyPreserved": true
+    },
+    {
+      "repo": "Ranchero-Software/NetNewsWire",
+      "case": "deployment",
+      "ruleId": "ARG-BUILD-001",
+      "before": "FAIL",
+      "after": "PASS",
+      "verification": "RESOLVED",
+      "fixIdentifiesSetting": true,
+      "readOnlyPreserved": true
+    },
+    {
+      "repo": "Ranchero-Software/NetNewsWire",
+      "case": "manifest_structure",
+      "ruleId": "ARG-PRIV-001",
+      "before": "FAIL",
+      "after": "PASS",
+      "verification": "RESOLVED",
+      "fixIdentifiesSetting": true,
+      "readOnlyPreserved": true
+    },
+    {
+      "repo": "Ranchero-Software/NetNewsWire",
+      "case": "reason_code",
+      "ruleId": "ARG-PRIV-002",
+      "before": "FAIL",
+      "after": "PASS",
+      "verification": "RESOLVED",
+      "fixIdentifiesSetting": true,
+      "readOnlyPreserved": true
+    }
+  ],
+  "negativeControls": [
+    {
+      "repo": "Dimillian/IceCubesApp",
+      "ambientPlaybackNotRecording": true,
+      "ordinaryLinkNotPaymentRisk": true,
+      "modelDateNotFileTimestamp": true,
+      "existingSdkRestoreDetectedWithoutDeclaringRuntimePass": true
+    }
+  ],
+  "limits": [
+    "Pinned text inputs only; assets and dependency checkout were not fetched.",
+    "No build, device/backend run, user usability study or App Store outcome was measured.",
+    "External projects are not represented as defective or certified compliant."
+  ]
+}
