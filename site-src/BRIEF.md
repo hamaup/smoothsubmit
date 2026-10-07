@@ -6,11 +6,11 @@ Show how SmoothSubmit turns evidence in an iOS repository into proposed fixes an
 
 ## Own world
 
-A practical field guide with committed cobalt covers, lime next actions, cool light technical pages and chapter-like anchors. Bricolage Grotesque and Zen Kaku Gothic New supply display lettering; body copy uses platform Japanese/Latin fonts. A developer evaluates the release at a desk in daylight. This is the implementation's working direction, not a claimed user-approved brand system.
+A practical field guide with cobalt covers, lime next actions, cool light technical pages and chapter-like anchors. The user delegated the brand decision: Bricolage Grotesque supplies Latin display lettering; Zen Kaku Gothic New supplies Japanese headings and body copy. A developer evaluates the release at a desk in daylight. Brand rules are recorded in docs/BRAND.md.
 
 ## Story
 
-Offer and interactive example → Audit/Fix/Verify workflow → verification boundaries → bounded real-source experiments → per-host installation → FAQ → closing action. User requested multiple languages; launch includes Japanese and English as static routes. Code-first creation was explicitly chosen.
+Offer and interactive example → Audit/Fix/Verify workflow → verification boundaries → bounded real-source experiments → installation → FAQ → closing action. All prominent entry links say “View installation guide” (導入手順を見る) and lead to #start. Installation follows three ordered steps: choose your agent, download/place the Skill, copy the audit instruction. Release/source/CLI links live in a collapsed supplemental disclosure. User requested multiple languages; launch includes Japanese and English as static routes. Code-first creation was explicitly chosen.
 
 ## First viewport
 

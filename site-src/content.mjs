@@ -308,3 +308,77 @@ export const content = {
     langLabel: "Language",
   },
 };
+
+content.ja.headline = ["提出前に、気づく。", "修正と再確認まで。"];
+content.en.headline = ["Catch risks early.", "Fix. Then verify."];
+content.ja.cta = "導入手順を見る";
+content.en.cta = "View installation guide";
+content.ja.nav[3] = content.ja.cta;
+content.en.nav[3] = content.en.cta;
+content.ja.lead =
+  "いつものAI開発ツールに、App Store提出前の確認手順を。コードと設定から、根拠・修正案・未確認事項を整理します。";
+content.en.lead =
+  "Give your coding agent a pre-submission review workflow. Turn code and settings into evidence, fix plans and clear next checks.";
+content.ja.startTitle = "3ステップで、\n提出前の監査へ。";
+content.en.startTitle = "Three steps to\nyour first audit.";
+content.ja.startIntro =
+  "Skillは、開発ツールにSmoothSubmitの監査手順を追加するファイルです。CLIや新しいAPIキーは不要。使っているツールを選び、順番に配置してください。";
+content.en.startIntro =
+  "A Skill adds SmoothSubmit’s audit workflow to your coding agent. No CLI or new API key required. Choose your tool, then follow these steps.";
+content.ja.setup = {
+  choose: "使っている開発ツールを選ぶ",
+  chooseHelp:
+    "選択すると、下のダウンロード表示・配置先・監査指示が切り替わります。",
+  downloadTitle: "ファイルをダウンロードして配置する",
+  downloadLabel: "__AGENT__用のSkillをダウンロード",
+  archiveHelp:
+    "ダウンロード後にアーカイブを展開し、smoothsubmitフォルダ全体を、あなたのiOSプロジェクト内の次の場所に配置します。references・assetsも一緒にコピーしてください。",
+  pathLabel: "配置先（iOSプロジェクト内）",
+  pathCopy: "配置先をコピー",
+  auditTitle: "開発ツールで監査を依頼する",
+  auditHelp:
+    "配置したiOSプロジェクトの開発セッションで、下の指示を送信します。",
+  promptCopy: "監査指示をコピー",
+  copied: "コピーしました。",
+  copyError:
+    "コピーできませんでした。表示されたテキストを選択してコピーしてください。",
+  other: "補足：追加CLI・リリース情報・ソースコード",
+  agentHints: [
+    "Codexで $smoothsubmit を指定して呼び出します。",
+    "Claude Codeで /smoothsubmit を指定して呼び出します。",
+    "CursorのAgent chatで /smoothsubmit を選択し、下の指示を送ります。",
+  ],
+  prompts: [
+    "$smoothsubmit\nSmoothSubmitで確認して",
+    "/smoothsubmit\nこのプロジェクトを監査して",
+    "SmoothSubmitで確認して",
+  ],
+};
+content.en.setup = {
+  choose: "Choose your coding agent",
+  chooseHelp:
+    "Your choice updates the download label, destination and audit prompt below.",
+  downloadTitle: "Download and place the files",
+  downloadLabel: "Download the Skill for __AGENT__",
+  archiveHelp:
+    "Extract the downloaded archive. Copy the entire smoothsubmit folder into this location inside your iOS project, including references and assets.",
+  pathLabel: "Destination inside your iOS project",
+  pathCopy: "Copy destination",
+  auditTitle: "Ask your coding agent to audit",
+  auditHelp:
+    "Open the coding session for the iOS project where you placed the files, then send this prompt.",
+  promptCopy: "Copy audit prompt",
+  copied: "Copied.",
+  copyError: "Copy failed. Select and copy the displayed text manually.",
+  other: "More: optional CLI, release details and source code",
+  agentHints: [
+    "Invoke $smoothsubmit in Codex.",
+    "Invoke /smoothsubmit in Claude Code.",
+    "Select /smoothsubmit in Cursor’s Agent chat, then send the prompt below.",
+  ],
+  prompts: [
+    "$smoothsubmit\nAudit this project with SmoothSubmit",
+    "/smoothsubmit\nAudit this project",
+    "Audit this project with SmoothSubmit",
+  ],
+};

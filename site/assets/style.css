@@ -10,6 +10,18 @@
   font-weight: 700;
   font-display: swap;
 }
+@font-face {
+  font-family: Zen;
+  src: url("./zen-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: Zen;
+  src: url("./zen-medium.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
 :root {
   --blue: #1246d3;
   --ink: #12223b;
@@ -19,10 +31,10 @@
   --line: #ccd4df;
   --display: Bricolage, Zen, sans-serif;
   --body:
-    -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic",
-    sans-serif;
+    Zen, -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN",
+    "Yu Gothic", sans-serif;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   color-scheme: light;
 }
 * {
@@ -234,7 +246,7 @@ button:disabled {
   display: block;
 }
 .cover h1 span:last-child {
-  color: var(--lime);
+  color: white;
 }
 :lang(en) .cover h1 {
   font-size: clamp(40px, 5.7vw, 80px);
@@ -328,7 +340,7 @@ button:disabled {
 }
 .loop-indent-two {
   margin-left: 32%;
-  color: var(--lime);
+  color: white;
 }
 .demo-caption > p {
   margin-top: 22px;
@@ -441,8 +453,8 @@ button:disabled {
   color: #1741a4;
 }
 .status-2 {
-  background: #e4f1c6;
-  color: #345608;
+  background: #e1f1ec;
+  color: #176d67;
 }
 .demo-panels h3 {
   font-size: 20px;
@@ -668,7 +680,7 @@ td:nth-child(2) {
   font-size: 25px;
 }
 td:last-child {
-  color: #345608;
+  color: #176d67;
 }
 .proof-details {
   display: grid;
@@ -1330,5 +1342,231 @@ footer > div a:hover {
     color: #dee8ff;
     font-size: 12px;
     margin-top: 8px;
+  }
+}
+
+/* The installation path has one decision and two ordered actions. */
+.setup-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.setup-step {
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  gap: 24px;
+  padding: 32px 0;
+  border-top: 1px solid var(--line);
+}
+.setup-number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Bricolage, sans-serif;
+  font-size: 17px;
+  font-weight: 650;
+  margin-top: 3px;
+}
+.setup-content {
+  min-width: 0;
+  max-width: 76ch;
+}
+.setup-content h3,
+.agent-picker legend {
+  font-family: var(--display);
+  font-size: 23px;
+  line-height: 1.5;
+  font-weight: 700;
+  margin-bottom: 14px;
+  padding: 0;
+}
+.setup-content p {
+  font-size: 14px;
+  color: var(--muted);
+}
+.agent-picker {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+.agent-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+.agent-options label {
+  position: relative;
+}
+.agent-options input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+}
+.agent-options span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 10px 22px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+}
+.agent-options input:checked + span {
+  color: white;
+  background: var(--blue);
+  border-color: var(--blue);
+}
+.agent-options input:focus-visible + span {
+  outline: 3px solid var(--blue);
+  outline-offset: 4px;
+}
+.agent-options input:not(:checked) + span:hover {
+  background: #e5ecfd;
+}
+#agent-download {
+  margin: 7px 0 20px;
+}
+.archive-help {
+  max-width: 68ch;
+}
+.setup-content .install-path {
+  padding: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+.install-path > span {
+  width: 100%;
+  margin: 0;
+  font-size: 12px;
+}
+.install-path code {
+  font-size: 14px;
+  flex: 1;
+  overflow-wrap: anywhere;
+}
+.setup-content .install-path .copy-button {
+  position: static;
+  flex: none;
+}
+.setup-content .copy-status {
+  color: var(--blue);
+  min-height: 26px;
+  font-size: 13px;
+  padding-top: 6px;
+}
+.agent-hint {
+  margin-top: 12px;
+}
+.setup-content .prompt-box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+  margin-top: 20px;
+}
+.prompt-box pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  flex: 1;
+  margin: 0;
+  min-width: 200px;
+}
+.setup-content .prompt-box code {
+  font-size: 17px;
+}
+.setup-content .prompt-box .copy-button {
+  color: var(--ink);
+  background: var(--lime);
+}
+.setup-content .prompt-box .copy-button:hover {
+  background: #d6f494;
+}
+.other-methods {
+  margin-top: 32px;
+  border-top: 1px solid var(--line);
+  border-bottom: 0;
+  padding-top: 22px;
+  max-width: 82ch;
+}
+.other-methods > summary {
+  font-size: 14px;
+  font-weight: 500;
+}
+.other-links {
+  display: flex;
+  gap: 26px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.other-methods .cli {
+  margin-top: 20px;
+}
+.other-methods p {
+  padding-right: 0;
+}
+@media (max-width: 760px) {
+  .setup-step {
+    grid-template-columns: 28px 1fr;
+    gap: 12px;
+    padding: 26px 0;
+  }
+  .setup-number {
+    width: 26px;
+    height: 26px;
+    font-size: 14px;
+  }
+  .setup-content h3,
+  .agent-picker legend {
+    font-size: 20px;
+  }
+  .agent-options {
+    gap: 8px;
+  }
+  .agent-options span {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  #agent-download {
+    width: 100%;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 13px;
+    padding: 13px 16px;
+  }
+  .setup-content .install-path {
+    padding: 14px;
+    gap: 10px;
+  }
+  .install-path code {
+    width: 100%;
+    flex-basis: 100%;
+    font-size: 12px;
+  }
+  .setup-content .prompt-box {
+    padding: 18px;
+    gap: 16px;
+  }
+  .setup-content .prompt-box code {
+    font-size: 14px;
+  }
+  .prompt-box pre {
+    min-width: 0;
+    flex-basis: 100%;
+  }
+  .header nav {
+    flex-wrap: wrap;
   }
 }

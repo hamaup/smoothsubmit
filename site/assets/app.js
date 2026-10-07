@@ -50,32 +50,31 @@ const paths = [
   ".claude/skills/smoothsubmit/",
   ".cursor/skills/smoothsubmit/",
 ];
-const invocations = [
-  "$smoothsubmit",
-  "/smoothsubmit",
-  lang === "ja"
-    ? "Agent chatで /smoothsubmit を選択"
-    : "Select /smoothsubmit in Agent chat",
-];
+const setup = JSON.parse(document.querySelector("#setup-data").textContent);
+const hosts = ["Codex", "Claude Code", "Cursor"];
 document.querySelectorAll('input[name="agent"]').forEach((input) =>
   input.addEventListener("change", () => {
-    document.querySelector("#skill-path").textContent =
-      paths[Number(input.value)];
-    document.querySelector("#skill-invoke").textContent =
-      invocations[Number(input.value)];
-    document.querySelector("#copy-status").textContent = "";
+    const index = Number(input.value);
+    document.querySelector("#skill-path").textContent = paths[index];
+    document.querySelector("#agent-download-label").textContent =
+      setup.downloadLabel.replace("__AGENT__", hosts[index]);
+    document.querySelector("#agent-hint").textContent = setup.agentHints[index];
+    document.querySelector("#audit-prompt").textContent = setup.prompts[index];
+    document.querySelectorAll(".copy-status").forEach((status) => {
+      status.textContent = "";
+    });
   }),
 );
-const status = document.querySelector("#copy-status");
 document.querySelectorAll("[data-copy]").forEach((button) =>
   button.addEventListener("click", async () => {
     const value = document.getElementById(button.dataset.copy).textContent;
+    const status = document.getElementById(button.dataset.feedback);
     button.disabled = true;
     try {
       await navigator.clipboard.writeText(value);
-      status.textContent = status.dataset.copied;
+      status.textContent = setup.copied;
     } catch {
-      status.textContent = status.dataset.error;
+      status.textContent = setup.copyError;
     } finally {
       button.disabled = false;
     }

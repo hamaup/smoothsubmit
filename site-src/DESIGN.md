@@ -17,9 +17,8 @@ colors:
   fail-text: "#972134"
   proposal-surface: "#e2eafe"
   proposal-text: "#1741a4"
-  resolved-surface: "#e4f1c6"
-  resolved-text: "#345608"
-  blue-hover: "#0b35a7"
+  resolved-surface: "#e1f1ec"
+  resolved-text: "#176d67"
   lime-hover: "#d6f494"
 typography:
   display-ja:
@@ -47,19 +46,20 @@ typography:
     lineHeight: 1.45
     letterSpacing: "-0.025em"
   body:
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif'
+    fontFamily: 'Zen, -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif'
     fontSize: "16px"
+    fontWeight: 400
     lineHeight: 1.8
   supporting:
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif'
+    fontFamily: 'Zen, -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif'
     fontSize: "14px"
     lineHeight: 1.8
   technical-body:
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif'
+    fontFamily: 'Zen, -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif'
     fontSize: "13px"
     lineHeight: 1.75
   label:
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif'
+    fontFamily: 'Zen, -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif'
     fontSize: "12px"
     fontWeight: 700
     letterSpacing: "0.03em"
@@ -90,13 +90,6 @@ components:
     padding: "13px 24px"
   button-lime-hover:
     backgroundColor: "{colors.lime-hover}"
-  button-blue:
-    backgroundColor: "{colors.blue}"
-    textColor: "{colors.white}"
-    rounded: "{rounded.action}"
-    padding: "13px 24px"
-  button-blue-hover:
-    backgroundColor: "{colors.blue-hover}"
   copy-button:
     backgroundColor: "{colors.paper}"
     textColor: "{colors.blue}"
@@ -129,17 +122,27 @@ components:
     rounded: "{rounded.compact}"
     padding: "3px 8px"
   agent-choice:
-    rounded: "{rounded.field}"
-    padding: "9px 17px"
+    rounded: "{rounded.action}"
+    padding: "10px 22px"
+  agent-choice-selected:
+    backgroundColor: "{colors.blue}"
+    textColor: "{colors.white}"
+    rounded: "{rounded.action}"
+    padding: "10px 22px"
   install-path:
     backgroundColor: "{colors.technical-surface}"
     rounded: "{rounded.path}"
-    padding: "18px 80px 18px 18px"
+    padding: "18px"
   prompt-box:
     backgroundColor: "{colors.ink}"
     textColor: "{colors.white}"
     rounded: "{rounded.prompt}"
-    padding: "22px 28px"
+    padding: "24px"
+  prompt-copy-button:
+    backgroundColor: "{colors.lime}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.compact}"
+    padding: "8px 12px"
 ---
 
 # Design System: SmoothSubmit website
@@ -148,14 +151,15 @@ components:
 
 **Creative North Star: "Practical Field Guide"**
 
-This records the implemented working direction of the Japanese and English static introduction site. It is descriptive evidence from the built surface, not a claim that the user approved a wider brand system. The saturated cover, lime actions and cool technical pages make a developer-facing guide easy to scan at a desk.
+This records the website system implemented after the user delegated the SmoothSubmit brand decision. Brand authority is maintained in `../docs/BRAND.md`; this document captures the actual Japanese and English static site. Cobalt covers, lime actions and cool technical pages make an evidence-led developer guide easy to scan at a desk.
 
 Strong display lettering introduces the subject; compact technical text carries findings, evidence and installation instructions. Ruled lists and a real table support comparison. The interactive audit example is explicitly illustrative: the visual system keeps status, evidence and remaining unknowns visible without presenting the page as an audit tool.
 
 **Key Characteristics:**
 
 - Committed cobalt surfaces with lime actions and cool paper content.
-- Locally hosted display fonts with separate Japanese and English headline metrics.
+- Locally hosted Bricolage Latin display and Zen Japanese headings/body, with independent locale headline metrics.
+- Ordered first-use steps and one consistent installation-guide entry.
 - Ruled reference material and a single elevated audit example.
 - Visible keyboard focus, semantic controls and reduced-motion support.
 
@@ -166,8 +170,8 @@ The palette pairs saturated cobalt and lime with cool neutral technical surfaces
 ### Primary
 
 - **Cobalt Blue** (`blue`): cover and closing surfaces, links, selected controls and focus outlines on light backgrounds.
-- **Fresh Lime** (`lime`): next actions and the final hero phrase on cobalt; also selection and focus on dark cover surfaces.
-- The corresponding hover tokens lighten lime and deepen blue for filled actions.
+- **Fresh Lime** (`lime`): the next useful action, including the guide entry, Skill download and prompt copy. The cover headline and large Verify lettering are white. The built site also uses lime for selection and focus outlines on cover surfaces; these utility treatments do not represent a finding result.
+- The lime-hover token lightens filled action backgrounds on hover.
 
 ### Neutral
 
@@ -178,9 +182,11 @@ The palette pairs saturated cobalt and lime with cool neutral technical surfaces
 - **White** (`white`) and **Pale Cover Copy** (`cover-copy`): text on the cobalt sections.
 - **Selected Wash** (`selected-surface`): selected/hovered tabs and selected coding-agent choices.
 - **Technical Page** (`technical-surface`) and **Code Wash** (`code-surface`): coverage, table headers, installation paths and code examples.
-- The fail, proposal and resolved pairs provide local red, blue and green status treatments. They communicate the example's state alongside written labels.
+- The fail, proposal and resolved pairs provide local red, blue and teal status treatments. They communicate the example's state alongside written labels.
 
 ### Named Rules
+
+**The Action and Result Rule.** Lime marks an action, never a resolved or approval result. Resolved findings use the teal pair with a written label.
 
 **The Paired Status Rule.** A status uses both its explicit text label and its matched background/text pair; color does not carry the finding alone.
 
@@ -188,11 +194,11 @@ The palette pairs saturated cobalt and lime with cool neutral technical surfaces
 
 **Display Font:** locally hosted Bricolage Grotesque (`Bricolage`) and Zen Kaku Gothic New Bold (`Zen`), with sans-serif fallback.
 
-**Body Font:** platform Latin/Japanese sans-serif stack, as recorded in the frontmatter.
+**Body Font:** locally hosted Zen Kaku Gothic New (`Zen`), with platform Latin/Japanese sans-serif fallbacks as recorded in the frontmatter. Actual supplied weights are (400), (500) and (700).
 
 **Label/Mono Font:** body sans-serif for labels; platform monospace for paths, code and finding identifiers.
 
-The display face supplies broad, confident Latin lettering and a bold Japanese counterpart. Body copy remains familiar and comfortably spaced. The source has no single mathematical scale: roles use fluid headlines plus fixed technical sizes.
+The display face supplies broad, confident Latin lettering and a bold Japanese counterpart. Zen body copy uses regular weight (400), with medium/bold emphasis and comfortably spaced lines. The source has no single mathematical scale: roles use fluid headlines plus fixed technical sizes.
 
 ### Hierarchy
 
@@ -212,11 +218,11 @@ The display face supplies broad, confident Latin lettering and a bold Japanese c
 
 The site uses centered containers and percentage gutters. The header is capped at (1600px) with (5%) horizontal padding; ordinary content is capped at (1440px) with (6%) padding. Cover content is capped at (1320px), and dense full-width section content at (1267px). At viewport widths above (1600px), full-bleed section gutters grow to keep their content aligned with the cover cap.
 
-Wide layouts pair headings with explanations, and captions with the audit example. The workflow uses three columns, coverage uses ruled paired rows, and installation and FAQ use two columns. Ordinary section padding is the desktop section token; the recurring inner rhythm uses compact gaps and larger (24–36px) group spacing rather than identical cards.
+Wide layouts pair headings with explanations, and captions with the audit example. The workflow uses three columns, coverage uses ruled paired rows, and FAQ uses two columns. Installation is a single ordered sequence of ruled rows with a narrow number column (38px) and a content column capped at (76ch). Ordinary section padding is the desktop section token; the recurring inner rhythm uses compact gaps and larger (24–36px) group spacing rather than identical cards.
 
-At (1050px) and below, column gaps shrink and the header's extra start action disappears. At (760px) and below, content stacks, ordinary section padding uses the mobile section token, and navigation moves to a second header row. The cover starts with (28px) top padding. Secondary source and host information moves below the demo, while the primary Skill action remains ahead of it. The large Audit/Fix/Verify word sculpture is hidden and a smaller changing summary remains. The table keeps a minimum width (360px) inside an overflow wrapper; code paths wrap anywhere.
+At (1050px) and below, column gaps shrink. At (760px) and below, content stacks, ordinary section padding uses the mobile section token, and navigation moves to a second header row. The cover starts with (28px) top padding. Host information moves below the demo, while the installation-guide action remains ahead of it. Source, release and optional CLI information appears in a collapsed supplemental disclosure after installation. The large Audit/Fix/Verify word sculpture is hidden and a smaller changing summary remains. The table keeps a minimum width (360px) inside an overflow wrapper; code paths wrap anywhere.
 
-The first viewport composition belongs to `BRIEF.md`, not a mandatory composition for every future surface.
+Setup rows use (32px) vertical padding and (24px) gaps; mobile changes the number column to (28px), padding to (26px) and gap to (12px). Agent choices wrap. Mobile makes the Skill download full width and places path/prompt code before its copy action. The first viewport composition is recorded in `BRIEF.md`.
 
 ## Elevation & Depth
 
@@ -238,7 +244,7 @@ Lightly rounded rectangles contain actions and technical content. Buttons use th
 
 ### Buttons
 
-Filled actions are compact and confident. Lime actions sit on cobalt; blue download actions sit on paper. Both share their frontmatter padding and radius, minimum height (54px), weight (700), size (15px desktop, 14px mobile) and an inline arrow. Hover changes background over (0.2s) with the shared easing curve. Text links use an underline on hover and minimum height (44px). Copy buttons are smaller paper/blue controls; inside the prompt container they use a slate fill with white text. Copy attempts temporarily disable their button and announce success or failure through a status region.
+Filled actions are compact and confident. Lime is shared by the installation-guide entry and the single Skill download. Guide links in the header, cover and closing section say “View installation guide” / 「導入手順を見る」 and lead to `#start`. Filled actions share the frontmatter padding and radius, minimum height (54px), weight (700), size (15px desktop, 14px mobile) and an inline arrow. The mobile download uses size (13px), padding (13px 16px) and full width. Hover changes background over (0.2s) with the shared easing curve. Text links underline on hover with minimum height (44px). Path copy is paper/blue; prompt copy uses lime/ink on the dark prompt container. Each copy button temporarily disables during its attempt and reports success/failure in its own nearby status region.
 
 ### Status Labels
 
@@ -248,11 +254,15 @@ Compact written state markers use the three paired status variants. These are in
 
 A clipped paper window contains a title row, three equally divided semantic tabs, a finding panel and a next-stage control. Active and hovered tabs use the selected wash; selection also has a cobalt bottom rule (3px). Tabs use Bricolage at (17px desktop, 16px mobile), while finding text uses the denser technical hierarchy. Panels preserve space with minimum height (325px desktop, 320px mobile).
 
-The live site changes the panel and summary together; Left/Right and Home/End operate the tablist with roving focus. The next control cycles Audit → Fix → Verify → Audit. Entering panels use a (0.35s) transition from vertical offset (8px), opacity (0.6) and blur (1px) to rest. Reduced-motion preferences disable this animation, background transitions and smooth scrolling.
+The live site changes the panel and summary together; Left/Right and Home/End operate the tablist with roving focus. The next control cycles Audit → Fix → Verify → Audit. Entering panels use a (0.35s) transition from vertical offset (8px), opacity (0.6) and blur (1px) to rest. Reduced-motion preferences disable this animation and background transitions. Anchor navigation uses immediate scrolling by default (`scroll-behavior: auto`).
 
 ### Coding-Agent Choices and Installation Containers
 
-Native radios remain keyboard-operable while their visible labels form outlined choices with minimum height (44px). A selected choice uses blue border/text and the selected wash. Focus is drawn on the visible label. Selection updates the destination path and invocation. The path container and dark prompt container expose selectable code plus a copy action; they are display containers, not editable text inputs.
+The guide has three numbered steps: choose the coding agent; download and place the complete Skill folder; send the agent-specific audit instruction. Step numbers are filled blue circles (32px desktop, 26px mobile). The first step has a visible fieldset legend. Native radios remain keyboard-operable while their visible labels form rounded outlined choices with minimum height (48px). A selected choice uses cobalt with white text; an unselected hover uses the selected wash. Focus is drawn on the visible label with a (3px) blue outline and (4px) offset.
+
+Changing agent updates the host-labelled download action, destination, hint and prompt, then clears both copy-status messages. The download URL is one shared Skill archive; its label identifies the selected host rather than claiming a separate package. Path and prompt containers expose selectable code plus explicit “Copy destination” / “Copy audit prompt” controls. The path container uses (18px) padding and wrapping flex layout; mobile uses (14px). The dark prompt container uses (24px) padding and (17px) code; mobile uses (18px) padding and (14px) code. Prompt text preserves line breaks. These are display containers, not editable inputs.
+
+Release details, source and optional CLI installation remain inside a closed native details disclosure after the three steps. This preserves one primary path while keeping supplemental methods available.
 
 ### Navigation
 
@@ -262,15 +272,18 @@ The header pairs the branded SVG/wordmark with section links and Japanese/Englis
 
 Workflow steps and coverage rows use rules and typography rather than generic repeated cards. The validation table is semantic, left aligned and uses tabular numerals. Native details/summary elements implement FAQ disclosure; a CSS plus changes to minus when open. Every summary has minimum height (44px).
 
-Interactive elements use a visible outline (3px with 5px offset) in blue, or lime on cover/closing backgrounds; radio labels use a (3px) offset. Disabled buttons use opacity (0.55). There are no invented input, error-message, modal or loading-state patterns in this system.
+Interactive elements use a visible outline (3px with 5px offset) in blue, or lime on cover/closing backgrounds; agent-choice labels use a (4px) offset. Disabled buttons use opacity (0.55). There are no invented input, error-message, modal or loading-state patterns in this system.
 
 ## Do's and Don'ts
 
 ### Do:
 
+- **Do** reserve lime for actions and use the teal pair with written resolved status.
 - **Do** preserve the paired status label and color treatment.
-- **Do** use the locale-specific display metrics and retain Japanese/English route navigation.
-- **Do** use semantic tabs, radios and native FAQ disclosure with visible keyboard focus.
+- **Do** use locally hosted Zen for body/Japanese headings and Bricolage for Latin display, preserving locale-specific metrics.
+- **Do** retain Japanese/English route navigation and the shared installation-guide destination.
+- **Do** use semantic tabs, a visible radio-group legend and native disclosure with visible keyboard focus.
+- **Do** keep the three installation steps ordered and copy feedback next to its own control.
 - **Do** keep reference material ruled and flat, with technical code selectable and responsive.
 - **Do** honor reduced motion and keep illustrative audit labeling visible.
 
@@ -280,4 +293,6 @@ Interactive elements use a visible outline (3px with 5px offset) in blue, or lim
 - **Don't** replace explicit finding labels or unknowns with color-only status.
 - **Don't** force Japanese and English headlines to share identical metrics.
 - **Don't** inherit the audit example's shadow onto ordinary lists and table rows.
-- **Don't** treat this recorded working direction as a user-approved product-wide brand identity.
+- **Don't** reuse lime as a resolved-state or approval signal.
+- **Don't** imply host-labelled download actions point to different Skill archives.
+- **Don't** add competing source, release or CLI actions to the cover.

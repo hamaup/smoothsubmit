@@ -14,13 +14,13 @@ python3 -m http.server 54369 --directory site
 
 Open `http://localhost:54369/` and `/en/`. The generated HTML is committed. `.github/workflows/pages.yml` publishes only `site/` on matching main-branch pushes; internal product/spec/design documents and review captures are not deployed.
 
-To add a language, add its complete content record, extend route and alternate-link generation, and localize the small interactive strings in `app.js`. Do not translate rule IDs, product names or command paths.
+To add a language, add its complete content record (including `setup` interactive strings), and extend route and alternate-link generation. Do not translate rule IDs, product names or command paths.
 
 ## Fonts
 
-Self-hosted WOFF2 subsets are derived from the official Google Fonts sources: [Bricolage Grotesque](https://github.com/google/fonts/tree/main/ofl/bricolagegrotesque) and [Zen Kaku Gothic New](https://github.com/google/fonts/tree/main/ofl/zenkakugothicnew). Their SIL Open Font Licenses are shipped in `site/assets/fonts/`. The subsets include the initial Japanese and English page text; when adding Japanese characters, regenerate the Japanese subset with FontTools or use the full licensed font. Body copy uses platform fonts.
+Self-hosted WOFF2 subsets are derived from the official Google Fonts sources: [Bricolage Grotesque](https://github.com/google/fonts/tree/main/ofl/bricolagegrotesque) and [Zen Kaku Gothic New](https://github.com/google/fonts/tree/main/ofl/zenkakugothicnew). Their SIL Open Font Licenses are shipped in `site/assets/fonts/`. The subsets include Japanese and English page text and interactive strings; when adding Japanese characters, regenerate all Japanese weights with FontTools or use the full licensed font. Body copy uses Zen Kaku Gothic New with platform fallbacks.
 
-The original font filenames are `BricolageGrotesque[opsz,wdth,wght].ttf` and `ZenKakuGothicNew-Bold.ttf`. FontTools `subset` was used with WOFF2 flavor and layout features retained. No other font modifications were made.
+The original font filenames are `BricolageGrotesque[opsz,wdth,wght].ttf` and `ZenKakuGothicNew-{Regular,Medium,Bold}.ttf`. FontTools `subset` was used with WOFF2 flavor and layout features retained. No other font modifications were made.
 
 ## Scope
 

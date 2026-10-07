@@ -62,51 +62,30 @@
       >
       <nav aria-label="ページ内">
         <a href="#how">使い方</a><a href="#coverage">チェック範囲</a
-        ><a href="#proof">検証結果</a>
+        ><a href="#proof">検証結果</a><a href="#start">導入手順を見る</a>
       </nav>
       <div class="header-actions">
         <div class="languages" aria-label="言語">
           <a href="./" lang="ja" aria-current="page">日本語</a
           ><a href="./en/" lang="en">EN</a>
         </div>
-        <a class="header-start" href="#start"
-          >はじめる
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.8"
-            aria-hidden="true"
-          >
-            <path d="M5 12h14M13 6l6 6-6 6" /></svg
-        ></a>
       </div>
     </header>
     <main id="main">
       <section class="cover" aria-labelledby="headline">
         <div class="cover-heading">
           <h1 id="headline">
-            <span>つくった。その次は、</span><span>安心して提出へ。</span>
+            <span>提出前に、気づく。</span><span>修正と再確認まで。</span>
           </h1>
           <div class="cover-intro">
             <p class="intro">iOSアプリの審査リスクを、提出前に。</p>
             <p class="lead">
-              コードと設定から問題を見つけ、根拠と修正案を提示。いつものAI開発ツールで、再確認まで進めます。
+              いつものAI開発ツールに、App
+              Store提出前の確認手順を。コードと設定から、根拠・修正案・未確認事項を整理します。
             </p>
             <div class="actions">
               <a class="button button-lime" href="#start"
-                >Skillではじめる<svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  aria-hidden="true"
-                >
-                  <path d="M5 12h14M13 6l6 6-6 6" /></svg></a
-              ><a
-                class="text-link light"
-                href="https://github.com/hamaup/smoothsubmit"
-                >GitHubでコードを見る<svg
+                >導入手順を見る<svg
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -252,21 +231,7 @@
             </div>
           </div>
         </div>
-        <div class="mobile-links">
-          <a
-            class="text-link light"
-            href="https://github.com/hamaup/smoothsubmit"
-            >GitHubでコードを見る<svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              aria-hidden="true"
-            >
-              <path d="M5 12h14M13 6l6 6-6 6" /></svg
-          ></a>
-          <p>Claude Code / Codex / Cursor 向け</p>
-        </div>
+        <div class="mobile-links"><p>Claude Code / Codex / Cursor 向け</p></div>
         <div class="cover-bottom">
           <span>公開alpha · Apache-2.0</span><span>v0.1.0-alpha.2</span>
         </div>
@@ -476,127 +441,188 @@
       </section>
       <section id="start" class="section start">
         <div class="section-heading">
-          <h2>いつものツールに、<br />提出前の視点を。</h2>
+          <h2>3ステップで、<br />提出前の監査へ。</h2>
           <p>
-            Skill単体で基本監査を始められます。CLI、Node.js、新しいAPIキー、SmoothSubmitのアカウントは不要です。
+            Skillは、開発ツールにSmoothSubmitの監査手順を追加するファイルです。CLIや新しいAPIキーは不要。使っているツールを選び、順番に配置してください。
           </p>
         </div>
-        <div class="actions">
-          <a
-            class="button button-blue"
-            href="https://github.com/hamaup/smoothsubmit/releases/download/v0.1.0-alpha.2/smoothsubmit-skill-0.1.0-alpha.2.tar.gz"
-            >Skillをダウンロード<svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              aria-hidden="true"
-            >
-              <path d="M5 12h14M13 6l6 6-6 6" /></svg></a
-          ><a
-            class="text-link"
-            href="https://github.com/hamaup/smoothsubmit/releases/tag/v0.1.0-alpha.2"
-            >alpha.2 のリリースを見る<svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              aria-hidden="true"
-            >
-              <path d="M5 12h14M13 6l6 6-6 6" /></svg
-          ></a>
-        </div>
-        <div class="installation">
-          <div class="install-explanation">
-            <h3>あなたのiOSプロジェクト内で</h3>
-            <p>
-              ダウンロードしたSkillアーカイブを展開し、smoothsubmitフォルダ全体を次の場所にコピーします。references・assetsも一緒に配置してください。
-            </p>
-            <p class="fine-print">
-              既存のSkillがある場合は、差分を確認してから更新してください。
-            </p>
-          </div>
-          <div class="install-controls">
-            <fieldset>
-              <legend class="sr-only">開発ツール</legend>
-              <label
-                ><input type="radio" name="agent" value="0" checked /><span
-                  >Codex</span
-                ></label
-              ><label
-                ><input type="radio" name="agent" value="1" /><span
-                  >Claude Code</span
-                ></label
-              ><label
-                ><input type="radio" name="agent" value="2" /><span
-                  >Cursor</span
-                ></label
-              >
-            </fieldset>
-            <div class="install-path">
-              <span>配置先</span
-              ><code id="skill-path">.agents/skills/smoothsubmit/</code
-              ><button
-                class="copy-button"
-                data-copy="skill-path"
-                aria-label="配置先をコピー"
-              >
-                コピー
-              </button>
+        <ol class="setup-steps">
+          <li class="setup-step">
+            <div class="setup-number" aria-hidden="true">1</div>
+            <div class="setup-content">
+              <fieldset class="agent-picker">
+                <legend>使っている開発ツールを選ぶ</legend>
+                <p>
+                  選択すると、下のダウンロード表示・配置先・監査指示が切り替わります。
+                </p>
+                <div class="agent-options">
+                  <label
+                    ><input type="radio" name="agent" value="0" checked /><span
+                      >Codex</span
+                    ></label
+                  ><label
+                    ><input type="radio" name="agent" value="1" /><span
+                      >Claude Code</span
+                    ></label
+                  ><label
+                    ><input type="radio" name="agent" value="2" /><span
+                      >Cursor</span
+                    ></label
+                  >
+                </div>
+              </fieldset>
             </div>
-            <p class="invocation">
-              呼び出し: <code id="skill-invoke">$smoothsubmit</code>
-            </p>
-          </div>
-        </div>
-        <div class="prompt-box">
-          <p>プロジェクトの開発セッションで、ひと言。</p>
-          <div>
-            <code id="audit-prompt">SmoothSubmitで確認して</code
-            ><button
-              class="copy-button"
-              data-copy="audit-prompt"
-              aria-label="監査指示をコピー"
-            >
-              コピー
-            </button>
-          </div>
-        </div>
+          </li>
+          <li class="setup-step">
+            <div class="setup-number" aria-hidden="true">2</div>
+            <div class="setup-content">
+              <h3>ファイルをダウンロードして配置する</h3>
+              <a
+                id="agent-download"
+                class="button button-lime"
+                href="https://github.com/hamaup/smoothsubmit/releases/download/v0.1.0-alpha.2/smoothsubmit-skill-0.1.0-alpha.2.tar.gz"
+                ><span id="agent-download-label"
+                  >Codex用のSkillをダウンロード</span
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  aria-hidden="true"
+                >
+                  <path d="M5 12h14M13 6l6 6-6 6" /></svg
+              ></a>
+              <p class="archive-help">
+                ダウンロード後にアーカイブを展開し、smoothsubmitフォルダ全体を、あなたのiOSプロジェクト内の次の場所に配置します。references・assetsも一緒にコピーしてください。
+              </p>
+              <div class="install-path">
+                <span>配置先（iOSプロジェクト内）</span
+                ><code id="skill-path">.agents/skills/smoothsubmit/</code
+                ><button
+                  class="copy-button"
+                  data-copy="skill-path"
+                  data-feedback="path-status"
+                >
+                  配置先をコピー
+                </button>
+              </div>
+              <p id="path-status" role="status" class="copy-status"></p>
+              <p class="fine-print">
+                既存のSkillがある場合は、差分を確認してから更新してください。
+              </p>
+            </div>
+          </li>
+          <li class="setup-step">
+            <div class="setup-number" aria-hidden="true">3</div>
+            <div class="setup-content">
+              <h3>開発ツールで監査を依頼する</h3>
+              <p>
+                配置したiOSプロジェクトの開発セッションで、下の指示を送信します。
+              </p>
+              <p id="agent-hint" class="agent-hint">
+                Codexで $smoothsubmit を指定して呼び出します。
+              </p>
+              <div class="prompt-box">
+                <pre><code id="audit-prompt">$smoothsubmit
+SmoothSubmitで確認して</code></pre>
+                <button
+                  class="copy-button"
+                  data-copy="audit-prompt"
+                  data-feedback="prompt-status"
+                >
+                  監査指示をコピー
+                </button>
+              </div>
+              <p id="prompt-status" role="status" class="copy-status"></p>
+            </div>
+          </li>
+        </ol>
         <p class="fine-print discovery">
           ホストの版によりSkillの認識方法は変わります。3ツールすべてでの実際の自動認識は未検証です。
           <a href="https://github.com/hamaup/smoothsubmit#start-with-the-skill"
             >導入の詳細を見る</a
           >
         </p>
-        <p
-          id="copy-status"
-          role="status"
-          class="copy-status"
-          data-copied="コピーしました"
-          data-error="コピーできませんでした。テキストを選択してください。"
-        ></p>
-        <aside class="cli">
-          <h3>より再現しやすい検査には、追加CLI。</h3>
-          <p>
-            Xcodeの対象や設定を解決し、JSON /
-            Markdownで監査を保存。監査時の外部通信・LLM呼び出し・xcodebuildの実行はありません。
-          </p>
-          <p class="fine-print">
-            macOS 14+ / Node.js 22.18+ · npmレジストリには未公開
-          </p>
-          <a
-            class="text-link"
-            href="https://github.com/hamaup/smoothsubmit#optional-cli"
-            >CLIの導入方法<svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
+        <details class="other-methods">
+          <summary>
+            補足：追加CLI・リリース情報・ソースコード<span
+              class="plus"
               aria-hidden="true"
-            >
-              <path d="M5 12h14M13 6l6 6-6 6" /></svg
-          ></a>
-        </aside>
+            ></span>
+          </summary>
+          <div class="other-links">
+            <a
+              class="text-link"
+              href="https://github.com/hamaup/smoothsubmit/releases/tag/v0.1.0-alpha.2"
+              >alpha.2 のリリースを見る<svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M13 6l6 6-6 6" /></svg></a
+            ><a class="text-link" href="https://github.com/hamaup/smoothsubmit"
+              >GitHubでコードを見る<svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M13 6l6 6-6 6" /></svg
+            ></a>
+          </div>
+          <aside class="cli">
+            <h3>より再現しやすい検査には、追加CLI。</h3>
+            <p>
+              Xcodeの対象や設定を解決し、JSON /
+              Markdownで監査を保存。監査時の外部通信・LLM呼び出し・xcodebuildの実行はありません。
+            </p>
+            <p class="fine-print">
+              macOS 14+ / Node.js 22.18+ · npmレジストリには未公開
+            </p>
+            <a
+              class="text-link"
+              href="https://github.com/hamaup/smoothsubmit#optional-cli"
+              >CLIの導入方法<svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M13 6l6 6-6 6" /></svg
+            ></a>
+          </aside>
+        </details>
+        <script type="application/json" id="setup-data">
+          {
+            "choose": "使っている開発ツールを選ぶ",
+            "chooseHelp": "選択すると、下のダウンロード表示・配置先・監査指示が切り替わります。",
+            "downloadTitle": "ファイルをダウンロードして配置する",
+            "downloadLabel": "__AGENT__用のSkillをダウンロード",
+            "archiveHelp": "ダウンロード後にアーカイブを展開し、smoothsubmitフォルダ全体を、あなたのiOSプロジェクト内の次の場所に配置します。references・assetsも一緒にコピーしてください。",
+            "pathLabel": "配置先（iOSプロジェクト内）",
+            "pathCopy": "配置先をコピー",
+            "auditTitle": "開発ツールで監査を依頼する",
+            "auditHelp": "配置したiOSプロジェクトの開発セッションで、下の指示を送信します。",
+            "promptCopy": "監査指示をコピー",
+            "copied": "コピーしました。",
+            "copyError": "コピーできませんでした。表示されたテキストを選択してコピーしてください。",
+            "other": "補足：追加CLI・リリース情報・ソースコード",
+            "agentHints": [
+              "Codexで $smoothsubmit を指定して呼び出します。",
+              "Claude Codeで /smoothsubmit を指定して呼び出します。",
+              "CursorのAgent chatで /smoothsubmit を選択し、下の指示を送ります。"
+            ],
+            "prompts": [
+              "$smoothsubmit\nSmoothSubmitで確認して",
+              "/smoothsubmit\nこのプロジェクトを監査して",
+              "SmoothSubmitで確認して"
+            ]
+          }
+        </script>
       </section>
       <section class="section faq">
         <h2>使う前に、知っておくこと。</h2>
@@ -653,7 +679,7 @@
         <h2>次の提出の前に、<br />一度、確認してみませんか。</h2>
         <div class="actions">
           <a class="button button-lime" href="#start"
-            >Skillではじめる<svg
+            >導入手順を見る<svg
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"

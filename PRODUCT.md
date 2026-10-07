@@ -34,7 +34,7 @@ Public alpha 0.1.0-alpha.2; Apache-2.0. CLI supports macOS 14+ and Node 22.18+. 
 
 ## Brand Commitments
 
-SmoothSubmit is the confirmed product name. Use clear Japanese and English. Apple affiliation must not be implied.
+SmoothSubmit is the confirmed product name. The user delegated the brand decision: cobalt #1246D3 frames the product and evidence; lime #C5E869 marks the next action. Use Bricolage Grotesque for Latin display lettering and Zen Kaku Gothic New for Japanese headings and body copy. Keep finding status colors separate from the action color. Use clear Japanese and English. Apple affiliation must not be implied. See docs/BRAND.md for the maintained brand rules.
 
 ## Evidence on Hand
 
