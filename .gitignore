@@ -5,8 +5,5 @@ dist/
 .DS_Store
 .env
 .env.*
-.impeccable/review/
-.impeccable/direction-options.json
-.impeccable/direction-notes.md
-
-.impeccable/questions/
+# Impeccable local working state (site-src/.impeccable/design.json is the published design sidecar)
+/.impeccable/
