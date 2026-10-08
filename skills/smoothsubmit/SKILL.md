@@ -35,6 +35,19 @@ Basic audits are rechecked by reading the affected code again. CLI audits use a 
 
 ## Knowledge and records
 
-Bundled Apple references were checked on **2026-10-07**. See [references/rules.md](references/rules.md) for rule-specific conditions and [references/apple-sources.md](references/apple-sources.md) for the official source record and check dates. Verify official documents when current rules are requested or available knowledge is stale; record what was actually checked. Distinguish published/effective dates from the date you read a document. Do not invent unannounced dates or unobserved App Store Connect state.
+Bundled Apple references were checked on **2026-10-07**. If today is more than 90 days after that date (Apple announces submission-requirement changes several times a year), say in the report that the bundled requirements may be stale; verify the current official documents when web access is available, otherwise keep the affected conditions' limitations visible. See [references/rules.md](references/rules.md) for rule-specific conditions and [references/apple-sources.md](references/apple-sources.md) for the official source record and check dates. Verify official documents when current rules are requested or available knowledge is stale; record what was actually checked. Distinguish published/effective dates from the date you read a document. Do not invent unannounced dates or unobserved App Store Connect state.
 
 If saving is available, create a new `.smoothsubmit/runs/<UUID>/basic-audit.json` and report.md; otherwise return the same useful audit in chat. Use [references/records.md](references/records.md) for the basic/CLI record boundaries and the [basic audit template](assets/basic-audit.template.json). Unknown hashes, line numbers, model names and target membership remain null/unknown. Preserve prior artifacts.
+
+## Terms
+
+References are in English (procedures) and Japanese (rule contracts and the Apple source record, kept identical to the project's source documents). The terms map as follows:
+
+| Term | Japanese | Meaning |
+| --- | --- | --- |
+| rule (`ruleId`) | ルール | One of the 19 ARG-* rules |
+| subject (`subjectKey.component`) | 対象・component | One independently judged part of a rule, e.g. `permission_key`, `deletion_runtime` |
+| check / condition | 条件・チェック | One result for one subject; the report's unit of PASS/NEEDS_REVIEW/UNKNOWN |
+| status | 判定・状態 | PASS, FAIL, NEEDS_REVIEW, NOT_APPLICABLE, UNKNOWN, ERROR |
+| severity | 重大度 | Fixed per rule; only on FAIL/NEEDS_REVIEW |
+| attestation | 申告 | A user-stated fact, never a code observation |

@@ -80,6 +80,19 @@ for (const id of new Set([
       `rules.md: ${id} severity ${skillSeverity[id]} differs from CLI ${cliSeverity[id]}`,
     );
 
+// The current-requirements summary is copied verbatim from the source record.
+const between = (t, a, b) => t.slice(t.indexOf(a), t.indexOf(b));
+const summary = ["## 今回確認した主要な更新", "## 公式資料台帳"];
+const docRefs = await readFile("docs/APPLE_REFERENCES.md", "utf8");
+const skillRefs = await readFile(`${root}/references/apple-sources.md`, "utf8");
+if (
+  !skillRefs.includes(summary[0]) ||
+  between(docRefs, ...summary) !== between(skillRefs, ...summary)
+)
+  errors.push(
+    "apple-sources.md: current requirements differ from docs/APPLE_REFERENCES.md",
+  );
+
 if (errors.length) throw Error(errors.join("\n"));
 console.log(
   `Skill ${name} ${version}: metadata, ${linked.size} direct resources and versions valid. Behavioral host validation is tracked separately.`,

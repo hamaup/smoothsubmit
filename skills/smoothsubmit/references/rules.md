@@ -66,7 +66,7 @@ severityは未解消の場合の影響を表し、FAILとNEEDS_REVIEWにだけ�
 | ruleId | componentと適用 | 完了とする条件 | 確認不能時 |
 | --- | --- | --- | --- |
 | ARG-PERM-001 | permission_key：対象API・権限キー別 | 対象構成の必須キーに空でない説明がある。API候補のない権限キーも設定の構造は調べる | 所属・コンパイル条件・生成設定が不明ならUNKNOWNまたはNEEDS_REVIEW。キーがないだけで即FAILにしない |
-| ARG-PERM-002 | purpose_content：権限キー・locale別 | Skillでデータ／リソースと用途が説明され、当該機能と一致することを確認 | 文脈がない場合はUNKNOWN。曖昧・プレースホルダー・用途不一致はNEEDS_REVIEW |
+| ARG-PERM-002 | purpose_content：権限キー・locale別 | Skillでデータ／リソースと用途が説明され、当該機能と一致することを確認 | 権限キーまたは説明文がない場合は、評価する文がないためUNKNOWN（CLIと同じ）。不足はpermission_keyの指摘と修正案に含め、別のリスクとして数えない。文脈がない場合もUNKNOWN。説明文があって曖昧・プレースホルダー・用途不一致ならNEEDS_REVIEW |
 | ARG-PRIV-001 | manifest_structure：バンドル・ファイル別 | plistの辞書、既知フィールド、型、重複・必要配列の構造とカテゴリを満たす | Manifestなしの場合はNOT_APPLICABLEへ飛ばず、scopeとARG-PRIV-002・SDKの必要性を確認 |
 | ARG-PRIV-002 | reason_declaration：バンドル・カテゴリ別、reason_usage：理由別 | 利用候補に必要なカテゴリと有効な理由コードがあり、Skillが理由と用途の整合を確認。構造と用途を別subjectにする | 未解決カテゴリ・間接API・実体不明はUNKNOWN／NEEDS_REVIEW。アプリの宣言でSDKの不足を消さない |
 | ARG-SDK-001 | sdk_manifest：対象SDK別、sdk_signature：対象バイナリ別 | Manifest実体と所属を確認。署名はMVP自身が検証しないため、最終バンドル確認の申告を別subjectへ記録 | lockfileだけなら実体・署名はUNKNOWN。対象一覧外を「安全」と表示しない |
@@ -78,7 +78,7 @@ severityは未解消の場合の影響を表し、FAILとNEEDS_REVIEWにだけ�
 | ARG-REVIEW-001 | access_preparation：審査アクセス制限、access_runtime | 準備はアクセス方式とReview Notes。runtimeは利用者が審査手順でフルアクセスとバックエンド稼働を確認 | prepared=trueだけでは接続済み・登録済みを表さない。アカウントの秘密値を記録しない |
 | ARG-PRIV-003 | policy_code：アプリ内導線、policy_runtime：URL・登録 | codeはアプリ内の導線と設定URL。runtimeは公開URLの到達とApp Store Connectでの設定を利用者が確認 | CLIはURLを取得しない。未確認ならruntimeはUNKNOWN |
 | ARG-PAY-001 | payment_context：外部購入候補、payment_manual：条件確認 | 候補、商品、販売地域、端末、OS、配信方法、契約・Entitlementをそろえて確認事項を示す。コードだけで法的適否を完了しない | 常に追加の地域別判断を求める。手動確認の申告は表示できるが、本ルールに静的・AIのFAILを出さない |
-| ARG-BUILD-001 | deployment_setting：選択構成、deployment_archive：最終成果物 | settingは現行最低条件以上の解決済み値。archiveは最終アーカイブの値を利用者が確認 | SDKの版と混ぜない。MVPはarchiveを解析しない |
+| ARG-BUILD-001 | deployment_setting：選択構成、deployment_archive：最終成果物 | settingは現行最低条件（apple-sources.mdの主要な更新に記載した値。推測で別の値を使わない）以上の解決済み値。archiveは最終アーカイブの値を利用者が確認 | SDKの版と混ぜない。MVPはarchiveを解析しない |
 | ARG-BUILD-002 | toolchain_preparation：申告、toolchain_archive：提出成果物 | 申告された版を現行要件と照合し、preparedのPASSはuser_attestationと明示。archiveは対象ビルドの確認申告 | インストール済みXcodeやSDKROOTを実績として使わない |
 | ARG-PRIV-004 | sharing_code：第三者共有・AI共有、sharing_runtime | codeは個人データ、送信先、説明、同意、送信開始の順序。runtimeは利用者が拒否・同意前後の通信等を確認 | 端末内モデルとクラウド送信を区別。不明な送信データはUNKNOWN／NEEDS_REVIEW |
 | ARG-PRIV-005 | tracking_context：ATT適用、tracking_code、tracking_runtime | 適用時の権限説明と追跡開始の制御、拒否・未許可での振る舞いを確認。地域・OSのUI条件は別に確認 | 分析SDKだけで追跡と断定しない。未知の共有経路はUNKNOWN |

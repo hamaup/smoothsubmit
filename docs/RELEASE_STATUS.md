@@ -20,6 +20,8 @@ This is a usable initial alpha, not a claim that every OSS MVP acceptance gate i
 
 The packaged archive was installed in a clean temporary prefix. Offline-guarded audit and fix-prompt generation passed; source bytes remained unchanged. Skill frontmatter/resources passed the skill-creator validator and repository checks. This is structural Skill validation, not live host behavior proof.
 
+Behavioral Skill evaluation on 2026-10-08 (`npm run eval:skill`, evals/scenarios.json): Claude Code 2.1 in print mode with its default model ran six scenarios on temporary copies of the synthetic examples with fixture READMEs hidden. All six passed: CLI-free audit, a correctly configured negative control, an injected instruction comment, a proposal-only request, an authorized single-file fix, and a shell-enabled run with planted project scripts that were neither executed nor attempted. This covers Claude Code only, with one model and synthetic fixtures; it is not a Codex/Cursor or real-project result.
+
 Benchmark on 2026-10-07: Darwin 27.0.0, Node v23.11.0, Apple Silicon; 1,000 Swift files, 20,945,984 input bytes, 3,384ms elapsed, 145MiB process max RSS. Fixture creation/installation were excluded; scan/parsing/hashing/result validation/save were included. Targets are 30 seconds and 512MiB. This single fixture is not a guarantee for arbitrary projects.
 
 ## Real-project validation
@@ -30,7 +32,7 @@ Version alpha.2 adds anchored xcconfig support, explicit local-package/preproces
 
 ## Still unverified or deliberately limited
 
-- Live discovery and complete audit/fix/verify in each of Claude Code, Codex and Cursor. Placement follows the documented Skill directories; no fabricated host test receipt is supplied.
+- Live discovery and complete audit/fix/verify in Codex and Cursor, Claude Code with other models, and Skill-driven verify runs. Placement follows the documented Skill directories; no fabricated host test receipt is supplied.
 - No Xcode build, simulator/device run, App Store submission, real purchase/deletion, backend test or actual App Store Connect/account read occurred. Example projects are synthetic parser fixtures.
 - Swift detection is lexical and has a finite symbol/pattern scope. Macros, string interpolation behavior, indirect calls, Objective-C, SDK implementation and call graph reachability are not proven. Code-context/runtimes remain Unknown or Needs Review.
 - Dependency identity is not SDK Manifest/signature proof. This alpha does not inspect a complete submitted archive or certify unlisted SDKs as safe.

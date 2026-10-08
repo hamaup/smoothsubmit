@@ -4,7 +4,7 @@
 
 Use assets/basic-audit.template.json as the starting shape; replace the null record ID/time with actual host UUID/time if obtainable. Without them, return the audit in chat rather than fabricate a machine-readable record.
 
-Basic mode has provenance=ai and verificationLevel=ai_review. Allowed judgments: PASS, NEEDS_REVIEW, NOT_APPLICABLE, UNKNOWN. A host reading fault can be ERROR. For a clear missing setting report the appropriate HIGH/MEDIUM NEEDS_REVIEW with evidence. Do not forge a scanner FAIL.
+Basic mode has provenance=ai and verificationLevel=ai_review. Allowed judgments: PASS, NEEDS_REVIEW, NOT_APPLICABLE, UNKNOWN. A host reading fault can be ERROR. For a clear missing setting report NEEDS_REVIEW with the rule's fixed severity from rules.md and evidence. Do not forge a scanner FAIL.
 
 Create one condition per localCheckId and candidateKey. Check fields: localCheckId, checkId (correct hash or null), candidateKey, ruleId, ruleVersion, subjectKey, status, severity (only NEEDS_REVIEW), confidence, confidenceReason, title, reason, evidence, sources, provenance, verificationLevel, limitations, remediation, verificationSteps. Evidence contains path, observation, observed lines/keyPath or null, and hash or null. Scope candidates must not be merged.
 
