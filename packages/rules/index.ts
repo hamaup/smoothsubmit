@@ -178,28 +178,10 @@ export const RULES: Json[] = [
   severity,
   sourceDocumentId: source,
   components,
-  ruleVersion: [
-    "ARG-PERM-001",
-    "ARG-PERM-002",
-    "ARG-PRIV-001",
-    "ARG-PRIV-002",
-    "ARG-IAP-001",
-    "ARG-PAY-001",
-    "ARG-PRIV-004",
-  ].includes(String(id))
-    ? "1.1.0"
-    : "1.0.0",
-  logicVersion: [
-    "ARG-PERM-001",
-    "ARG-PERM-002",
-    "ARG-PRIV-001",
-    "ARG-PRIV-002",
-    "ARG-IAP-001",
-    "ARG-PAY-001",
-    "ARG-PRIV-004",
-  ].includes(String(id))
-    ? "1.1.0"
-    : "1.0.0",
+  // Input membership, partial-scope applicability and setting resolution are
+  // shared by all rules. Historical results need the prior logic version.
+  ruleVersion: "1.2.0",
+  logicVersion: "1.2.0",
   contentVersion: "1.1.0",
   knowledgeAsOf: KNOWLEDGE,
 }));
@@ -430,7 +412,9 @@ export function evaluate(
     value === false
       ? hs.length
         ? "NEEDS_REVIEW"
-        : "NOT_APPLICABLE"
+        : s.partial
+          ? "UNKNOWN"
+          : "NOT_APPLICABLE"
       : value === true || hs.length
         ? "NEEDS_REVIEW"
         : "UNKNOWN";
@@ -491,12 +475,21 @@ export function evaluate(
             (h) => h.condition === "active" && h.membership === "included",
           ) &&
           ((p.call.length > 0 &&
-            [...s.tokens.values()].some((t) =>
-              t.some((_, i) =>
-                p.call.every(
-                  (x, j) =>
-                    t[i + j]?.text === x && t[i + j]?.condition === "active",
-                ),
+            [...s.tokens.entries()].some(([path, t]) =>
+              t.some(
+                (_, i) =>
+                  hs.some(
+                    (h) =>
+                      h.path === path &&
+                      h.line === t[i].line &&
+                      h.text === p.call[0] &&
+                      h.condition === "active" &&
+                      h.membership === "included",
+                  ) &&
+                  p.call.every(
+                    (x, j) =>
+                      t[i + j]?.text === x && t[i + j]?.condition === "active",
+                  ),
               ),
             )) ||
             [
@@ -570,7 +563,9 @@ export function evaluate(
           rule,
           "unresolved",
           f.permissions !== "unknown" && f.permissions.length === 0
-            ? "NOT_APPLICABLE"
+            ? s.partial
+              ? "UNKNOWN"
+              : "NOT_APPLICABLE"
             : "UNKNOWN",
           "No known permission candidate; this is not proof of absence.",
           [search()],
@@ -587,11 +582,13 @@ export function evaluate(
           [search()],
         );
       for (const m of s.manifests) {
-        let status: Status = m.data ? "PASS" : "FAIL";
+        let status: Status = m.data ? "PASS" : m.fileHash ? "FAIL" : "UNKNOWN";
         const d = m.data;
         if (d) {
-          if (typeof d !== "object" || Array.isArray(d)) status = "FAIL";
+          const object = typeof d === "object" && !Array.isArray(d);
+          if (!object) status = "FAIL";
           if (
+            object &&
             Object.keys(d).some(
               (k) =>
                 ![
@@ -705,7 +702,7 @@ export function evaluate(
           )
           .flatMap((m) =>
             m.data.NSPrivacyAccessedAPITypes.filter(
-              (x: Json) => x.NSPrivacyAccessedAPIType === r.category,
+              (x: Json) => x?.NSPrivacyAccessedAPIType === r.category,
             ).map((x: Json) => ({ m, x })),
           );
         if (!hs.length && !ds.length) continue;
@@ -800,8 +797,12 @@ export function evaluate(
         add(
           rule,
           "reason_usage",
-          ds.length ? "NEEDS_REVIEW" : "UNKNOWN",
-          "Approved code existence does not establish truthful API use.",
+          ds.length && hs.length ? "NEEDS_REVIEW" : "UNKNOWN",
+          hs.length
+            ? "Approved code existence does not establish truthful API use."
+            : english
+              ? "A reason is declared without a covered API candidate. Indirect, generated or SDK use remains unverified; this is not a confirmed misuse."
+              : "理由宣言はありますが対応するAPI候補を確認できません。間接・生成コード・SDKの利用は未検証で、用途の違反を確定したものではありません。",
           ds.map(({ m }) =>
             fileEvidence(
               s,
@@ -1132,12 +1133,16 @@ export function evaluate(
           m.semanticSnapshotHash === semanticSnapshotHash &&
           methods.includes(m.method),
       )
-      .sort((a: Json, b: Json) => b.observedAt.localeCompare(a.observedAt));
+      .sort(
+        (a: Json, b: Json) =>
+          Date.parse(b.observedAt) - Date.parse(a.observedAt),
+      );
     if (!records.length) continue;
     const r = records[0];
     const conflict = records.some(
       (m: Json) =>
-        m.observedAt === r.observedAt && m.conclusion !== r.conclusion,
+        Date.parse(m.observedAt) === Date.parse(r.observedAt) &&
+        m.conclusion !== r.conclusion,
     );
     c.status = conflict
       ? "NEEDS_REVIEW"

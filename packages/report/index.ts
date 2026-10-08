@@ -229,8 +229,14 @@ export function compare(
     sdk: s.sdk,
     arch: s.arch,
   });
+  const ruleVersions = (a: Json) =>
+    [
+      ...new Set(a.checks.map((c: Check) => `${c.ruleId}:${c.ruleVersion}`)),
+    ].sort();
   const scopeSame = hash(key(oldAudit.scope)) === hash(key(newAudit.scope)),
-    versionSame = oldAudit.rulepackVersion === newAudit.rulepackVersion;
+    versionSame =
+      oldAudit.rulepackVersion === newAudit.rulepackVersion &&
+      hash(ruleVersions(oldAudit)) === hash(ruleVersions(newAudit));
   const policyKey = (p: Json) => ({
     storefronts: p.storefronts,
     deviceFamilies: p.deviceFamilies,
@@ -272,6 +278,7 @@ export function compare(
         newAudit.diagnostics.every((d: Json) =>
           [
             "LOCAL_PACKAGE_SCOPE",
+            "GENERATED_DIRECTORY_SKIPPED",
             "PREPROCESSED_PLIST",
             "UNRESOLVED_BUILD_SETTING",
             "EXTERNAL_REFERENCE",

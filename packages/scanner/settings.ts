@@ -15,40 +15,95 @@ export async function resolveSettings(
     unknown = new Set<string>(),
     origins: Json = {},
     diagnostics: string[] = [];
+  type Assignment = { value: string | null; rank: number; origin: string };
+  let assignments = new Map<string, Map<string, Assignment>>();
   function apply(key: string, raw: any, origin: string) {
     const match = key.match(/^([^\[]+)((?:\[[^\]]+\])*)$/);
     if (!match) {
       diagnostics.push(`Unsupported setting ${key}`);
+      const base = key.match(/^[A-Za-z_][A-Za-z_0-9]*/)?.[0];
+      if (base) {
+        values[base] = null;
+        unknown.add(base);
+        const candidates =
+          assignments.get(base) || new Map<string, Assignment>();
+        candidates.set(key, { value: null, rank: 1, origin });
+        assignments.set(base, candidates);
+      }
       return;
     }
     key = match[1];
     let applicable = true,
       uncertain = false;
-    for (const m of match[2].matchAll(/\[([^=]+)=([^\]]+)\]/g)) {
+    const conditions = [...match[2].matchAll(/\[([^\]]+)\]/g)]
+      .map((m) => m[1].trim())
+      .sort();
+    for (const text of conditions) {
+      const m = text.match(/^(sdk|config|arch)=([^=]+)$/);
+      if (!m) {
+        uncertain = true;
+        continue;
+      }
       const ctx = context[m[1]];
       if (!ctx || ctx === "unknown") {
         uncertain = true;
         continue;
       }
       const re = new RegExp(
-        "^" + m[2].replace(/[.+^${}()|\\]/g, "\\$&").replace(/\*/g, ".*") + "$",
+        "^" +
+          m[2].replace(/[.+?^${}()|\\[\]]/g, "\\$&").replace(/\*/g, ".*") +
+          "$",
       );
-      if (!re.test(ctx)) applicable = false;
+      if (!re.test(ctx)) {
+        const platformPattern = m[2].replace(/[0-9.]+/g, "");
+        const platformRe = new RegExp(
+          "^" +
+            platformPattern
+              .replace(/[.+?^${}()|\\[\]]/g, "\\$&")
+              .replace(/\*/g, ".*") +
+            "$",
+        );
+        if (
+          m[1] === "sdk" &&
+          /^(iphoneos|iphonesimulator)$/.test(ctx) &&
+          /[0-9]/.test(m[2]) &&
+          platformRe.test(ctx)
+        )
+          uncertain = true;
+        else applicable = false;
+      }
     }
     if (!applicable) return;
-    if (uncertain) {
-      values[key] = null;
-      unknown.add(key);
-      diagnostics.push(`Unresolved condition ${key}`);
-      return;
-    }
     const str = (Array.isArray(raw) ? raw.join(" ") : String(raw)).replace(
       /\$\(inherited\)|\$\{inherited\}/g,
-      values[key] || "",
+      () => {
+        if (values[key] === null) uncertain = true;
+        return values[key] || "";
+      },
     );
-    values[key] = str;
-    origins[key] = origin;
-    unknown.delete(key);
+    const candidates = assignments.get(key) || new Map<string, Assignment>();
+    candidates.set(conditions.join("\0"), {
+      value: uncertain ? null : str,
+      rank: conditions.length,
+      origin,
+    });
+    assignments.set(key, candidates);
+    const all = [...candidates.values()];
+    const rank = Math.max(...all.map((x) => x.rank));
+    const selected = all.filter((x) => x.rank === rank);
+    // An unknown condition could override any known assignment. Distinct
+    // matching conditions of equal specificity must agree before we certify it.
+    if (
+      all.some((x) => x.value === null) ||
+      new Set(selected.map((x) => x.value)).size !== 1
+    ) {
+      values[key] = null;
+      unknown.add(key);
+    } else {
+      values[key] = selected[0].value;
+      origins[key] = selected[0].origin;
+      unknown.delete(key);
+    }
   }
   async function config(path: string, chain: string[] = []): Promise<void> {
     if (chain.length >= 32 || chain.includes(path)) {
@@ -69,7 +124,9 @@ export async function resolveSettings(
       const inc = line.match(/^\s*#include(\?)?\s+"([^"]+)"/);
       if (inc) {
         const { posix } = await import("node:path");
-        const p = posix.normalize(posix.join(posix.dirname(path), inc[2]));
+        const p = posix.isAbsolute(inc[2])
+          ? inc[2]
+          : posix.normalize(posix.join(posix.dirname(path), inc[2]));
         if (inc[1] && (await read(p)) === null) continue;
         await config(p, [...chain, path]);
         continue;
@@ -81,6 +138,7 @@ export async function resolveSettings(
     }
   }
   for (const layer of layers) {
+    assignments = new Map();
     if (typeof layer === "string") await config(layer);
     else if (layer)
       for (const [k, v] of Object.entries(layer)) apply(k, v, "pbxproj");

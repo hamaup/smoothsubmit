@@ -1,5 +1,5 @@
 import {
-  readdir,
+  opendir,
   readFile,
   lstat,
   realpath,
@@ -33,6 +33,12 @@ const SKIP = new Set([
   "build",
   "dist",
   ".smoothsubmit",
+  ".artifact-tmp",
+  ".test-cache",
+  ".swiftpm",
+  ".pytest_cache",
+  "__pycache__",
+  ".playwright-mcp",
 ]);
 const interesting = (p: string) =>
   /project\.pbxproj$|contents\.xcworkspacedata$|\.(xcconfig|plist|entitlements|xcprivacy|swift|storekit|strings|xcstrings)$|Package\.resolved$|Podfile\.lock$|smoothsubmit\.config\.json$/.test(
@@ -58,33 +64,153 @@ export function glob(pattern: string): RegExp {
       "$",
   );
 }
+interface EnumerationSkip {
+  path: string;
+  code:
+    | "GENERATED_DIRECTORY_SKIPPED"
+    | "EXCLUDED_DIRECTORY"
+    | "INPUT_LIMIT_EXCEEDED"
+    | "ENUMERATION_READ_FAILED";
+  reason: string;
+}
+export interface EnumerationLimits {
+  maxEntries: number;
+  maxDirectories: number;
+  maxFiles: number;
+  maxDepth: number;
+  maxMilliseconds: number;
+}
+const ENUMERATION_LIMITS: EnumerationLimits = {
+  maxEntries: 100000,
+  maxDirectories: 10000,
+  maxFiles: 10000,
+  maxDepth: 64,
+  maxMilliseconds: 30000,
+};
+// Explicit references are loaded separately; generated directories are never
+// treated as proof that a selected target has no sources in that directory.
 export async function listFiles(
   root: string,
-): Promise<{ paths: string[]; unread: string[] }> {
+  exclusions: Json[] = [],
+  limits: EnumerationLimits = ENUMERATION_LIMITS,
+): Promise<{
+  paths: string[];
+  unread: string[];
+  skipped: EnumerationSkip[];
+  fingerprint: string;
+}> {
   const paths: string[] = [],
-    unread: string[] = [];
-  async function walk(dir: string) {
-    for (const d of (
-      await readdir(join(root, dir), { withFileTypes: true })
-    ).sort((a, b) => a.name.localeCompare(b.name))) {
+    unread: string[] = [],
+    skipped: EnumerationSkip[] = [];
+  const directoryExclusions = exclusions
+    .filter((x) => x.pathPattern.endsWith("/**"))
+    .map((x) => ({ re: glob(x.pathPattern.slice(0, -3)), reason: x.reason }));
+  let entries = 0,
+    directories = 0,
+    stopped = false;
+  const deadline = Date.now() + limits.maxMilliseconds;
+  function stop(path: string, reason: string) {
+    if (!stopped) skipped.push({ path, code: "INPUT_LIMIT_EXCEEDED", reason });
+    stopped = true;
+  }
+  async function walk(dir: string, depth: number) {
+    if (stopped) return;
+    if (depth > limits.maxDepth) {
+      skipped.push({
+        path: dir,
+        code: "INPUT_LIMIT_EXCEEDED",
+        reason: "Directory depth limit exceeded",
+      });
+      return;
+    }
+    if (++directories > limits.maxDirectories)
+      return stop(dir, "Directory count limit exceeded");
+    if (Date.now() > deadline)
+      return stop(dir, "Enumeration time limit exceeded");
+    const children = [];
+    try {
+      const handle = await opendir(join(root, dir));
+      for await (const d of handle) {
+        if (++entries > limits.maxEntries) {
+          stop(dir, "Directory entry limit exceeded");
+          break;
+        }
+        if (Date.now() > deadline) {
+          stop(dir, "Enumeration time limit exceeded");
+          break;
+        }
+        children.push(d);
+      }
+    } catch {
+      skipped.push({
+        path: dir,
+        code: "ENUMERATION_READ_FAILED",
+        reason: "Directory could not be enumerated",
+      });
+      return;
+    }
+    for (const d of children.sort((a, b) => a.name.localeCompare(b.name))) {
+      if (stopped) break;
+      const p = posix.join(dir, d.name);
       if (
-        SKIP.has(d.name) ||
         d.name.startsWith(".env") ||
-        /\.(p12|pem|key|mobileprovision|cer)$/.test(d.name)
+        /\.(p8|p12|pem|key|mobileprovision|cer)$/.test(d.name)
       )
         continue;
-      const p = posix.join(dir, d.name);
       if (d.isSymbolicLink()) {
-        if (interesting(p)) unread.push(p);
+        if (SKIP.has(d.name) || /\.(xcarchive|xcresult|dSYM)$/.test(d.name))
+          skipped.push({
+            path: p,
+            code: "GENERATED_DIRECTORY_SKIPPED",
+            reason: "Generated output or dependency cache link; not followed",
+          });
+        else unread.push(p);
         continue;
       }
-      if (d.isDirectory()) await walk(p);
-      else if (d.isFile() && interesting(p)) paths.push(p);
-      if (paths.length > 10000) throw Error("INPUT_LIMIT_EXCEEDED file count");
+      if (d.isDirectory()) {
+        const exclusion = directoryExclusions.find((x) => x.re.test(p));
+        if (exclusion)
+          skipped.push({
+            path: p,
+            code: "EXCLUDED_DIRECTORY",
+            reason: exclusion.reason,
+          });
+        else if (
+          SKIP.has(d.name) ||
+          /\.(xcarchive|xcresult|dSYM)$/.test(d.name)
+        )
+          skipped.push({
+            path: p,
+            code: "GENERATED_DIRECTORY_SKIPPED",
+            reason:
+              "Generated output or dependency cache; contents not enumerated",
+          });
+        else await walk(p, depth + 1);
+      } else if (d.isFile() && interesting(p)) {
+        if (paths.length >= limits.maxFiles) {
+          stop(p, "Input file count limit exceeded");
+          break;
+        }
+        paths.push(p);
+      }
     }
   }
-  await walk("");
-  return { paths, unread };
+  await walk("", 0);
+  paths.sort();
+  unread.sort();
+  skipped.sort((a, b) => a.path.localeCompare(b.path));
+  return {
+    paths,
+    unread,
+    skipped,
+    fingerprint: hash({
+      paths,
+      unread,
+      skipped: skipped.filter(
+        (x) => posix.basename(x.path) !== ".smoothsubmit",
+      ),
+    }),
+  };
 }
 export interface Scan {
   root: string;
@@ -106,9 +232,13 @@ export interface Scan {
   partial: boolean;
   enumerationHash: string;
 }
-export async function scan(rootPath: string, config: Json): Promise<Scan> {
+export async function scan(
+  rootPath: string,
+  config: Json,
+  configPath?: string,
+): Promise<Scan> {
   const root = await realpath(rootPath),
-    initial = await listFiles(root),
+    initial = await listFiles(root, config.exclude),
     files: Json[] = [],
     buffers = new Map<string, Buffer>(),
     diagnostics: Diagnostic[] = [];
@@ -131,6 +261,17 @@ export async function scan(rootPath: string, config: Json): Promise<Scan> {
       remedy: "Confirm the input and rerun the audit.",
     });
   };
+  for (const skipped of initial.skipped) {
+    diag(
+      skipped.code,
+      skipped.path || null,
+      skipped.reason,
+      skipped.code === "ENUMERATION_READ_FAILED" ? "error" : "warning",
+    );
+    if (skipped.code !== "GENERATED_DIRECTORY_SKIPPED") partial = true;
+  }
+  const overlaps = (a: string, b: string) =>
+    !a || !b || a === b || a.startsWith(b + "/") || b.startsWith(a + "/");
   const normalizedPaths = new Set<string>();
   for (const path of initial.paths) {
     const normalized = path.normalize("NFC");
@@ -167,6 +308,19 @@ export async function scan(rootPath: string, config: Json): Promise<Scan> {
       partial = true;
       return null;
     }
+    const generated = initial.skipped.find(
+      (x) =>
+        x.code === "GENERATED_DIRECTORY_SKIPPED" &&
+        (p === x.path || p.startsWith(x.path + "/")),
+    );
+    if (generated) {
+      diag(
+        "GENERATED_INPUT_REFERENCED",
+        p,
+        "Project/config explicitly references a skipped generated directory; referenced file is read, wider membership remains unverified.",
+      );
+      partial = true;
+    }
     try {
       const full = await realpath(join(root, p));
       if (!full.startsWith(root + "/")) {
@@ -180,6 +334,7 @@ export async function scan(rootPath: string, config: Json): Promise<Scan> {
         diag("EXTERNAL_REFERENCE", p, "Symbolic link skipped");
         return null;
       }
+      if (!stat.isFile()) throw Error("Referenced input is not a regular file");
       if (stat.size > 5 * 1048576 || total + stat.size > 100 * 1048576) {
         partial = true;
         files.push({
@@ -332,8 +487,8 @@ export async function scan(rootPath: string, config: Json): Promise<Scan> {
       const st = await resolveSettings(
         [xc(pc), pc?.buildSettings, xc(tc), tc?.buildSettings],
         {
-          SRCROOT: projectDir || ".",
-          PROJECT_DIR: projectDir || ".",
+          SRCROOT: posix.join(root, projectDir),
+          PROJECT_DIR: posix.join(root, projectDir),
           PROJECT_NAME:
             project?.name || posix.basename(posix.dirname(p), ".xcodeproj"),
           TARGET_NAME: t.name,
@@ -346,6 +501,8 @@ export async function scan(rootPath: string, config: Json): Promise<Scan> {
       const ios = !!platform && /iphone/.test(platform);
       if (!ios) continue;
       const members: Json = {};
+      const membershipOmissions = new Set<string>();
+      const unresolvedMembers: string[] = [];
       for (const phaseId of t.buildPhases || []) {
         const phase = objects[phaseId];
         if (!phase) continue;
@@ -355,10 +512,22 @@ export async function scan(rootPath: string, config: Json): Promise<Scan> {
           if (f) {
             const path = rootRelative(f);
             members[path] =
-              b.platformFilter &&
-              !["ios", "iphonesimulator"].includes(b.platformFilter)
+              (b.platformFilter &&
+                !["ios", "iphonesimulator"].includes(b.platformFilter)) ||
+              (Array.isArray(b.platformFilters) &&
+                b.platformFilters.some((x: string) => x !== "ios")) ||
+              (path.endsWith("PrivacyInfo.xcprivacy") &&
+                phase.isa !== "PBXResourcesBuildPhase")
                 ? "unknown"
                 : "included";
+          } else if (
+            [
+              "PBXSourcesBuildPhase",
+              "PBXResourcesBuildPhase",
+              "PBXCopyFilesBuildPhase",
+            ].includes(phase.isa)
+          ) {
+            unresolvedMembers.push(buildId);
           }
         }
       }
@@ -371,6 +540,9 @@ export async function scan(rootPath: string, config: Json): Promise<Scan> {
           continue;
         }
         const prefix = rootRelative(gp);
+        for (const skipped of initial.skipped)
+          if (overlaps(prefix, skipped.path))
+            membershipOmissions.add(skipped.path);
         const excluded = new Set<string>(),
           uncertain = new Set<string>();
         for (const exId of g.exceptions || []) {
@@ -417,6 +589,8 @@ export async function scan(rootPath: string, config: Json): Promise<Scan> {
         settings: st.values,
         settingsDiagnostics: st.diagnostics,
         members,
+        membershipOmissions: [...membershipOmissions],
+        unresolvedMembers,
         hasScript,
       });
     }
@@ -426,6 +600,15 @@ export async function scan(rootPath: string, config: Json): Promise<Scan> {
       (!config.target || m.targetName === config.target) &&
       (!config.targetId || m.targetId === config.targetId),
   );
+  if (!choices.length) {
+    const gaps = initial.skipped.filter((x) =>
+      ["INPUT_LIMIT_EXCEEDED", "ENUMERATION_READ_FAILED"].includes(x.code),
+    );
+    if (gaps.length)
+      throw Error(
+        `${gaps[0].code} target selection interrupted; omitted inputs: ${JSON.stringify(gaps)}`,
+      );
+  }
   if (choices.length !== 1)
     throw Error(
       `AMBIGUOUS_TARGET ${choices.length ? JSON.stringify(choices.map(({ project, targetName, targetId }) => ({ project, targetName, targetId }))) + " Select --project and --target (or --target-id)." : "No matching iOS application target. Check --configuration and xcconfig references."}`,
@@ -435,7 +618,40 @@ export async function scan(rootPath: string, config: Json): Promise<Scan> {
     diag("UNRESOLVED_BUILD_SETTING", null, m);
     partial = true;
   });
-  const { settings, members, hasScript, settingsDiagnostics, ...scope } = model;
+  const {
+    settings,
+    members,
+    hasScript,
+    settingsDiagnostics,
+    membershipOmissions,
+    unresolvedMembers,
+    ...scope
+  } = model;
+  if (unresolvedMembers.length) {
+    partial = true;
+    diag(
+      "UNRESOLVED_MEMBERSHIP",
+      posix.join(scope.project, "project.pbxproj"),
+      `Selected target references unresolved source/resource build files: ${unresolvedMembers.join(", ")}`,
+    );
+  }
+  for (const [path, membership] of Object.entries(members)) {
+    if (membership !== "unknown") continue;
+    partial = true;
+    diag(
+      "UNRESOLVED_MEMBERSHIP",
+      path,
+      "Selected file has unresolved platform filtering or app resource membership.",
+    );
+  }
+  for (const path of membershipOmissions) {
+    partial = true;
+    diag(
+      "UNRESOLVED_MEMBERSHIP",
+      path || null,
+      "Selected synchronized source group overlaps a directory omitted from enumeration; source/API absence remains unverified.",
+    );
+  }
   for (const p of initial.paths.filter((p) => p.endsWith("/Package.swift"))) {
     if (await load(p, "dependency_lock")) {
       partial = true;
@@ -487,7 +703,13 @@ export async function scan(rootPath: string, config: Json): Promise<Scan> {
         ["-convert", "json", "-o", "-", "--", f],
         { timeout: 5000, maxBuffer: 10 * 1048576, shell: false },
       );
-      return JSON.parse(stdout);
+      const data = JSON.parse(stdout);
+      if (
+        ["plist", "entitlements", "localization"].includes(role) &&
+        (!data || typeof data !== "object" || Array.isArray(data))
+      )
+        throw Error("Expected a plist dictionary");
+      return data;
     } catch (e) {
       const timeout =
         (e as any).killed ||
@@ -507,8 +729,17 @@ export async function scan(rootPath: string, config: Json): Promise<Scan> {
     infoEvidence: Json = {};
   let info: Json | null = null,
     entitlements: Json | null = null;
+  const projectDir = posix.dirname(scope.project);
+  const settingPath = (value: string) => {
+    const full = posix.isAbsolute(value)
+      ? posix.normalize(value)
+      : posix.normalize(posix.join(root, projectDir, value));
+    return full.startsWith(root + "/") ? full.slice(root.length + 1) : full;
+  };
+  // SRCROOT/PROJECT_DIR expansions already refer to the audit root. Keep them
+  // absolute while resolving settings so relative literal paths can be rebased.
   if (settings.INFOPLIST_FILE) {
-    const p = posix.normalize(settings.INFOPLIST_FILE);
+    const p = settingPath(settings.INFOPLIST_FILE);
     if (settings.INFOPLIST_PREPROCESS === "YES") {
       await load(p, "plist", "supporting");
       partial = true;
@@ -523,6 +754,11 @@ export async function scan(rootPath: string, config: Json): Promise<Scan> {
       for (const k of Object.keys(info))
         infoEvidence[k] = { path: p, keyPath: "/" + k };
   } else if (settings.GENERATE_INFOPLIST_FILE !== "YES") infoUnknown.add("*");
+  if (
+    settings.GENERATE_INFOPLIST_FILE === null ||
+    settings.INFOPLIST_FILE === null
+  )
+    infoUnknown.add("*");
   const knownKeys = [
     "NSCameraUsageDescription",
     "NSMicrophoneUsageDescription",
@@ -537,6 +773,7 @@ export async function scan(rootPath: string, config: Json): Promise<Scan> {
     info ??= {};
     for (const key of knownKeys) {
       const v = settings["INFOPLIST_KEY_" + key];
+      if (v === null) infoUnknown.add(key);
       if (v !== undefined && v !== null) {
         if (info[key] !== undefined && info[key] !== v) infoUnknown.add(key);
         else {
@@ -568,7 +805,7 @@ export async function scan(rootPath: string, config: Json): Promise<Scan> {
     infoUnknown.add("*");
   if (settings.CODE_SIGN_ENTITLEMENTS)
     entitlements = await plist(
-      settings.CODE_SIGN_ENTITLEMENTS,
+      settingPath(settings.CODE_SIGN_ENTITLEMENTS),
       "entitlements",
       "supporting",
     );
@@ -692,6 +929,7 @@ export async function scan(rootPath: string, config: Json): Promise<Scan> {
   }
   if (initial.paths.includes("smoothsubmit.config.json"))
     await load("smoothsubmit.config.json", "config");
+  if (configPath) await load(configPath, "config");
   initial.unread.forEach((p) => {
     diag("EXTERNAL_REFERENCE", p, "Symbolic link was skipped");
     partial = true;
@@ -715,16 +953,23 @@ export async function scan(rootPath: string, config: Json): Promise<Scan> {
     localizations,
     diagnostics,
     partial,
-    enumerationHash: hash(initial.paths),
+    enumerationHash: initial.fingerprint,
   };
 }
 export async function inputsChanged(s: Scan): Promise<boolean> {
-  if (hash((await listFiles(s.root)).paths) !== s.enumerationHash) return true;
+  if (
+    (await listFiles(s.root, s.config.exclude)).fingerprint !==
+    s.enumerationHash
+  )
+    return true;
   for (const f of s.files.filter((f) => f.sha256)) {
     try {
       const real = await realpath(join(s.root, f.path));
+      const stat = await lstat(real);
       if (
         !real.startsWith(s.root + "/") ||
+        !stat.isFile() ||
+        stat.size !== f.sizeBytes ||
         sha(await readFile(real)) !== f.sha256
       )
         return true;

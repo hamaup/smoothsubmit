@@ -19,6 +19,7 @@ import {
   summarize,
   coverage,
   scopeKey,
+  safePath,
   VERSION,
   KNOWLEDGE,
   type Json,
@@ -38,6 +39,9 @@ const bytes = (o: Json) => JSON.stringify(o, null, 2) + "\n";
 export async function jsonFile(
   path: string,
 ): Promise<{ value: Json; raw: Buffer }> {
+  const stat = await lstat(path);
+  if (!stat.isFile() || stat.size > 20 * 1048576)
+    throw Error("CONFIG_INVALID document is not a bounded regular file");
   const b = await readFile(path);
   if (b.length > 20 * 1048576) throw Error("CONFIG_INVALID document too large");
   let value: Json;
@@ -148,7 +152,12 @@ export async function auditProject(
   output?: string,
 ): Promise<Json> {
   const started = new Date(),
-    s = await scan(rootPath, config);
+    s = await scan(
+      rootPath,
+      config,
+      origin.kind === "file" ? origin.path : undefined,
+    );
+  await assertConfigFresh(s.root, origin);
   if (await inputsChanged(s)) {
     s.partial = true;
     s.diagnostics.push({
@@ -371,13 +380,41 @@ export async function loadAudit(path: string): Promise<Json> {
 export async function fresh(rootPath: string, bundle: Json): Promise<void> {
   const root = await realpath(rootPath),
     { manifest } = bundle;
-  const current = await listFiles(root);
-  if (hash(current.paths) !== manifest.enumerationHash)
+  await assertConfigFresh(root, manifest.configOrigin);
+  const current = await listFiles(root, manifest.normalizedConfig.exclude);
+  if (current.fingerprint !== manifest.enumerationHash)
     throw Error("STALE_SNAPSHOT input enumeration changed");
   for (const f of manifest.files.filter((x: Json) => x.sha256)) {
-    const full = await realpath(join(root, f.path));
-    if (!full.startsWith(root + "/") || sha(await readFile(full)) !== f.sha256)
+    try {
+      const full = await realpath(join(root, f.path));
+      const stat = await lstat(full);
+      if (
+        !full.startsWith(root + "/") ||
+        !stat.isFile() ||
+        stat.size !== f.sizeBytes ||
+        sha(await readFile(full)) !== f.sha256
+      )
+        throw Error("changed");
+    } catch {
       throw Error("STALE_SNAPSHOT input file changed");
+    }
+  }
+}
+async function assertConfigFresh(root: string, origin: Json): Promise<void> {
+  if (origin.kind !== "file") return;
+  try {
+    if (!safePath(origin.path)) throw Error("unsafe configuration path");
+    const path = await realpath(join(root, origin.path));
+    const stat = await lstat(path);
+    if (
+      !path.startsWith(root + "/") ||
+      !stat.isFile() ||
+      stat.size > 1048576 ||
+      sha(await readFile(path)) !== origin.sourceFileHash
+    )
+      throw Error("changed configuration");
+  } catch {
+    throw Error("STALE_SNAPSHOT configuration file changed or unavailable");
   }
 }
 function pointer(o: Json, p: string): any {
@@ -563,7 +600,13 @@ export async function verifyProject(
     if (options.config || old.manifest.configOrigin.kind !== "stdin") {
       const loaded = await configFor(
         await realpath(root),
-        { ...scopeKey(old.audit.scope), ...options },
+        {
+          ...scopeKey(old.audit.scope),
+          ...(old.manifest.configOrigin.kind === "file"
+            ? { config: old.manifest.configOrigin.path }
+            : {}),
+          ...options,
+        },
         stdin,
       );
       config = loaded.config;

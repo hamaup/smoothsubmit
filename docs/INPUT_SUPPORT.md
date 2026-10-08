@@ -14,11 +14,25 @@
 - PBXFileSystemSynchronizedBuildFileExceptionSetのtargetとmembershipExceptions、PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSetのbuildPhaseとmembershipExceptionsは相対パス単位で除外する。platformFiltersByRelativePathは対象platformと照合し、未知のfilterを確定所属へまとめない。
 - 明示phaseと同期所属が衝突、例外参照が欠損、未対応属性が所属に影響する場合は当該ファイルのmembershipをunknownにする。同期の拡張子だけでManifestのコピー先を確定しない。拡張機能・依存バンドルは主アプリとは別bundleKeyで扱う。
 
+選択targetのSources／Resources／CopyFiles参照を解決できない場合は診断とpartialを残す。通常phaseのManifestはResourcesへの所属を確認した場合だけapp bundleの宣言として扱い、Sources等の参照だけではUNKNOWNにする。APIの名前と直接呼出の証拠は同じ所属済みファイルから確認し、別ファイルの未確定な呼出を根拠に確定FAILへ昇格しない。
+
 同期形式の参照元：[Xcodeprojの同期ルート定義](https://github.com/CocoaPods/Xcodeproj/blob/master/lib/xcodeproj/project/object/file_system_synchronized_root_group.rb)、[例外集合定義](https://github.com/CocoaPods/Xcodeproj/blob/master/lib/xcodeproj/project/object/file_system_synchronized_exception_set.rb)。これは形式の参考であり、Appleの審査要件を定める資料ではない。
+
+## 探索の上限と省略範囲
+
+探索はディレクトリをストリームで読み、`.artifact-tmp`、`.test-cache`、`.swiftpm`、Python・Playwrightの作業キャッシュ、既存のbuild／DerivedData／依存キャッシュ、および`.xcarchive`／`.xcresult`／`.dSYM`の内容へ再帰しない。省略したディレクトリは診断へ記録する。`.gitignore`をそのまま監査除外にはしない。設定の`exclude`で`path/**`を指定したディレクトリは再帰前に除外し、明示的な入力縮小としてpartialを残す。
+
+上限は全ディレクトリエントリ100,000、ディレクトリ10,000、対象入力10,000、深さ64、探索の経過時間30秒。時間はディレクトリ操作間で確認する協調的な上限で、OSのファイルシステム呼び出し自体にタイムアウトを設定するものではない。上限は診断とpartial、列挙障害はERRORとpartialで表示し、途中までの入力を完全な監査としない。上限・列挙障害によって対象を解決できない場合は、省略したパスと理由を終了4のエラーへ含める。通常の対象曖昧性は従来どおり終了1になる。
+
+明示参照のソースは生成フォルダ内でも個別に読むが、所属範囲は未検証としてpartialになる。選択targetの同期グループが省略範囲と重なる場合もUNKNOWNを残す。入力縮小中にAPI候補が見つからないことを機能非該当の証明にしない。探索結果・シンボリックリンク・省略範囲はスナップショットの鮮度判定へ含め、監査が自ら作る`.smoothsubmit`フォルダだけは鮮度判定から除く。この変更前に作成した監査は再生成する。
+
+Required Reason APIの有効な理由宣言に対応するAPI候補が見つからない場合、用途の条件はUNKNOWN。宣言だけで違反疑い・PASSを確定せず、間接呼出・生成コード・SDKの使用を別途確認する。
 
 ## xcconfigと生成Info.plist
 
 設定はproject base xcconfig → project設定 → target base xcconfig → target設定の順で適用する。includeは記載位置で展開し、同一層の同じ条件の再代入は後の値を採る。inheritedは直前までの下位層の値を参照する。sdk／config／archの条件と*ワイルドカードを扱い、未指定条件や同じ優先順位の競合を未知のまま残す。再帰展開・includeは最大32段、循環を検出し該当値をUNKNOWNにする。必須includeが欠落すれば読取障害、任意includeの欠落は診断だけとする。
+
+同一層では一致する条件付きの設定を無条件の設定より優先し、同じ条件数で異なる値が一致する場合はUNKNOWN。SDKのプラットフォームだけが指定されていて版が未確認の場合、版に依存する条件を非該当として無視しない。生成Info.plistの権限値や生成フラグが未解決なら、該当するキーをUNKNOWNに残す。Info.plist／Entitlementsの相対パスは選択projectのディレクトリを基準にし、SRCROOT／PROJECT_DIRの展開後も監査ルートの外へ出るパスは読まない。
 
 変数の既知値は選択したproject／target／configuration／sdk／archとその設定から得る。ホストの環境変数をアプリ設定へ暗黙に流用しない。変数修飾子、未対応の条件、外部includeは影響する設定だけをUNKNOWNにする。INFOPLIST_FILE、CODE_SIGN_ENTITLEMENTS、IPHONEOS_DEPLOYMENT_TARGET、SDKROOT、SUPPORTED_PLATFORMS、TARGETED_DEVICE_FAMILY、GENERATE_INFOPLIST_FILE、対応INFOPLIST_KEY_*、SWIFT_ACTIVE_COMPILATION_CONDITIONSを最低限の解決対象とする。
 
@@ -27,6 +41,12 @@ Appleは設定層・参照・条件を説明している。実装は対応構文
 GENERATE_INFOPLIST_FILE=NOは指定plistの変数展開を行い、INFOPLIST_KEY_*を勝手に合成しない。YESは既知のInfo.plist Values設定を対応キーへ写し、指定plistがあれば併せて読む。任意のユーザー定義INFOPLIST_KEY_*は生成キーとは扱わない。両方に同じキーがあり値が異なる場合は、初版では衝突を記録して当該キーをUNKNOWNとする。一方しかない値、同じ値、解決済みの変数はその範囲で評価できる。生成フラグ不明、plist前処理、出力を書き換えるRun Scriptが影響しうる場合は最終値を確定しない。
 
 この処理は提出バンドルを生成しない。各値にoriginとlimitationsを付ける。[Info.plist生成・手動指定の公式説明](https://developer.apple.com/documentation/bundleresources/managing-your-app-s-information-property-list)、[Build settings reference](https://developer.apple.com/documentation/xcode/build-settings-reference)
+
+## 設定ファイルと検証記録の鮮度
+
+`--config`で指定した独自JSONもスナップショットへ保存し、元ファイルのhash・存在・通常ファイルであることをfix／AI assessmentの鮮度確認へ含める。verifyは明示的な上書きがない限りbaselineと同じ設定ファイルを再読込し、欠落時に既定の設定へ切り替えない。読み取る入力がFIFO等の通常ファイルでなければERRORとして記録し、鮮度確認も停止せず変更を検出する。手動検証の最新日時と競合は文字列表記ではなくUTCの時点で比較し、同一時点のpass／failはNEEDS_REVIEWにする。
+
+共通の入力解決・適用判定の修正に伴い、同梱ルールのlogicVersion／ruleVersionは1.2.0。verifyはパッケージ版に加えて各ruleVersionを比較し、旧ロジックの監査からの変化をRESOLVEDにせずNOT_COMPARABLEへ残す。修正確認には現行ロジックでbaselineを作り直す。
 
 ## plist・ローカライズ・Swift
 
