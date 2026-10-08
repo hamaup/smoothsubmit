@@ -5,6 +5,15 @@
 
 各ルールの判定対象、静的検査・AI確認・利用者による確認の範囲を定める。Appleの条文と資料の確認日は公式資料台帳（`references/apple-sources.md`）に従う。ここでPASSは記載された検査対象の条件を満たすことを表し、ルール全体や審査の適合証明ではない。
 
+## Contents
+
+- 共通の対象と判定
+- 重大度（ルール別の固定値）
+- 19ルールの必要条件
+- 適用の証拠と反証
+- ルールとAPI台帳の版
+- 手動確認の方法
+
 ## 共通の対象と判定
 
 一つのルールに複数の条件がある場合、条件ごとにsubjectを作る。subjectKeyはJSONオブジェクトで、最低限componentを持つ。ファイル固有はpath、バンドル固有はbundleKey、SDK固有はdependencyId、権限固有はpermissionKey、言語固有はlocaleを追加する。根拠のファイル行はsubjectKeyへ入れない。
@@ -23,6 +32,32 @@
 | 読み取り・parser・実行器の障害 | ERROR |
 
 MVPのAIによる条件判断はPASS・NEEDS_REVIEW・NOT_APPLICABLE・UNKNOWNに限定する。基本監査の読取障害は判定とは別にERRORとして記録できる。Skillが違反だと考えても、文脈判断はNEEDS_REVIEWとして理由と修正案を表示し、確定した構造違反はCLIの検出器でFAILにする。これはAIの弱点を隠すためではなく、静的FAILと文脈上の疑いの区別を保つ製品の判定契約である。ARG-PAY-001は静的にもAIにもFAILを許さない。
+
+## 重大度
+
+severityは未解消の場合の影響を表し、FAILとNEEDS_REVIEWにだけ付ける。値はルールごとに固定でCLIと同じ。文脈・確度・想定される審査の厳しさで上げ下げしない。確度はconfidenceとconfidenceReasonで、文脈はreasonとlimitationsで表す。同じ入力の監査で重大度が変わらないようにする。
+
+| ruleId | severity |
+| --- | --- |
+| ARG-PERM-001 | HIGH |
+| ARG-PERM-002 | MEDIUM |
+| ARG-PRIV-001 | HIGH |
+| ARG-PRIV-002 | HIGH |
+| ARG-SDK-001 | MEDIUM |
+| ARG-AUTH-001 | HIGH |
+| ARG-AUTH-002 | HIGH |
+| ARG-IAP-001 | MEDIUM |
+| ARG-IAP-002 | MEDIUM |
+| ARG-IAP-003 | MEDIUM |
+| ARG-REVIEW-001 | MEDIUM |
+| ARG-PRIV-003 | MEDIUM |
+| ARG-PAY-001 | HIGH |
+| ARG-BUILD-001 | HIGH |
+| ARG-BUILD-002 | HIGH |
+| ARG-PRIV-004 | HIGH |
+| ARG-PRIV-005 | HIGH |
+| ARG-REVIEW-002 | MEDIUM |
+| ARG-CONTRACT-001 | MEDIUM |
 
 ## 19ルールの必要条件
 

@@ -54,6 +54,32 @@ if (a.skillVersion !== version || a.rulepackVersion !== version)
 if (!s.includes(`matches CLI \`${version}\``))
   errors.push(`SKILL.md: CLI compatibility is not ${version}`);
 
+// Fixed rule severities in rules.md match the CLI rule definitions.
+const cliRules = await readFile("packages/rules/index.ts", "utf8");
+const cliSeverity = Object.fromEntries(
+  [
+    ...cliRules.matchAll(
+      /"(ARG-[A-Z]+-\d+)",\s*"[^"]*",\s*"[^"]*",\s*"(HIGH|MEDIUM|LOW)"/g,
+    ),
+  ].map((m) => [m[1], m[2]]),
+);
+const rulesMd = await readFile(`${root}/references/rules.md`, "utf8");
+const skillSeverity = Object.fromEntries(
+  [...rulesMd.matchAll(/^\| (ARG-[A-Z]+-\d+) \| (HIGH|MEDIUM|LOW) \|$/gm)].map(
+    (m) => [m[1], m[2]],
+  ),
+);
+if (Object.keys(cliSeverity).length !== 19)
+  errors.push("packages/rules/index.ts: could not read 19 rule severities");
+for (const id of new Set([
+  ...Object.keys(cliSeverity),
+  ...Object.keys(skillSeverity),
+]))
+  if (cliSeverity[id] !== skillSeverity[id])
+    errors.push(
+      `rules.md: ${id} severity ${skillSeverity[id]} differs from CLI ${cliSeverity[id]}`,
+    );
+
 if (errors.length) throw Error(errors.join("\n"));
 console.log(
   `Skill ${name} ${version}: metadata, ${linked.size} direct resources and versions valid. Behavioral host validation is tracked separately.`,
