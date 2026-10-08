@@ -1,6 +1,6 @@
 ---
 name: smoothsubmit
-description: Audit iOS App Store submission risks, explain evidence, propose fixes, and recheck changes. Use when asked to check an iOS app before submission, review rejection risks, or use SmoothSubmit (SmoothSubmitで確認して). Works without a CLI.
+description: Audit iOS App Store submission risks, explain evidence, propose fixes, and recheck changes. Use when asked to check an iOS app before submission, review App Review rejection risks, Privacy Manifest, permission strings, account deletion or StoreKit restore, draft Review Notes, or use SmoothSubmit (SmoothSubmitで確認して, 提出前チェック, 審査対策, リジェクト対策, 審査に通るか確認). Works without a CLI.
 ---
 
 # SmoothSubmit
@@ -21,7 +21,7 @@ Read [references/audit.md](references/audit.md). Recognize the local project(s),
 
 If a known installed `smoothsubmit` CLI is available, check `--version` and `doctor` and add its static audit. This release matches CLI `0.1.0-alpha.2`. If it is absent, incompatible or broken, finish the basic audit without installing it or asking the user to install it first. Never present a Skill-generated JSON document as CLI-validated `audit.json`.
 
-The final report contains: mode and scope, confirmed conditions, HIGH/MEDIUM/LOW risks, Unknowns, evidence, fix proposals and verification steps. PASS is scoped to observed conditions; a file name, keyword, SDK, button or URL alone does not prove working functionality. No readiness score or approval guarantee.
+The final report follows the [report template](assets/report.template.md): mode and scope, confirmed conditions, HIGH/MEDIUM/LOW risks, Unknowns, evidence, fix proposals and verification steps. PASS is scoped to observed conditions; a file name, keyword, SDK, button or URL alone does not prove working functionality. No readiness score or approval guarantee.
 
 For CLI-free runs say **「基本監査は完了 / CLI導入で追加○項目を確認可能」** only when the additional checks can actually be counted. Otherwise name the types of additional static checks without inventing a number. Runtime tests, storefront, account information and business conditions are not checks the CLI can automatically supply. This CLI does not build the app.
 

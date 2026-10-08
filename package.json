@@ -53,7 +53,8 @@
     "prepack": "npm run build",
     "demo": "node dist/cli/index.js audit --path examples/ReviewDemo",
     "check:docs": "node scripts/check-docs.mjs",
-    "check:skill": "node scripts/check-skill.mjs"
+    "check:skill": "node scripts/check-skill.mjs",
+    "eval:skill": "node scripts/run-skill-evals.mjs"
   },
   "dependencies": {
     "ajv": "^8.20.0",

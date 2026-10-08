@@ -10,7 +10,17 @@ Follow used local Swift package products and relevant imported modules when impo
 
 Separate an observed defect from a search candidate. Ordinary Link/openURL usage is not payment steering, AVAudioSession ambient/playback is not microphone recording, and a model's creationDate is not file timestamp API use. Trace receiver, operation and purpose before assigning risk. Start the report with the few actionable findings and scoped next steps; each proposal must name the affected setting or flow and a meaningful verification step, rather than repeat a generic checklist.
 
-Review these independent conditions:
+Copy this checklist into your working notes. Mark each condition with its result (PASS, NEEDS_REVIEW, NOT_APPLICABLE with evidence, or UNKNOWN) before writing the report; do not drop an unchecked condition silently.
+
+```text
+Audit conditions:
+- [ ] Permissions      - [ ] Privacy Manifest  - [ ] Account deletion
+- [ ] Login (4.8)      - [ ] StoreKit          - [ ] Reviewer access
+- [ ] Data/AI sharing  - [ ] Tracking (ATT)    - [ ] External purchase
+- [ ] Deployment/toolchain
+```
+
+Condition details:
 
 - Permission keys and meaningful purpose text for camera, microphone, location, photos and contacts; system pickers and add-only photos may differ.
 - Privacy Manifest structure, required-reason API declarations, actual declared purposes, SDK-specific Manifests and unverified binary signatures.

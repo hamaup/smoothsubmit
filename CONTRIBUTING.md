@@ -2,7 +2,7 @@
 
 Start with the product specification and rule contracts. Focus on an observable misclassification, missing source evidence, or a reproducible installation problem.
 
-Use Node 22.18+ on macOS 14+. Run npm ci, npm test, npm run check:docs and npm run check:skill. Package changes also need npm pack and node scripts/pack-smoke.mjs. Keep package-lock.json committed. Format TypeScript and JavaScript with the pinned Prettier version.
+Use Node 22.18+ on macOS 14+. Run npm ci, npm test, npm run check:docs and npm run check:skill. Package changes also need npm pack and node scripts/pack-smoke.mjs. Skill behavior changes also need npm run eval:skill: it runs the evals/scenarios.json cases with an authenticated Claude Code CLI, consumes model usage and is not part of CI; review each saved output against its expected_behavior. Keep package-lock.json committed. Format TypeScript and JavaScript with the pinned Prettier version.
 
 A rule change needs an official source reference, knowledge date, applicable target/configuration and positive/negative/unknown cases. Do not expand a keyword into definite FAIL, use the SDK list as a dangerous-SDK blacklist, or silently convert unobserved behavior to PASS. Keep code and runtime checks separate. A missing finding after exclusions or read failures must not count as a fix.
 

@@ -7,3 +7,4 @@ dist/
 .env.*
 # Impeccable local working state (site-src/.impeccable/design.json is the published design sidecar)
 /.impeccable/
+evals/results/
