@@ -28,4 +28,4 @@ A lost/unread/excluded cited input or omitted check is NEEDS_RECHECK; changed ta
 
 ## Notes
 
-Produce a draft from observed features and reviewer steps. Include access method, navigation, purchase access, backend/environment requirements and unresolved items. Use [assets/review-notes.md](../assets/review-notes.md). Reviewer credentials remain placeholders to be entered by the developer in App Store Connect. Do not register or send the draft.
+Produce a draft from observed features and reviewer steps. Include access method, navigation, purchase access, backend/environment requirements and unresolved items. Use the `assets/review-notes.md` template. Reviewer credentials remain placeholders to be entered by the developer in App Store Connect. Do not register or send the draft.

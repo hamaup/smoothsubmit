@@ -27,7 +27,7 @@ For CLI-free runs say **「基本監査は完了 / CLI導入で追加○項目�
 
 ## Fix, verify and notes
 
-For these operations read [references/fix-verify-notes.md](references/fix-verify-notes.md). “修正案を作って” requests a proposal; “修正して” authorizes the requested code change. After an authorized fix, run relevant tests and re-audit the same target. Keep unresolved backend/device behavior visible.
+For these operations read [references/fix-verify-notes.md](references/fix-verify-notes.md). Review Notes drafts start from the [Review Notes template](assets/review-notes.md). “修正案を作って” requests a proposal; “修正して” authorizes the requested code change. After an authorized fix, run relevant tests and re-audit the same target. Keep unresolved backend/device behavior visible.
 
 Basic audits are rechecked by reading the affected code again. CLI audits use a new static audit and fresh AI assessment where needed. Do not mark a disappeared finding resolved after file deletion, exclusions, parse errors, a different target or a different verification mode.
 
@@ -35,6 +35,6 @@ Basic audits are rechecked by reading the affected code again. CLI audits use a 
 
 ## Knowledge and records
 
-Bundled Apple references were checked on **2026-10-07**. See [references/rules.md](references/rules.md) for rule-specific conditions and official links. Verify official documents when current rules are requested or available knowledge is stale; record what was actually checked. Distinguish published/effective dates from the date you read a document. Do not invent unannounced dates or unobserved App Store Connect state.
+Bundled Apple references were checked on **2026-10-07**. See [references/rules.md](references/rules.md) for rule-specific conditions and [references/apple-sources.md](references/apple-sources.md) for the official source record and check dates. Verify official documents when current rules are requested or available knowledge is stale; record what was actually checked. Distinguish published/effective dates from the date you read a document. Do not invent unannounced dates or unobserved App Store Connect state.
 
 If saving is available, create a new `.smoothsubmit/runs/<UUID>/basic-audit.json` and report.md; otherwise return the same useful audit in chat. Use [references/records.md](references/records.md) for the basic/CLI record boundaries and the [basic audit template](assets/basic-audit.template.json). Unknown hashes, line numbers, model names and target membership remain null/unknown. Preserve prior artifacts.
